@@ -15,7 +15,7 @@ export interface AppInfo {
 export const APP_INFO: AppInfo[] = [
   { id: 'core', name: 'Only Tools core', costTag: { key: 'Project', value: 'onlytools' }, lambdaPrefix: 'onlytools-' },
   { id: 'carlog', name: 'CarLog', costTag: { key: 'aws:cloudformation:stack-name', value: 'CarLogStack' }, lambdaPrefix: 'CarLogStack-', userGroup: 'carlog-user', legacyPoolId: 'us-east-1_9rAPEPc5f' },
-  { id: 'gighunter', name: 'GigHunter', costTag: { key: 'Project', value: 'gighunter' }, lambdaPrefix: 'gighunter-', userGroup: 'gighunter-user', legacyPoolId: 'us-east-1_LUdGl9JCZ' },
+  { id: 'gighunter', name: 'GigHunter', costTag: { key: 'Project', value: 'gighunter' }, lambdaPrefix: 'gighunter-', userGroup: 'gighunter-user' },
   { id: 'foodlog', name: 'FoodLog', costTag: { key: 'Project', value: 'foodlog' }, lambdaPrefix: 'foodlog-', userGroup: 'foodlog-user' },
 ]
 
