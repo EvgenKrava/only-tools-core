@@ -146,7 +146,52 @@ resource "aws_route53_record" "auth" {
   }
 }
 
-# ---- app client for core (landing + admin). App clients for the other apps arrive with their migration. ----
+# ---- app clients: core (landing + admin) and one per app that has moved to the shared sign-in ----
+locals {
+  app_clients = {
+    gighunter = { url = "https://gighunter.${var.domain_name}", callback_path = "/login" }
+  }
+}
+
+resource "aws_cognito_user_pool_client" "app" {
+  for_each                             = local.app_clients
+  name                                 = each.key
+  user_pool_id                         = aws_cognito_user_pool.main.id
+  generate_secret                      = false
+  supported_identity_providers         = concat(["COGNITO"], var.google_client_id == "" ? [] : ["Google"])
+  allowed_oauth_flows_user_pool_client = true
+  allowed_oauth_flows                  = ["code"]
+  allowed_oauth_scopes                 = ["openid", "email", "profile"]
+  callback_urls                        = concat(["${each.value.url}${each.value.callback_path}"], [for o in var.dev_origins : "${o}${each.value.callback_path}"])
+  logout_urls                          = concat(["${each.value.url}/", "https://${var.domain_name}/"], [for o in var.dev_origins : "${o}/"])
+  explicit_auth_flows                  = ["ALLOW_REFRESH_TOKEN_AUTH"]
+  prevent_user_existence_errors        = "ENABLED"
+  enable_token_revocation              = true
+  access_token_validity                = 1
+  id_token_validity                    = 1
+  refresh_token_validity               = 30
+  token_validity_units {
+    access_token  = "hours"
+    id_token      = "hours"
+    refresh_token = "days"
+  }
+  depends_on = [aws_cognito_identity_provider.google]
+}
+
+resource "aws_cognito_managed_login_branding" "app" {
+  for_each                    = local.app_clients
+  user_pool_id                = aws_cognito_user_pool.main.id
+  client_id                   = aws_cognito_user_pool_client.app[each.key].id
+  use_cognito_provided_values = true
+}
+
+resource "aws_ssm_parameter" "app_client" {
+  for_each = local.app_clients
+  name     = "/onlytools/auth/clients/${each.key}"
+  type     = "String"
+  value    = aws_cognito_user_pool_client.app[each.key].id
+}
+
 resource "aws_cognito_user_pool_client" "core" {
   name                                 = "core"
   user_pool_id                         = aws_cognito_user_pool.main.id
