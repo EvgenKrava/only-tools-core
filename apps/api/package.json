@@ -3,12 +3,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --target=node22 --format=esm --outfile=dist/index.mjs --external:@aws-sdk/*",
+    "build": "esbuild src/index.ts src/scheduled.ts --bundle --platform=node --target=node22 --format=esm --outdir=dist --out-extension:.js=.mjs --external:@aws-sdk/*",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@aws-sdk/client-cognito-identity-provider": "^3.1137.0"
+    "@aws-sdk/client-budgets": "^3.1171.0",
+    "@aws-sdk/client-cloudwatch": "^3.1171.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.1137.0",
+    "@aws-sdk/client-cost-explorer": "^3.1171.0",
+    "@aws-sdk/client-dynamodb": "^3.1171.0",
+    "@aws-sdk/client-sts": "^3.1171.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.152",

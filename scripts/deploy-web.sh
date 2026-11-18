@@ -3,7 +3,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT=apps/landing/dist
-rm -rf "$OUT" && mkdir -p "$OUT"
+rm -rf apps/landing/dist && mkdir -p "$OUT"
 cp -R apps/landing/public/. "$OUT/"
 cp packages/ui/only-tools.css "$OUT/only-tools.css"
 if [ "${1:-}" = "--build-only" ]; then

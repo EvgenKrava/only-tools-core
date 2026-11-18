@@ -10,3 +10,4 @@ body { overflow: hidden; }
 button.ot-row { appearance: none; border: 0; width: 100%; text-align: left; font: inherit; }
 .err { color: var(--ot-bad); font-weight: 700; }
 .ot-nav__item { cursor: pointer; background: none; border: 0; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 12px; }

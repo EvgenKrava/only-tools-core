@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react'
 import { auth, type SessionUser } from './auth'
 import { Icon } from './icons'
 import { Users } from './Users'
+import { Overview } from './Overview'
 
-type Tab = 'users' | 'stats' | 'settings'
+type Tab = 'overview' | 'users' | 'settings'
 
 export function App() {
   const [me, setMe] = useState<SessionUser | null | undefined>(undefined)
-  const [tab, setTab] = useState<Tab>('users')
+  const [tab, setTab] = useState<Tab>('overview')
 
   useEffect(() => {
     auth.then(async (a) => {
@@ -39,13 +40,14 @@ export function App() {
       <div className="ot-layout">
         <nav className="ot-nav" aria-label="Admin">
           <a className="ot-brand ot-nav__brand" href="/"><b className="ot-logo" aria-hidden="true"><i /><i /><i /><i /></b><span>Admin</span></a>
+          {item('overview', 'Overview', 'chart')}
           {item('users', 'Users', 'users')}
-          {item('stats', 'Usage & cost', 'chart', true)}
           {item('settings', 'Settings', 'gear', true)}
           <span className="ot-nav__spacer" />
           <a className="ot-nav__item" href="/"><span className="ot-nav__pill"><Icon name="home" /></span>Only Tools</a>
         </nav>
         <main className="ot-main">
+          {tab === 'overview' && <Overview />}
           {tab === 'users' && <Users me={me} />}
         </main>
       </div>

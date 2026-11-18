@@ -1,5 +1,6 @@
 import type { APIGatewayProxyEventV2WithJWTAuthorizer, APIGatewayProxyResultV2 } from 'aws-lambda'
 import * as cognito from './cognito'
+import { buildSnapshot, loadSnapshot, saveSnapshot } from './stats'
 import { APPS, PLATFORM_ADMIN, ROLES, HttpError, assertCanChange, isRole, parseGroups } from './roles'
 
 type Event = APIGatewayProxyEventV2WithJWTAuthorizer
@@ -30,6 +31,20 @@ async function route(event: Event): Promise<APIGatewayProxyResultV2> {
   if (!actor.groups.includes(PLATFORM_ADMIN)) throw new HttpError(403, 'Admins only')
 
   if (method === 'GET' && path === '/roles') return json(200, { roles: ROLES, apps: APPS })
+  if (method === 'GET' && path === '/stats') {
+    let snap = await loadSnapshot()
+    if (!snap) { snap = await buildSnapshot(); await saveSnapshot(snap) }
+    return json(200, snap)
+  }
+  if (method === 'POST' && path === '/stats/refresh') {
+    const snap = await loadSnapshot()
+    const ageMs = snap ? Date.now() - Date.parse(snap.generatedAt) : Infinity
+    // Each refresh costs two Cost Explorer calls ($0.02); allow one every 6 hours.
+    if (ageMs < 6 * 3_600_000) throw new HttpError(429, `Fresh enough: refreshed ${Math.round(ageMs / 60_000)} min ago. Next refresh in ${Math.ceil((6 * 3_600_000 - ageMs) / 60_000)} min.`)
+    const fresh = await buildSnapshot()
+    await saveSnapshot(fresh)
+    return json(200, fresh)
+  }
   if (method === 'GET' && path === '/users') return json(200, { users: await cognito.listUsers(event.queryStringParameters?.search) })
   if (method === 'POST' && path === '/users') {
     const email = String(body.email ?? '').trim().toLowerCase()

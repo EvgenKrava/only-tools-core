@@ -1,7 +1,7 @@
 # Admin API: HTTP API + one Lambda, served under https://onlytools.click/api/* through the landing's CloudFront.
 data "archive_file" "api" {
   type        = "zip"
-  source_file = "${path.module}/../../apps/api/dist/index.mjs"
+  source_dir  = "${path.module}/../../apps/api/dist"
   output_path = "${path.module}/.build/api.zip"
 }
 
@@ -28,6 +28,19 @@ data "aws_iam_policy_document" "api" {
     ]
     resources = [aws_cognito_user_pool.main.arn]
   }
+  statement {
+    # Dashboard: legacy app pools (user counts), cost, Lambda activity, snapshot cache.
+    actions   = ["cognito-idp:DescribeUserPool"]
+    resources = ["arn:aws:cognito-idp:${var.region}:${data.aws_caller_identity.current.account_id}:userpool/*"]
+  }
+  statement {
+    actions   = ["ce:GetCostAndUsage", "budgets:ViewBudget", "cloudwatch:GetMetricData"]
+    resources = ["*"]
+  }
+  statement {
+    actions   = ["dynamodb:GetItem", "dynamodb:PutItem"]
+    resources = [aws_dynamodb_table.admin.arn]
+  }
 }
 
 resource "aws_iam_role_policy" "api" {
@@ -43,10 +56,10 @@ resource "aws_lambda_function" "api" {
   architectures    = ["arm64"]
   filename         = data.archive_file.api.output_path
   source_code_hash = data.archive_file.api.output_base64sha256
-  timeout          = 15
+  timeout          = 29
   memory_size      = 512
   environment {
-    variables = { USER_POOL_ID = aws_cognito_user_pool.main.id }
+    variables = local.api_env
   }
   depends_on = [aws_cloudwatch_log_group.api]
 }

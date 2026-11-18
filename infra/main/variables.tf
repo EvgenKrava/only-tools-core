@@ -40,3 +40,8 @@ variable "dev_origins" {
   type        = list(string)
   default     = ["http://localhost:5173"]
 }
+variable "budget_name" {
+  description = "Existing AWS Budgets budget the dashboard shows (amount, actual, forecast)."
+  type        = string
+  default     = "Monthly Cost Budget"
+}
