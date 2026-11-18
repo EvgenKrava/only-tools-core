@@ -48,6 +48,15 @@ const en = {
   timeWindow: 'Time window', h1: '1 h', h24: '24 h', d7: '7 days', searching: 'Searching the logs…', alarms: 'Alarms',
   firing: '{n} firing', allOk: 'All OK', noAlarms: 'No alarms are set up.', logLines: 'Error log lines',
   updating: 'Updating…', inWindow: '{n} in the last {window}', noErrorsWindow: 'No errors in this window.',
+  // Billing
+  billing: 'Plus & donations', subsActive: 'Plus subscribers', subsSplit: '{m} monthly · {y} yearly · {l} lifetime',
+  mrr: 'Monthly recurring', mrrUnit: 'from subscriptions that renew', revenueMonth: 'Paid this month',
+  revenueTotal: 'All time {v}', donationsTotal: 'Donations {v}', feesTotal: 'monobank fees {v}',
+  canceling: '{n} canceling', pastDue: '{n} card failed', byMonth: 'Revenue by month', plusLegend: 'Plus', donationsLegend: 'Donations',
+  subscribers: 'Subscribers', noSubscribers: 'No subscribers yet.', recentPayments: 'Recent payments', noPayments: 'No payments yet.',
+  planMonthly: 'Monthly', planYearly: 'Yearly', planLifetime: 'Lifetime', until: 'until {date}', forLife: 'for life',
+  stActive: 'Active', stCanceled: 'Canceling', stPast_due: 'Card failed', stExpired: 'Ended',
+  kindPlus: 'Plus', kindRenewal: 'Renewal', kindDonation: 'Donation', anonymous: 'Anonymous',
 }
 type Key = keyof typeof en
 
@@ -75,6 +84,15 @@ const uk: Record<Key, string> = {
   timeWindow: 'Період', h1: '1 год', h24: '24 год', d7: '7 днів', searching: 'Шукаємо в логах…', alarms: 'Тривоги',
   firing: 'Спрацювало: {n}', allOk: 'Усе гаразд', noAlarms: 'Тривоги не налаштовані.', logLines: 'Рядки з помилками',
   updating: 'Оновлення…', inWindow: '{n} за {window}', noErrorsWindow: 'За цей період помилок немає.',
+  // Billing
+  billing: 'Plus і донати', subsActive: 'Підписники Plus', subsSplit: '{m} щомісяця · {y} щороку · {l} назавжди',
+  mrr: 'Щомісячний дохід', mrrUnit: 'з підписок, що продовжуються', revenueMonth: 'Оплачено цього місяця',
+  revenueTotal: 'За весь час {v}', donationsTotal: 'Донати {v}', feesTotal: 'комісія monobank {v}',
+  canceling: '{n} скасовують', pastDue: '{n} картка не пройшла', byMonth: 'Дохід за місяцями', plusLegend: 'Plus', donationsLegend: 'Донати',
+  subscribers: 'Підписники', noSubscribers: 'Поки немає підписників.', recentPayments: 'Останні платежі', noPayments: 'Поки немає платежів.',
+  planMonthly: 'Щомісяця', planYearly: 'Щороку', planLifetime: 'Назавжди', until: 'до {date}', forLife: 'назавжди',
+  stActive: 'Активна', stCanceled: 'Скасовується', stPast_due: 'Картка не пройшла', stExpired: 'Закінчилась',
+  kindPlus: 'Plus', kindRenewal: 'Продовження', kindDonation: 'Донат', anonymous: 'Анонімно',
 }
 
 const ru: Record<Key, string> = {
@@ -101,6 +119,15 @@ const ru: Record<Key, string> = {
   timeWindow: 'Период', h1: '1 ч', h24: '24 ч', d7: '7 дней', searching: 'Ищем в логах…', alarms: 'Тревоги',
   firing: 'Сработало: {n}', allOk: 'Всё в порядке', noAlarms: 'Тревоги не настроены.', logLines: 'Строки с ошибками',
   updating: 'Обновление…', inWindow: '{n} за {window}', noErrorsWindow: 'За этот период ошибок нет.',
+  // Billing
+  billing: 'Plus и донаты', subsActive: 'Подписчики Plus', subsSplit: '{m} ежемесячно · {y} ежегодно · {l} навсегда',
+  mrr: 'Ежемесячный доход', mrrUnit: 'с продлевающихся подписок', revenueMonth: 'Оплачено в этом месяце',
+  revenueTotal: 'За всё время {v}', donationsTotal: 'Донаты {v}', feesTotal: 'комиссия monobank {v}',
+  canceling: '{n} отменяют', pastDue: '{n} карта не прошла', byMonth: 'Доход по месяцам', plusLegend: 'Plus', donationsLegend: 'Донаты',
+  subscribers: 'Подписчики', noSubscribers: 'Пока нет подписчиков.', recentPayments: 'Последние платежи', noPayments: 'Пока нет платежей.',
+  planMonthly: 'Ежемесячно', planYearly: 'Ежегодно', planLifetime: 'Навсегда', until: 'до {date}', forLife: 'навсегда',
+  stActive: 'Активна', stCanceled: 'Отменяется', stPast_due: 'Карта не прошла', stExpired: 'Закончилась',
+  kindPlus: 'Plus', kindRenewal: 'Продление', kindDonation: 'Донат', anonymous: 'Анонимно',
 }
 
 const DICT: Record<Lang, Record<Key, string>> = { en, uk, ru }

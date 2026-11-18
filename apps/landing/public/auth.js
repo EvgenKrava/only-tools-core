@@ -46,13 +46,17 @@ export async function handleCallback() {
   return saved.returnTo || '/'
 }
 
-/** Current user ({ email, name, groups, accessToken }) or null; refreshes tokens when they are about to expire. */
-export async function currentUser() {
+/** Current user ({ email, name, groups, accessToken }) or null; refreshes tokens when they are about to
+ *  expire, or right away with force (e.g. after a purchase added the user to a group). */
+export async function currentUser(force = false) {
   let s = JSON.parse(localStorage.getItem(KEY) ?? 'null')
   if (!s) return null
-  if (s.expiresAt < Date.now() + 60_000) {
+  if (force || s.expiresAt < Date.now() + 60_000) {
     try { s = save(await token({ grant_type: 'refresh_token', refresh_token: s.refreshToken }), s.refreshToken) }
-    catch { localStorage.removeItem(KEY); return null }
+    catch {
+      // A forced refresh of a still-valid session must not sign the user out.
+      if (!force || s.expiresAt < Date.now() + 60_000) { localStorage.removeItem(KEY); return null }
+    }
   }
   const c = decode(s.idToken)
   return { email: c.email, name: c.name ?? c.email, groups: c['cognito:groups'] ?? [], accessToken: s.accessToken }

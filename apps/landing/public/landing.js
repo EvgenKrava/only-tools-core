@@ -12,7 +12,7 @@ const T = {
     'access.yes': 'You have access', 'access.no': 'No access', open: 'Open',
     'acc.title': 'Your Only Tools account',
     'acc.signedIn': 'Signed in as <b>{email}</b>. This account works in every Only Tools app.',
-    admin: 'Admin panel', signOut: 'Sign out', signIn: 'Sign in',
+    admin: 'Admin panel', signOut: 'Sign out', signIn: 'Sign in', plus: 'Only Tools Plus', support: 'Support the author',
     'guest.title': 'One account for every app',
     'guest.text': 'Sign in once with email or Google and every Only Tools app lets you in.',
     'guest.cta': 'Sign in or create account',
@@ -27,7 +27,7 @@ const T = {
     'access.yes': 'Є доступ', 'access.no': 'Немає доступу', open: 'Відкрити',
     'acc.title': 'Ваш акаунт Only Tools',
     'acc.signedIn': 'Ви увійшли як <b>{email}</b>. Цей акаунт працює в усіх застосунках Only Tools.',
-    admin: 'Адмін-панель', signOut: 'Вийти', signIn: 'Увійти',
+    admin: 'Адмін-панель', signOut: 'Вийти', signIn: 'Увійти', plus: 'Only Tools Plus', support: 'Підтримати автора',
     'guest.title': 'Один акаунт для всіх застосунків',
     'guest.text': 'Увійдіть один раз через email або Google, і кожен застосунок Only Tools вас впустить.',
     'guest.cta': 'Увійти або створити акаунт',
@@ -42,7 +42,7 @@ const T = {
     'access.yes': 'Есть доступ', 'access.no': 'Нет доступа', open: 'Открыть',
     'acc.title': 'Ваш аккаунт Only Tools',
     'acc.signedIn': 'Вы вошли как <b>{email}</b>. Этот аккаунт работает во всех приложениях Only Tools.',
-    admin: 'Админ-панель', signOut: 'Выйти', signIn: 'Войти',
+    admin: 'Админ-панель', signOut: 'Выйти', signIn: 'Войти', plus: 'Only Tools Plus', support: 'Поддержать автора',
     'guest.title': 'Один аккаунт для всех приложений',
     'guest.text': 'Войдите один раз через email или Google, и каждое приложение Only Tools вас впустит.',
     'guest.cta': 'Войти или создать аккаунт',
@@ -97,6 +97,7 @@ function render() {
       <h2 class="ot-h3">${t('acc.title')}</h2>
       <p class="ot-text">${t('acc.signedIn').replace('{email}', esc(user.email))}</p>
       <div class="ot-row" style="box-shadow:none;padding:0;background:none;gap:8px;flex-wrap:wrap">
+        <a class="ot-btn ot-btn--sm${user.groups.includes('plus') ? ' ot-btn--soft' : ''}" href="/plus/">${t('plus')}</a>
         ${isAdmin ? `<a class="ot-btn ot-btn--sm" href="/admin">${t('admin')}</a>` : ''}
         <button class="ot-btn ot-btn--sm ot-btn--outline" id="sign-out">${t('signOut')}</button>
       </div>`
@@ -106,7 +107,10 @@ function render() {
     $('account').innerHTML = `
       <h2 class="ot-h3">${t('guest.title')}</h2>
       <p class="ot-text">${t('guest.text')}</p>
-      <button class="ot-btn" style="align-self:flex-start" id="sign-in">${t('guest.cta')}</button>`
+      <div class="ot-row" style="box-shadow:none;padding:0;background:none;gap:8px;flex-wrap:wrap">
+        <button class="ot-btn" id="sign-in">${t('guest.cta')}</button>
+        <a class="ot-btn ot-btn--outline" href="/plus/#support">${t('support')}</a>
+      </div>`
     $('sign-in').onclick = $('sign-in-top').onclick = () => signIn('/')
   }
 }

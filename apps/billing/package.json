@@ -1,0 +1,24 @@
+{
+  "name": "@onlytools/billing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/index.ts src/scheduled.ts --bundle --platform=node --target=node24 --format=esm --outdir=dist --out-extension:.js=.mjs --external:@aws-sdk/*",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json",
+    "dev": "esbuild dev-server.ts --bundle --platform=node --format=esm --packages=external --outfile=.dev/server.mjs --log-level=warning && node .dev/server.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.1137.0",
+    "@aws-sdk/client-dynamodb": "^3.1171.0",
+    "@aws-sdk/client-ssm": "^3.1171.0",
+    "@aws-sdk/lib-dynamodb": "^3.1171.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.152",
+    "@types/node": "^22.15.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
+  }
+}

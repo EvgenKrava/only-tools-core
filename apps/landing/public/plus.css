@@ -1,0 +1,21 @@
+/* Only Tools Plus page: plan cards, Free/Plus table, donation form. Built on only-tools.css tokens. */
+.stack { display: flex; flex-direction: column; gap: var(--ot-s-3); }
+.inline { display: flex; align-items: center; gap: var(--ot-s-2); flex-wrap: wrap; }
+.plans { display: grid; gap: var(--ot-s-4); grid-template-columns: 1fr; }
+@container ot-shell (min-width: 640px) { .plans { grid-template-columns: repeat(3, 1fr); } }
+.plan { display: flex; flex-direction: column; gap: var(--ot-s-2); }
+.plan .ot-btn { margin-top: auto; }
+.plan--best { outline: 3px solid var(--ot-accent); outline-offset: -3px; }
+.cmp { overflow-x: auto; }
+.cmp-table { width: 100%; border-collapse: collapse; font-size: var(--ot-t-sm); }
+.cmp-table th, .cmp-table td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--ot-line); }
+.cmp-table thead th { color: var(--ot-mut); font-weight: 800; }
+.cmp-table td:not(:first-child), .cmp-table thead th:not(:first-child) { text-align: right; white-space: nowrap; }
+.cmp-app th { padding-top: 18px; font-weight: 900; border-bottom: 0; }
+.support { max-width: 640px; }
+.support .amounts { flex-wrap: wrap; align-self: flex-start; }
+.support .ot-hint { color: var(--ot-bad); }
+.notice--good { border-left: 6px solid var(--ot-good); }
+.notice--bad { border-left: 6px solid var(--ot-bad); }
+.notice--neutral { border-left: 6px solid var(--ot-line); }
+#legal a { color: inherit; font-weight: 800; }

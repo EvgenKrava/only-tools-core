@@ -1,0 +1,14 @@
+{
+  "_doc": "Free vs Plus limits per app. null = unlimited. Apps read this from SSM /onlytools/plans/limits and check the 'plus' group in the user's token on the server.",
+  "plusGroup": "plus",
+  "apps": {
+    "foodlog": {
+      "labelScansPerDay": { "free": 3, "plus": 50 },
+      "historyDays": { "free": 90, "plus": null }
+    },
+    "carlog": {
+      "cars": { "free": 2, "plus": null },
+      "ocrScansPerMonth": { "free": 5, "plus": 100 }
+    }
+  }
+}

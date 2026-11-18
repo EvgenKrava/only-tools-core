@@ -4,9 +4,10 @@ import { Icon } from './icons'
 import { Users } from './Users'
 import { Overview } from './Overview'
 import { Errors } from './Errors'
+import { Billing } from './Billing'
 import { LangSwitch, useT } from './i18n'
 
-type Tab = 'overview' | 'users' | 'errors' | 'settings'
+type Tab = 'overview' | 'users' | 'billing' | 'errors' | 'settings'
 
 export function App() {
   const [me, setMe] = useState<SessionUser | null | undefined>(undefined)
@@ -46,6 +47,7 @@ export function App() {
           <a className="ot-brand ot-nav__brand" href="/"><b className="ot-logo" aria-hidden="true"><i /><i /><i /><i /></b><span>Admin</span></a>
           {item('overview', t('overview'), 'chart')}
           {item('users', t('users'), 'users')}
+          {item('billing', t('billing'), 'star')}
           {item('errors', t('errors'), 'alert')}
           {item('settings', t('settings'), 'gear', true)}
           <span className="ot-nav__spacer" />
@@ -55,6 +57,7 @@ export function App() {
         <main className="ot-main">
           {tab === 'overview' && <Overview />}
           {tab === 'users' && <Users me={me} />}
+          {tab === 'billing' && <Billing />}
           {tab === 'errors' && <Errors />}
         </main>
       </div>

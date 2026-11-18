@@ -7,6 +7,7 @@ locals {
     { "platform-admin" = "Opens the Only Tools admin panel; manages every user, role and app setting." },
     { for a in local.apps : "${a}-user" => "May use ${a}." },
     { for a in local.apps : "${a}-admin" => "Moderation inside ${a}." },
+    { "plus" = "Only Tools Plus subscriber. Billing adds and removes it; apps lift free limits for it." },
   )
   default_groups = ["carlog-user", "foodlog-user"] # GigHunter is invite-only
   admin_groups   = ["platform-admin", "carlog-user", "gighunter-user", "foodlog-user", "carlog-admin", "gighunter-admin", "foodlog-admin"]

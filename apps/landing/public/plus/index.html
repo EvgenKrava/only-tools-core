@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" data-app="hub">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Only Tools Plus</title>
+  <meta name="description" content="Only Tools Plus: higher limits in every Only Tools app. Monthly, yearly or once for life. Or support the author with any amount.">
+  <meta name="theme-color" content="#fff8f1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#17141f" media="(prefers-color-scheme: dark)">
+  <link rel="canonical" href="https://onlytools.click/plus/" />
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="/only-tools.css">
+  <link rel="stylesheet" href="/landing.css">
+  <link rel="stylesheet" href="/plus.css">
+</head>
+<body class="ot-root">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+</svg>
+
+<div class="ot-shell">
+  <div class="ot-layout">
+    <nav class="ot-nav" aria-label="Main">
+      <a class="ot-brand ot-nav__brand" href="/"><b class="ot-logo" aria-hidden="true"><i></i><i></i><i></i><i></i></b><span>Only Tools</span></a>
+      <a class="ot-nav__item" href="/"><span class="ot-nav__pill"><svg class="ot-icon"><use href="#i-grid"/></svg></span><span data-t="nav.apps">Apps</span></a>
+      <a class="ot-nav__item is-active" href="/plus/" aria-current="page"><span class="ot-nav__pill"><svg class="ot-icon"><use href="#i-star"/></svg></span><span>Plus</span></a>
+      <a class="ot-nav__item" href="#support"><span class="ot-nav__pill"><svg class="ot-icon"><use href="#i-heart"/></svg></span><span data-t="nav.support">Support</span></a>
+      <span class="ot-nav__spacer"></span>
+      <a class="ot-nav__item" href="/#account"><span class="ot-nav__pill"><svg class="ot-icon"><use href="#i-user"/></svg></span><span data-t="nav.account">Account</span></a>
+    </nav>
+
+    <main class="ot-main">
+      <header class="ot-header">
+        <a class="ot-brand" href="/"><span class="ot-logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Only Tools</a>
+        <div class="top-actions"><div class="ot-segment" id="lang" role="group" aria-label="Language"></div><div id="who"></div></div>
+      </header>
+      <div class="ot-content">
+        <section class="hero">
+          <h1 class="ot-h1" data-t="hero.title">Only Tools Plus</h1>
+          <p class="ot-text" data-t="hero.text"></p>
+        </section>
+
+        <div id="notice" role="status" aria-live="polite"></div>
+        <section id="mine" class="block" hidden></section>
+
+        <section class="block" aria-labelledby="plans-title">
+          <h2 class="ot-h3" id="plans-title" data-t="plans.title">Plans</h2>
+          <div class="plans" id="plans"><p class="ot-text" data-t="loading">Loading…</p></div>
+          <p class="ot-caption" id="plans-note"></p>
+        </section>
+
+        <section class="block" aria-labelledby="cmp-title">
+          <h2 class="ot-h3" id="cmp-title" data-t="cmp.title">Free and Plus</h2>
+          <div class="ot-card ot-card--flat cmp" id="cmp"></div>
+        </section>
+
+        <section id="support" class="ot-card block support" data-app="food" aria-labelledby="support-title">
+          <h2 class="ot-h3" id="support-title" data-t="support.title">Support the author</h2>
+          <p class="ot-text" data-t="support.text"></p>
+          <form id="donate" class="stack" novalidate>
+            <div class="ot-segment amounts" id="amounts" role="group"></div>
+            <label class="ot-field"><span class="ot-label" data-t="support.amount">Amount, UAH</span>
+              <input class="ot-input" id="d-amount" type="number" inputmode="numeric" min="20" max="50000" step="1" value="100" required></label>
+            <label class="ot-field"><span class="ot-label" data-t="support.name">Your name (optional)</span>
+              <input class="ot-input" id="d-name" maxlength="60" autocomplete="nickname"></label>
+            <label class="ot-field"><span class="ot-label" data-t="support.note">A few words (optional)</span>
+              <textarea class="ot-textarea" id="d-note" maxlength="280" rows="2"></textarea></label>
+            <p class="ot-hint" id="d-err" hidden></p>
+            <button class="ot-btn" type="submit" id="d-go" data-t="support.cta">Support</button>
+          </form>
+        </section>
+
+        <p class="ot-caption" id="legal"></p>
+        <footer class="ot-caption foot">© <span id="year"></span> Only Tools · onlytools.click</footer>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script type="module" src="/plus.js"></script>
+</body>
+</html>
