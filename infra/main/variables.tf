@@ -15,3 +15,28 @@ variable "domain_name" {
   type        = string
   default     = "onlytools.click"
 }
+variable "google_client_id" {
+  description = "Google OAuth web client id. Empty = email/password only."
+  type        = string
+  default     = ""
+}
+variable "google_client_secret" {
+  type      = string
+  default   = ""
+  sensitive = true
+}
+variable "google_client_secret_ssm" {
+  description = "SSM SecureString holding the Google client secret; overrides google_client_secret when set."
+  type        = string
+  default     = ""
+}
+variable "admin_emails" {
+  description = "Emails that get platform-admin (and every app role) when their account is created."
+  type        = list(string)
+  default     = []
+}
+variable "dev_origins" {
+  description = "Local dev origins allowed as OAuth callbacks."
+  type        = list(string)
+  default     = ["http://localhost:5173"]
+}

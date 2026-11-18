@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en" data-app="hub"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signing in · Only Tools</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap">
+<link rel="stylesheet" href="/only-tools.css"></head>
+<body class="ot-root" style="min-height:100vh;margin:0;display:grid;place-items:center;text-align:center;padding:24px">
+<div style="display:flex;flex-direction:column;gap:12px;align-items:center">
+<p class="ot-text" id="msg">Signing you in…</p><a class="ot-btn" href="/" id="back" hidden>Back to Only Tools</a></div>
+<script type="module">
+import { handleCallback } from '/auth.js'
+handleCallback().then((to) => location.replace(to)).catch((e) => {
+  document.getElementById('msg').textContent = e.message
+  document.getElementById('back').hidden = false
+})
+</script></body></html>

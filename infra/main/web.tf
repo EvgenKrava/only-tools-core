@@ -72,6 +72,8 @@ resource "aws_cloudfront_function" "viewer_request" {
         if (uri.split("/").pop().indexOf(".") === -1) req.uri = "/admin/index.html";
       } else if (uri.endsWith("/")) {
         req.uri = uri + "index.html";
+      } else if (uri.split("/").pop().indexOf(".") === -1) {
+        req.uri = uri + "/index.html";
       }
       return req;
     }
