@@ -36,7 +36,9 @@ async function route(event: Event): Promise<APIGatewayProxyResultV2> {
   // Public routes (no sign-in).
   if (method === 'POST' && path === '/webhook') {
     if (!(await verify(raw, event.headers['x-sign']))) { console.warn('bad webhook signature'); return json(401, { error: 'bad signature' }) }
-    await billing.onInvoice(JSON.parse(raw.toString('utf8')))
+    const ev = JSON.parse(raw.toString('utf8'))
+    console.log(JSON.stringify({ msg: 'webhook', reference: ev.reference, status: ev.status, invoiceId: ev.invoiceId }))
+    await billing.onInvoice(ev)
     return json(200, { ok: true })
   }
   if (method === 'GET' && path === '/plans') return json(200, await billing.plans())
