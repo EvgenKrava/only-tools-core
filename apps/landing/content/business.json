@@ -1,0 +1,12 @@
+{
+  "_comment": "Seller details shown on /terms, /privacy, /refunds and /contacts in every language. Fill the empty values, then run scripts/deploy-web.sh. Empty values render as a visible '[to be filled]' marker.",
+  "fop_name_uk": "",
+  "fop_name_ru": "",
+  "fop_name_en": "",
+  "tax_id": "",
+  "address_uk": "",
+  "address_ru": "",
+  "address_en": "",
+  "phone": "",
+  "email": "oldfromkb@gmail.com"
+}
