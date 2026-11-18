@@ -7,7 +7,7 @@
 // "- " and "1. " lists, **bold**, [links](/path). A paragraph made only of **[label](url)** items
 // becomes a row of buttons. A list whose items all start with **bold** becomes feature cards.
 // Internal links ("/carlog") point to the same language version of that page.
-import { mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -183,6 +183,10 @@ for (const lang of LANGS) {
 }
 
 const sitemap = [`  <url><loc>${SITE}/</loc><lastmod>${LASTMOD}</lastmod></url>`]
+// Hand-written pages that ship from apps/landing/public (e.g. /plus/) go in the sitemap when present.
+for (const extra of ['plus']) {
+  if (existsSync(join(OUT, extra, 'index.html'))) sitemap.push(`  <url><loc>${SITE}/${extra}/</loc><lastmod>${LASTMOD}</lastmod></url>`)
+}
 for (const [path, byLang] of [...pages].sort()) {
   const alternates = LANGS.filter((l) => byLang[l])
   for (const lang of alternates) {

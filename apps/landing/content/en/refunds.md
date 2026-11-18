@@ -7,11 +7,11 @@ kind: legal
 
 Effective date: 18 November 2026.
 
-Only Tools apps are currently free. This policy applies to paid plans once they are introduced.
+This policy covers Only Tools Plus (monthly, yearly and lifetime plans) and voluntary support payments. Prices are shown on the [Only Tools Plus page](https://onlytools.click/plus/).
 
 ## Cancelling a subscription
 
-You can cancel a subscription at any time in the app or by writing to {{email}}. Access stays until the end of the period you have paid for, and no further payments are taken.
+You can cancel a monthly or yearly subscription at any time on the [Only Tools Plus page](https://onlytools.click/plus/) or by writing to {{email}}. Plus stays active until the end of the period you have paid for, the saved card is not charged again, and you can remove the card on the same page.
 
 ## When you get your money back
 
@@ -20,6 +20,10 @@ You can cancel a subscription at any time in the app or by writing to {{email}}.
 - **If a paid feature did not work** and we could not fix it, we refund the unused part of the period.
 
 After 14 days, payments for a period that has already started are not refunded, except in the cases above.
+
+## Voluntary support payments
+
+Support payments are voluntary and do not buy goods or services, so they are not refunded, except when a payment was made by mistake (wrong amount or a duplicate) and you tell us within 14 days.
 
 ## How to ask for a refund
 

@@ -14,7 +14,7 @@ This policy explains how {{fop_name}}, individual entrepreneur, tax ID {{tax_id}
 - **Account:** email address, name if you give it, and the sign-in method (password or Google). Passwords are stored by Amazon Cognito as salted hashes; we never see them.
 - **What you enter in the apps:** cars, service records, reminders, receipts and photos in CarLog; food entries, products, dishes, targets, height, weight and age in FoodLog; your profile, settings, Telegram bot token and Claude API key in GigHunter.
 - **Technical data:** server logs with IP address, browser type and errors, kept for up to 30 days to keep the service secure and working.
-- **Payments:** if paid plans are introduced, monobank processes card payments. We receive only the payment status and amount, never card details.
+- **Payments:** monobank processes card payments for Only Tools Plus and support payments. We receive only the payment status and amount, never card details. For subscriptions monobank keeps a card token so it can renew; you can remove it on the Plus page.
 
 ## Why we use it
 

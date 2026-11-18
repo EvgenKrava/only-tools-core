@@ -21,13 +21,16 @@ These terms are a public offer by {{fop_name}}, individual entrepreneur, tax ID 
 2. The User keeps their sign-in details safe and is responsible for actions taken under their account.
 3. The User must be at least 16 years old.
 
-## 3. Price and payment
+## 3. Plans, price and payment
 
-1. The Services are currently free of charge.
-2. If paid plans are introduced, their price, period and content will be published on the Services before any payment, and the User will pay only after choosing a plan explicitly.
+1. The core features of the Services are free. Only Tools Plus is an optional paid plan that raises the limits of the free plan; what it includes and its current prices are published on the [Only Tools Plus page](https://onlytools.click/plus/) before any payment.
+2. Plus is sold as a monthly subscription, a yearly subscription, or a one-time lifetime plan. The User pays only after choosing a plan explicitly.
 3. Payments are made in Ukrainian hryvnia by bank card through the monobank payment service (JSC "Universal Bank"). The Provider does not receive or store card details.
-4. A paid plan starts right after a successful payment. A subscription renews for the next period unless the User cancels it before the end of the current period.
-5. Refunds follow the [refund policy](/refunds).
+4. **Recurring charges.** For a monthly or yearly subscription the User agrees that the card is saved at monobank and charged automatically at the start of every new period for the price shown when the subscription was bought. If the price changes, the Provider notifies the User by email at least 14 days before the next charge, and the User can cancel before it. If a charge fails, it is retried up to three times over the next three days and Plus stays active for 7 days; after that Plus ends.
+5. **Cancelling.** The User can cancel the subscription at any time on the [Only Tools Plus page](https://onlytools.click/plus/) or by writing to {{email}}. Renewals stop, Plus stays active until the end of the paid period, and the User can also remove the saved card there.
+6. A plan starts right after a successful payment. The lifetime plan is paid once and has no recurring charges.
+7. **Voluntary support.** The User can also send a voluntary payment (donation) to support the Services. It does not buy any goods or services.
+8. Refunds follow the [refund policy](/refunds).
 
 ## 4. Rules of use
 
