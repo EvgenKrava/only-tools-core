@@ -21,11 +21,11 @@ Non-goals now: payments, changing what any app does, moving CarLog off CDK.
 ## 2. Repositories and folders
 
 ```
-~/Work/OnlyTools/
-  core/        this repo (GitHub: EvgenKrava/<to be created by owner>)
-  CarLog/      EvgenKrava/car-log
-  gighunter/   EvgenKrava/gighunter
-  FoodLog/     remote to be created by owner
+~/Work/only-tools/
+  only-tools-core/  this repo (EvgenKrava/only-tools-core)
+  car-log/          EvgenKrava/car-log
+  gig-hunter/       EvgenKrava/gig-hunter
+  food-log/         EvgenKrava/food-log
 ```
 
 Each app stays its own repository. `core` publishes the values apps need (pool id, issuer,
@@ -35,7 +35,7 @@ client ids) as SSM parameters, so apps never hard-code another repo's resources.
 
 ### 3.1 User pool
 
-- One pool `onlytools`, region `us-east-1`, account profile `yevhenii`, Terraform in `core/infra`.
+- One pool `onlytools`, region `us-east-1`, account profile `yevhenii`, Terraform in `only-tools-core/infra`.
 - Tier **Essentials**: managed login pages with branding; free for the first 10,000 MAU.
 - Sign-in: email (username = email) + Google. Google federated users are linked to an existing
   email/password user with the same verified email (pre-sign-up trigger), so one person = one `sub`.
@@ -192,6 +192,5 @@ parameters: $0. Route53 zone already exists. Expected total: under $1/month.
 
 ## 10. Open points
 
-- GitHub remotes for `core` and `FoodLog` (owner creates them).
 - Reuse the existing Google OAuth client (add `https://auth.onlytools.click/oauth2/idpresponse` as a
   redirect URI) or create a new "OnlyTools" one — the consent screen shows its name.

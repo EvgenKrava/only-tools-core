@@ -18,8 +18,8 @@ Core owns what every app shares:
 | App | URL | Repo |
 |---|---|---|
 | CarLog: a digital service book for your cars | [carlog.onlytools.click](https://carlog.onlytools.click) | [car-log](https://github.com/EvgenKrava/car-log) |
-| GigHunter: a freelance gig radar with Telegram alerts (invite-only) | [gighunter.onlytools.click](https://gighunter.onlytools.click) | [gighunter](https://github.com/EvgenKrava/gighunter) |
-| FoodLog: a calorie and macro tracker | foodlog.onlytools.click (in progress) | [foodlog](https://github.com/EvgenKrava/foodlog) |
+| GigHunter: a freelance gig radar with Telegram alerts (invite-only) | [gighunter.onlytools.click](https://gighunter.onlytools.click) | [gig-hunter](https://github.com/EvgenKrava/gig-hunter) |
+| FoodLog: a calorie and macro tracker | foodlog.onlytools.click (in progress) | [food-log](https://github.com/EvgenKrava/food-log) |
 
 ## Status
 
