@@ -80,6 +80,10 @@ Rules:
 
 ## 4. Landing (`onlytools.click`)
 
+Visual style: the shared OnlyTools look, variant B "Конструктор" (warm palette, a colour per app,
+large rounded tiles, mobile-first with a bottom tab bar). Landing, login branding and admin use the
+shared stylesheet/components from the "Design shared Only Tools look" work, not a separate style.
+
 - Static page: app cards (name, one-line description, icon, link to subdomain), a "Sign in"
   button, and when signed in, the user's apps marked as available or "no access".
 - Hosted as S3 + CloudFront (OAC), Route53 A/AAAA for `onlytools.click` and `www` (redirects to apex).
