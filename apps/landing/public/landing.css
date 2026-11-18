@@ -1,0 +1,12 @@
+html, body { height: 100%; margin: 0; }
+body { overflow: hidden; }
+.hero { display: flex; flex-direction: column; gap: var(--ot-s-2); padding-top: var(--ot-s-2); max-width: 640px; }
+.block { display: flex; flex-direction: column; gap: var(--ot-s-3); }
+.ot-tiles { grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); }
+.ot-tile { transition: transform .15s ease; }
+.ot-tile__go { display: inline-flex; align-items: center; gap: 6px; font-size: var(--ot-t-sm); font-weight: 900; }
+.ot-tile__go .ot-icon { width: 16px; height: 16px; }
+.foot { padding-top: var(--ot-s-4); }
+/* phone: the brand lives in the header; tablet/desktop: in the nav */
+@container ot-shell (min-width: 640px) { .ot-header .ot-brand { visibility: hidden; } }
+.ot-tile__stat { display: flex; align-items: center; gap: var(--ot-s-2); flex-wrap: wrap; }

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" data-app="hub">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Only Tools</title>
+  <meta name="description" content="Small, simple tools for everyday life: CarLog, GigHunter, FoodLog. One account for all of them.">
+  <meta name="theme-color" content="#fff8f1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#17141f" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Only Tools">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="/only-tools.css">
+  <link rel="stylesheet" href="/landing.css">
+</head>
+<body class="ot-root">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+  <symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14v-5l-2-5H7l-2 5v5z"/><path d="M5 12h14"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></symbol>
+  <symbol id="i-gig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-food" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-5 0-8-4-8-9 0-3 2-5 4-5 1.5 0 2.5.7 4 .7S14.5 7 16 7c2 0 4 2 4 5 0 5-3 9-8 9z"/><path d="M12 7c0-2 1-4 3-4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</svg>
+
+<div class="ot-shell">
+  <div class="ot-layout">
+    <nav class="ot-nav" aria-label="Main">
+      <a class="ot-brand ot-nav__brand" href="/"><b class="ot-logo" aria-hidden="true"><i></i><i></i><i></i><i></i></b><span>Only Tools</span></a>
+      <a class="ot-nav__item is-active" href="/" aria-current="page"><span class="ot-nav__pill"><svg class="ot-icon"><use href="#i-grid"/></svg></span>Apps</a>
+      <div class="ot-nav__apps" id="nav-apps"><span class="ot-nav__label">Apps</span></div>
+      <span class="ot-nav__spacer"></span>
+      <a class="ot-nav__item" href="#account" id="nav-account"><span class="ot-nav__pill"><svg class="ot-icon"><use href="#i-user"/></svg></span>Account</a>
+    </nav>
+
+    <main class="ot-main">
+      <header class="ot-header">
+        <a class="ot-brand" href="/"><span class="ot-logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Only Tools</a>
+      </header>
+      <div class="ot-content">
+        <section class="hero">
+          <h1 class="ot-h1">Small tools that do one thing well</h1>
+          <p class="ot-text">Simple apps for everyday life. Add them to your phone's home screen and they open like native apps.</p>
+        </section>
+
+        <section aria-labelledby="apps-title" class="block">
+          <h2 class="ot-h3" id="apps-title">Apps</h2>
+          <div class="ot-tiles" id="tiles"></div>
+        </section>
+
+        <section id="account" class="ot-card ot-card--flat block">
+          <h2 class="ot-h3">One account for every app</h2>
+          <p class="ot-text">Soon you will sign in once with email or Google and every Only Tools app will let you in.</p>
+          <span class="ot-chip ot-chip--neutral" style="align-self:flex-start">Coming soon</span>
+        </section>
+
+        <footer class="ot-caption foot">© <span id="year"></span> Only Tools · onlytools.click</footer>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script type="module" src="/landing.js"></script>
+</body>
+</html>

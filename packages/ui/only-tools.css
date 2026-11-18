@@ -1,0 +1,362 @@
+/* =====================================================================
+   Only Tools UI — shared styles for every Only Tools app
+   Direction B "Конструктор": warm, friendly, Nunito, one colour per app.
+   Version 0.1 · 2026-11-18
+
+   Usage
+   <html data-app="food">            app accent: car | gig | food (no attr = Only Tools hub)
+   <html data-theme="dark">          optional: force a theme; without it the OS setting wins
+   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+   <link href="only-tools.css" rel="stylesheet">
+   ===================================================================== */
+
+/* ---------- 1. Tokens: light (default) ---------- */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+  /* neutrals: warm paper, plum ink */
+  --ot-bg: #fff8f1;
+  --ot-surface: #ffffff;
+  --ot-surface-2: #fdf3e8;
+  --ot-bar: rgba(255, 253, 250, 0.92);
+  --ot-ink: #2a2140;
+  --ot-ink-2: #4a4163;
+  --ot-mut: #71698a;
+  --ot-line: #efe4d8;
+  --ot-line-strong: #e2d4c4;
+  --ot-shadow: 0 8px 24px -16px rgba(42, 33, 64, 0.35);
+  --ot-shadow-sm: 0 4px 14px -10px rgba(42, 33, 64, 0.3);
+  --ot-focus: 0 0 0 3px rgba(123, 92, 255, 0.35);
+
+  /* app colours: base / soft background / ink on soft */
+  --ot-car: #ff7a45;  --ot-car-soft: #ffe6da;  --ot-car-ink: #8a3311;
+  --ot-gig: #7b5cff;  --ot-gig-soft: #ebe5ff;  --ot-gig-ink: #3d2a99;
+  --ot-food: #1fb57a; --ot-food-soft: #d9f5e8; --ot-food-ink: #0d6644;
+  --ot-hub: #2a2140;  --ot-hub-soft: #efe9f7;  --ot-hub-ink: #2a2140;
+
+  /* semantic */
+  --ot-good: #1a9a68;  --ot-good-soft: #d9f5e8;
+  --ot-warn: #c77700;  --ot-warn-soft: #fff0d6;
+  --ot-bad: #d93a4a;   --ot-bad-soft: #ffe1e4;
+
+  --ot-on-accent: #ffffff;
+}
+
+/* ---------- 2. Tokens: dark ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ot-bg: #17141f;
+    --ot-surface: #221d2e;
+    --ot-surface-2: #1d1927;
+    --ot-bar: rgba(29, 25, 39, 0.92);
+    --ot-ink: #f3eefa;
+    --ot-ink-2: #d3cbe4;
+    --ot-mut: #a59cba;
+    --ot-line: #342d44;
+    --ot-line-strong: #453c58;
+    --ot-shadow: 0 10px 28px -18px rgba(0, 0, 0, 0.8);
+    --ot-shadow-sm: 0 4px 14px -10px rgba(0, 0, 0, 0.7);
+    --ot-focus: 0 0 0 3px rgba(154, 130, 255, 0.45);
+    --ot-car: #ff8a5c;  --ot-car-soft: rgba(255, 138, 92, 0.16);  --ot-car-ink: #ffc2a8;
+    --ot-gig: #9a82ff;  --ot-gig-soft: rgba(154, 130, 255, 0.18); --ot-gig-ink: #d3c8ff;
+    --ot-food: #2fd08f; --ot-food-soft: rgba(47, 208, 143, 0.16); --ot-food-ink: #a5ecd0;
+    --ot-hub: #f3eefa;  --ot-hub-soft: rgba(243, 238, 250, 0.1);  --ot-hub-ink: #f3eefa;
+    --ot-good: #2fd08f;  --ot-good-soft: rgba(47, 208, 143, 0.16);
+    --ot-warn: #ffb547;  --ot-warn-soft: rgba(255, 181, 71, 0.16);
+    --ot-bad: #ff6b7a;   --ot-bad-soft: rgba(255, 107, 122, 0.16);
+  }
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+  --ot-bg: #17141f;
+  --ot-surface: #221d2e;
+  --ot-surface-2: #1d1927;
+  --ot-bar: rgba(29, 25, 39, 0.92);
+  --ot-ink: #f3eefa;
+  --ot-ink-2: #d3cbe4;
+  --ot-mut: #a59cba;
+  --ot-line: #342d44;
+  --ot-line-strong: #453c58;
+  --ot-shadow: 0 10px 28px -18px rgba(0, 0, 0, 0.8);
+  --ot-shadow-sm: 0 4px 14px -10px rgba(0, 0, 0, 0.7);
+  --ot-focus: 0 0 0 3px rgba(154, 130, 255, 0.45);
+  --ot-car: #ff8a5c;  --ot-car-soft: rgba(255, 138, 92, 0.16);  --ot-car-ink: #ffc2a8;
+  --ot-gig: #9a82ff;  --ot-gig-soft: rgba(154, 130, 255, 0.18); --ot-gig-ink: #d3c8ff;
+  --ot-food: #2fd08f; --ot-food-soft: rgba(47, 208, 143, 0.16); --ot-food-ink: #a5ecd0;
+  --ot-hub: #f3eefa;  --ot-hub-soft: rgba(243, 238, 250, 0.1);  --ot-hub-ink: #f3eefa;
+  --ot-good: #2fd08f;  --ot-good-soft: rgba(47, 208, 143, 0.16);
+  --ot-warn: #ffb547;  --ot-warn-soft: rgba(255, 181, 71, 0.16);
+  --ot-bad: #ff6b7a;   --ot-bad-soft: rgba(255, 107, 122, 0.16);
+}
+
+/* ---------- 3. Shape, type, spacing (theme-independent) ---------- */
+:root {
+  --ot-font: "Nunito", ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ot-r-xl: 24px;  /* tiles, sheets */
+  --ot-r-lg: 20px;  /* cards */
+  --ot-r-md: 14px;  /* buttons, inputs, list rows */
+  --ot-r-sm: 10px;  /* icons, small chips */
+  --ot-r-pill: 999px;
+  --ot-s-1: 4px; --ot-s-2: 8px; --ot-s-3: 12px; --ot-s-4: 16px; --ot-s-5: 20px; --ot-s-6: 24px; --ot-s-8: 32px;
+  /* type scale */
+  --ot-t-xs: 11px; --ot-t-sm: 13px; --ot-t-md: 15px; --ot-t-lg: 17px; --ot-t-xl: 22px; --ot-t-2xl: 28px; --ot-t-3xl: 36px;
+  --ot-nav-rail: 84px;
+  --ot-nav-side: 256px;
+}
+
+/* ---------- 4. App accent: data-app picks the colour for the whole subtree ---------- */
+:root, [data-app] {
+  --ot-accent: var(--ot-hub); --ot-accent-soft: var(--ot-hub-soft); --ot-accent-ink: var(--ot-hub-ink);
+}
+[data-app="car"]  { --ot-accent: var(--ot-car);  --ot-accent-soft: var(--ot-car-soft);  --ot-accent-ink: var(--ot-car-ink); }
+[data-app="gig"]  { --ot-accent: var(--ot-gig);  --ot-accent-soft: var(--ot-gig-soft);  --ot-accent-ink: var(--ot-gig-ink); }
+[data-app="food"] { --ot-accent: var(--ot-food); --ot-accent-soft: var(--ot-food-soft); --ot-accent-ink: var(--ot-food-ink); }
+[data-app="hub"]  { --ot-accent: var(--ot-hub);  --ot-accent-soft: var(--ot-hub-soft);  --ot-accent-ink: var(--ot-hub-ink); }
+/* text on the hub accent flips with the theme */
+[data-app="hub"], :root:not([data-app]) { --ot-on-accent: var(--ot-bg); }
+
+/* ---------- 5. Base ---------- */
+.ot-root, [data-theme] {
+  background: var(--ot-bg);
+  color: var(--ot-ink);
+  font-family: var(--ot-font);
+  font-size: var(--ot-t-md);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+.ot-root *, .ot-root *::before, .ot-root *::after { box-sizing: border-box; }
+.ot-icon { width: 22px; height: 22px; flex: none; }
+.ot-num { font-variant-numeric: tabular-nums; }
+
+.ot-h1 { margin: 0; font-size: var(--ot-t-2xl); line-height: 1.12; font-weight: 900; letter-spacing: -0.02em; text-wrap: balance; }
+.ot-h2 { margin: 0; font-size: var(--ot-t-xl); line-height: 1.2; font-weight: 900; letter-spacing: -0.015em; text-wrap: balance; }
+.ot-h3 { margin: 0; font-size: var(--ot-t-lg); line-height: 1.25; font-weight: 800; }
+.ot-text { margin: 0; color: var(--ot-ink-2); font-weight: 600; }
+.ot-muted { color: var(--ot-mut); }
+.ot-label { font-size: var(--ot-t-sm); font-weight: 800; color: var(--ot-ink); }
+.ot-caption { font-size: var(--ot-t-xs); font-weight: 700; color: var(--ot-mut); }
+
+/* ---------- 6. Buttons ---------- */
+.ot-btn {
+  appearance: none; border: 0; cursor: pointer; text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--ot-s-2);
+  min-height: 48px; padding: 0 var(--ot-s-5);
+  border-radius: var(--ot-r-md);
+  font: 800 var(--ot-t-md)/1 var(--ot-font);
+  background: var(--ot-accent); color: var(--ot-on-accent);
+  transition: transform .12s ease, filter .12s ease, background .12s ease;
+}
+.ot-btn:hover { filter: brightness(1.05); }
+.ot-btn:active { transform: scale(0.97); }
+.ot-btn:focus-visible { outline: none; box-shadow: var(--ot-focus); }
+.ot-btn:disabled { opacity: .45; pointer-events: none; }
+.ot-btn--soft { background: var(--ot-accent-soft); color: var(--ot-accent-ink); }
+.ot-btn--outline { background: var(--ot-surface); color: var(--ot-ink); box-shadow: inset 0 0 0 2px var(--ot-line); }
+.ot-btn--ghost { background: transparent; color: var(--ot-accent-ink); }
+.ot-btn--danger { background: var(--ot-bad); color: #fff; }
+.ot-btn--sm { min-height: 36px; padding: 0 var(--ot-s-3); font-size: var(--ot-t-sm); border-radius: var(--ot-r-sm); }
+.ot-btn--block { width: 100%; }
+.ot-btn--icon { width: 44px; min-height: 44px; padding: 0; }
+.ot-fab {
+  appearance: none; border: 0; cursor: pointer;
+  width: 56px; height: 56px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--ot-accent); color: var(--ot-on-accent);
+  box-shadow: 0 10px 22px -8px color-mix(in srgb, var(--ot-accent) 70%, transparent);
+}
+.ot-fab:focus-visible { outline: none; box-shadow: var(--ot-focus); }
+
+/* ---------- 7. Form fields ---------- */
+.ot-field { display: flex; flex-direction: column; gap: 6px; }
+.ot-input, .ot-select, .ot-textarea {
+  width: 100%; min-height: 48px; padding: 12px 14px;
+  border-radius: var(--ot-r-md); border: 2px solid var(--ot-line);
+  background: var(--ot-surface); color: var(--ot-ink);
+  font: 600 var(--ot-t-md)/1.3 var(--ot-font);
+  transition: border-color .12s ease, box-shadow .12s ease;
+}
+.ot-input::placeholder, .ot-textarea::placeholder { color: var(--ot-mut); font-weight: 600; }
+.ot-input:focus, .ot-select:focus, .ot-textarea:focus { outline: none; border-color: var(--ot-accent); box-shadow: 0 0 0 4px var(--ot-accent-soft); }
+.ot-field--error .ot-input { border-color: var(--ot-bad); }
+.ot-hint { font-size: var(--ot-t-xs); font-weight: 700; color: var(--ot-mut); }
+.ot-field--error .ot-hint { color: var(--ot-bad); }
+.ot-search { position: relative; }
+.ot-search .ot-icon { position: absolute; left: 14px; top: 50%; translate: 0 -50%; width: 18px; height: 18px; color: var(--ot-mut); }
+.ot-search .ot-input { padding-left: 42px; border-radius: var(--ot-r-pill); }
+
+/* segmented control (День / Неделя / Месяц) */
+.ot-segment { display: inline-flex; padding: 4px; gap: 4px; background: var(--ot-surface-2); border-radius: var(--ot-r-pill); border: 1px solid var(--ot-line); }
+.ot-segment button { appearance: none; border: 0; cursor: pointer; background: transparent; color: var(--ot-mut); font: 800 var(--ot-t-sm)/1 var(--ot-font); padding: 9px 14px; border-radius: var(--ot-r-pill); }
+.ot-segment button[aria-pressed="true"] { background: var(--ot-surface); color: var(--ot-ink); box-shadow: var(--ot-shadow-sm); }
+
+/* switch */
+.ot-switch { appearance: none; cursor: pointer; width: 46px; height: 28px; border-radius: var(--ot-r-pill); background: var(--ot-line-strong); position: relative; transition: background .15s ease; margin: 0; flex: none; }
+.ot-switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: translate .15s ease; }
+.ot-switch:checked { background: var(--ot-accent); }
+.ot-switch:checked::after { translate: 18px 0; }
+.ot-switch:focus-visible { outline: none; box-shadow: var(--ot-focus); }
+
+/* ---------- 8. Surfaces ---------- */
+.ot-card { background: var(--ot-surface); border-radius: var(--ot-r-lg); padding: var(--ot-s-4); box-shadow: var(--ot-shadow); display: flex; flex-direction: column; gap: var(--ot-s-3); min-width: 0; }
+.ot-card--flat { box-shadow: none; border: 2px solid var(--ot-line); }
+.ot-card--accent { background: var(--ot-accent-soft); color: var(--ot-accent-ink); box-shadow: none; }
+
+/* app tile (hub page). Set data-app on the tile. */
+.ot-tile {
+  display: flex; flex-direction: column; align-items: flex-start; gap: var(--ot-s-3);
+  min-height: 150px; padding: var(--ot-s-4); border-radius: var(--ot-r-xl);
+  background: var(--ot-accent-soft); color: var(--ot-accent-ink); text-decoration: none;
+  transition: transform .15s ease;
+}
+.ot-tile:hover { transform: translateY(-2px); }
+.ot-tile:focus-visible { outline: none; box-shadow: var(--ot-focus); }
+.ot-tile__icon { width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center; background: var(--ot-surface); color: var(--ot-accent); }
+.ot-tile__name { font-size: var(--ot-t-lg); font-weight: 900; line-height: 1.15; }
+.ot-tile__desc { font-size: var(--ot-t-sm); font-weight: 700; opacity: .8; }
+.ot-tile__stat { margin-top: auto; font-size: var(--ot-t-xs); font-weight: 700; opacity: .85; }
+.ot-tile__stat b { display: block; font-size: var(--ot-t-lg); font-weight: 900; font-variant-numeric: tabular-nums; }
+.ot-tile--soon { background: transparent; border: 2px dashed var(--ot-line-strong); color: var(--ot-mut); align-items: center; justify-content: center; text-align: center; }
+.ot-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--ot-s-3); }
+
+/* list rows */
+.ot-list { display: flex; flex-direction: column; gap: var(--ot-s-2); }
+.ot-row {
+  display: flex; align-items: center; gap: var(--ot-s-3);
+  padding: 12px 14px; border-radius: var(--ot-r-md);
+  background: var(--ot-surface); box-shadow: var(--ot-shadow-sm); color: inherit; text-decoration: none; min-width: 0;
+}
+.ot-row__icon { width: 36px; height: 36px; border-radius: var(--ot-r-sm); display: grid; place-items: center; background: var(--ot-accent-soft); color: var(--ot-accent); flex: none; }
+.ot-row__body { flex: 1; min-width: 0; }
+.ot-row__title { font-weight: 800; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ot-row__sub { font-size: var(--ot-t-sm); color: var(--ot-mut); font-weight: 600; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ot-row__value { font-weight: 800; color: var(--ot-ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ot-row--empty { background: transparent; box-shadow: none; border: 2px dashed var(--ot-line-strong); }
+.ot-row--empty .ot-row__value { color: var(--ot-accent-ink); }
+
+/* chips and badges */
+.ot-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--ot-r-pill); font: 800 var(--ot-t-xs)/1 var(--ot-font); background: var(--ot-accent-soft); color: var(--ot-accent-ink); }
+.ot-chip--neutral { background: var(--ot-surface-2); color: var(--ot-ink-2); box-shadow: inset 0 0 0 1px var(--ot-line); }
+.ot-chip--good { background: var(--ot-good-soft); color: var(--ot-good); }
+.ot-chip--warn { background: var(--ot-warn-soft); color: var(--ot-warn); }
+.ot-chip--bad { background: var(--ot-bad-soft); color: var(--ot-bad); }
+.ot-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--ot-accent-soft); color: var(--ot-accent-ink); font-weight: 900; font-size: var(--ot-t-sm); flex: none; }
+
+/* ---------- 9. Data display ---------- */
+.ot-stat { display: flex; flex-direction: column; gap: 2px; }
+.ot-stat__value { font-size: var(--ot-t-3xl); font-weight: 900; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.ot-stat__unit { font-size: var(--ot-t-sm); font-weight: 700; color: var(--ot-mut); }
+/* progress bar: style="--p: 66%" */
+.ot-progress { height: 8px; border-radius: var(--ot-r-pill); background: var(--ot-accent-soft); overflow: hidden; }
+.ot-progress > i { display: block; height: 100%; width: var(--p, 0%); background: var(--ot-accent); border-radius: inherit; }
+/* ring: style="--p: 68" (0-100) */
+.ot-ring { --size: 140px; width: var(--size); height: var(--size); border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--ot-accent) calc(var(--p, 0) * 1%), var(--ot-accent-soft) 0); flex: none; }
+.ot-ring > div { width: calc(var(--size) - 28px); height: calc(var(--size) - 28px); border-radius: 50%; background: var(--ot-surface); display: grid; place-content: center; text-align: center; line-height: 1.1; }
+.ot-ring b { font-size: 28px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.ot-ring small { font-size: var(--ot-t-xs); font-weight: 700; color: var(--ot-mut); }
+/* mini bar chart: children <i style="--h:60%"> */
+.ot-bars { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; align-items: end; height: 120px; }
+.ot-bars > i { display: block; height: var(--h, 4%); min-height: 4px; background: var(--ot-accent-soft); border-radius: 8px 8px 4px 4px; }
+.ot-bars > i.is-today { background: var(--ot-accent); }
+
+/* ---------- 10. App shell: bottom bar → rail → sidebar ----------
+   <div class="ot-shell"><div class="ot-layout">
+     <nav class="ot-nav">…</nav>
+     <main class="ot-main">…</main>
+   </div></div>
+   Switches by the shell's own width (container query), so it works in any frame. */
+.ot-shell { container: ot-shell / inline-size; height: 100%; }
+.ot-layout { display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr auto; grid-template-areas: "main" "nav"; height: 100%; min-height: 0; }
+.ot-main { grid-area: main; min-width: 0; min-height: 0; overflow: auto; display: flex; flex-direction: column; }
+.ot-header {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--ot-s-3);
+  padding: calc(env(safe-area-inset-top, 0px) + 12px) max(var(--ot-s-4), env(safe-area-inset-right, 0px)) 12px max(var(--ot-s-4), env(safe-area-inset-left, 0px));
+  background: var(--ot-bg);
+}
+.ot-content { padding: 0 max(var(--ot-s-4), env(safe-area-inset-right, 0px)) var(--ot-s-6) max(var(--ot-s-4), env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: var(--ot-s-4); }
+.ot-brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: var(--ot-t-lg); letter-spacing: -0.01em; color: var(--ot-ink); text-decoration: none; }
+.ot-logo { display: grid; grid-template-columns: repeat(2, 10px); gap: 3px; flex: none; }
+.ot-logo i { width: 10px; height: 10px; border-radius: 3px; display: block; }
+.ot-logo i:nth-child(1) { background: var(--ot-car); }
+.ot-logo i:nth-child(2) { background: var(--ot-gig); }
+.ot-logo i:nth-child(3) { background: var(--ot-food); }
+.ot-logo i:nth-child(4) { background: var(--ot-line-strong); }
+.ot-appicon { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; background: var(--ot-accent-soft); color: var(--ot-accent); flex: none; }
+.ot-appicon .ot-icon { width: 17px; height: 17px; }
+
+/* nav: phone = bottom tab bar */
+.ot-nav {
+  grid-area: nav; z-index: 3;
+  display: flex; align-items: flex-end; justify-content: space-around;
+  padding: 8px max(6px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(6px, env(safe-area-inset-left, 0px));
+  background: var(--ot-bar); border-top: 1px solid var(--ot-line);
+  backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px);
+}
+.ot-nav__brand, .ot-nav__label, .ot-nav__apps, .ot-nav__item--wide, .ot-nav__spacer { display: none; }
+.ot-nav__item {
+  flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 2px 0; color: var(--ot-mut); text-decoration: none;
+  font: 800 10.5px/1 var(--ot-font); white-space: nowrap;
+}
+.ot-nav__pill { display: grid; place-items: center; width: 52px; height: 30px; border-radius: var(--ot-r-pill); transition: background .15s ease; }
+.ot-nav__item.is-active { color: var(--ot-accent-ink); }
+.ot-nav__item.is-active .ot-nav__pill { background: var(--ot-accent-soft); color: var(--ot-accent); }
+.ot-nav__item:focus-visible { outline: none; }
+.ot-nav__item:focus-visible .ot-nav__pill { box-shadow: var(--ot-focus); }
+.ot-nav__add { flex: 1; display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--ot-ink); }
+.ot-nav__add .ot-fab { margin-top: -28px; }
+.ot-nav__add span:not(.ot-fab) { display: none; }
+
+/* tablet = icon rail on the left */
+@container ot-shell (min-width: 640px) {
+  .ot-layout { grid-template-columns: var(--ot-nav-rail) 1fr; grid-template-rows: 1fr; grid-template-areas: "nav main"; }
+  .ot-nav {
+    flex-direction: column; justify-content: flex-start; align-items: center; gap: 14px;
+    padding: calc(env(safe-area-inset-top, 0px) + 18px) 0 calc(18px + env(safe-area-inset-bottom, 0px)) env(safe-area-inset-left, 0px);
+    border-top: 0; border-right: 1px solid var(--ot-line); overflow: auto;
+  }
+  .ot-nav__brand { display: flex; margin-bottom: 6px; }
+  .ot-nav__brand span { display: none; }
+  .ot-nav__item { flex: none; width: 100%; }
+  .ot-nav__item--wide { display: flex; }
+  .ot-nav__add { order: -1; flex: none; margin-bottom: 6px; }
+  .ot-nav__add .ot-fab { margin: 0; width: 52px; height: 52px; border-radius: 18px; }
+  .ot-nav__brand { order: -2; }
+  .ot-nav__spacer { display: block; flex: 1; }
+}
+
+/* desktop = full sidebar with app switcher */
+@container ot-shell (min-width: 1024px) {
+  .ot-layout { grid-template-columns: var(--ot-nav-side) 1fr; }
+  .ot-nav { align-items: stretch; gap: 2px; padding: 20px 14px; }
+  .ot-nav__brand { padding: 0 10px 16px; margin: 0; }
+  .ot-nav__brand span { display: inline; }
+  .ot-nav__apps { display: flex; flex-direction: column; gap: 2px; order: -1; }
+  .ot-nav__label { display: block; padding: 14px 12px 6px; font: 800 var(--ot-t-xs)/1 var(--ot-font); color: var(--ot-mut); order: -1; }
+  .ot-nav__item { flex-direction: row; gap: 12px; padding: 9px 12px; border-radius: var(--ot-r-md); font-size: var(--ot-t-md); color: var(--ot-ink-2); }
+  .ot-nav__item:hover { background: var(--ot-surface-2); }
+  .ot-nav__pill { width: auto; height: auto; background: none !important; }
+  .ot-nav__pill .ot-icon { width: 20px; height: 20px; }
+  .ot-nav__item.is-active { background: var(--ot-accent-soft); color: var(--ot-accent-ink); }
+  .ot-nav__add { order: -1; flex-direction: row; margin: 6px 0 8px; }
+  .ot-nav__add .ot-fab { display: none; }
+  .ot-nav__add span:not(.ot-fab) { display: flex; }
+  .ot-header { padding-top: 22px; padding-left: 28px; padding-right: 28px; }
+  .ot-content { padding-left: 28px; padding-right: 28px; }
+}
+.ot-nav__app { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: var(--ot-r-md); color: var(--ot-ink-2); text-decoration: none; font-weight: 700; }
+.ot-nav__app:hover { background: var(--ot-surface-2); }
+.ot-nav__app.is-current { font-weight: 900; color: var(--ot-ink); }
+.ot-nav__app .ot-appicon { width: 26px; height: 26px; border-radius: 8px; }
+.ot-nav__app.is-current .ot-appicon { background: var(--ot-accent); color: var(--ot-on-accent); }
+
+/* responsive content grid: 1 → 2 → 3 columns by shell width */
+.ot-grid { display: grid; gap: var(--ot-s-4); grid-template-columns: 1fr; align-items: start; }
+@container ot-shell (min-width: 640px) { .ot-grid { grid-template-columns: 1fr 1fr; } }
+@container ot-shell (min-width: 1180px) { .ot-grid { grid-template-columns: repeat(3, 1fr); } .ot-span-2 { grid-column: span 2; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ot-btn, .ot-tile, .ot-switch, .ot-switch::after, .ot-nav__pill { transition: none; }
+}

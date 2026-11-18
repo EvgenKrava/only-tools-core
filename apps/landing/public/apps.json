@@ -1,0 +1,11 @@
+[
+  { "id": "carlog", "accent": "car", "icon": "car", "name": "CarLog",
+    "desc": "A digital service book for your cars: mileage, repairs, reminders.",
+    "url": "https://carlog.onlytools.click", "status": "live" },
+  { "id": "gighunter", "accent": "gig", "icon": "gig", "name": "GigHunter",
+    "desc": "A freelance gig radar with Telegram alerts.",
+    "url": "https://gighunter.onlytools.click", "status": "invite" },
+  { "id": "foodlog", "accent": "food", "icon": "food", "name": "FoodLog",
+    "desc": "A calorie and macro tracker that stays out of your way.",
+    "url": "https://foodlog.onlytools.click", "status": "soon" }
+]
