@@ -6,7 +6,7 @@ const T = {
     'foot.blog': 'Blog', 'foot.terms': 'Terms of service', 'foot.privacy': 'Privacy policy', 'foot.refunds': 'Refund policy', 'foot.contacts': 'Contacts', more: 'About {app}',
     'meta.title': 'Only Tools',
     'meta.desc': 'Small, simple tools for everyday life: CarLog, GigHunter, FoodLog. One account for all of them.',
-    'nav.apps': 'Apps', 'nav.account': 'Account',
+    'nav.home': 'Home', 'nav.apps': 'Apps', 'nav.support': 'Support', 'nav.account': 'Account',
     'hero.title': 'Small tools that do one thing well',
     'hero.text': "Simple apps for everyday life. Add them to your phone's home screen and they open like native apps.",
     'status.invite': 'Invite only', 'status.soon': 'Coming soon',
@@ -22,7 +22,7 @@ const T = {
     'foot.blog': 'Блог', 'foot.terms': 'Умови використання', 'foot.privacy': 'Політика конфіденційності', 'foot.refunds': 'Повернення коштів', 'foot.contacts': 'Контакти', more: 'Про {app}',
     'meta.title': 'Only Tools',
     'meta.desc': 'Маленькі прості інструменти для щоденного життя: CarLog, GigHunter, FoodLog. Один акаунт для всіх.',
-    'nav.apps': 'Застосунки', 'nav.account': 'Акаунт',
+    'nav.home': 'Головна', 'nav.apps': 'Застосунки', 'nav.support': 'Підтримати', 'nav.account': 'Акаунт',
     'hero.title': 'Маленькі інструменти, що добре роблять одну справу',
     'hero.text': 'Прості застосунки для щоденного життя. Додайте їх на головний екран телефона, і вони відкриватимуться як звичайні застосунки.',
     'status.invite': 'За запрошенням', 'status.soon': 'Незабаром',
@@ -38,7 +38,7 @@ const T = {
     'foot.blog': 'Блог', 'foot.terms': 'Условия использования', 'foot.privacy': 'Политика конфиденциальности', 'foot.refunds': 'Возврат средств', 'foot.contacts': 'Контакты', more: 'О {app}',
     'meta.title': 'Only Tools',
     'meta.desc': 'Маленькие простые инструменты для повседневной жизни: CarLog, GigHunter, FoodLog. Один аккаунт для всех.',
-    'nav.apps': 'Приложения', 'nav.account': 'Аккаунт',
+    'nav.home': 'Главная', 'nav.apps': 'Приложения', 'nav.support': 'Поддержать', 'nav.account': 'Аккаунт',
     'hero.title': 'Маленькие инструменты, которые хорошо делают одно дело',
     'hero.text': 'Простые приложения для повседневной жизни. Добавьте их на главный экран телефона, и они будут открываться как обычные приложения.',
     'status.invite': 'По приглашению', 'status.soon': 'Скоро',
@@ -73,6 +73,8 @@ function render() {
   document.title = t('meta.title')
   document.querySelector('meta[name="description"]').content = t('meta.desc')
   document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t(el.dataset.t) })
+  // App links in the shared nav go to the app pages in the chosen language.
+  document.querySelectorAll('.ot-nav__app').forEach((a) => { a.href = `${lang === 'en' ? '' : `/${lang}`}/${a.dataset.id}` })
 
   $('lang').innerHTML = LANGS.map((l) =>
     `<button lang="${l.code}" title="${l.name}" aria-pressed="${l.code === lang}" data-lang="${l.code}">${l.label}</button>`).join('')
@@ -133,10 +135,6 @@ $('lang').addEventListener('click', (e) => {
   setLang(code)
   render()
 })
-
-$('nav-apps').insertAdjacentHTML('beforeend', apps.map((a) =>
-  `<a class="ot-nav__app" data-app="${a.accent}" href="${a.status === 'soon' ? '#' : esc(a.url)}">
-    <span class="ot-appicon">${icon(a.icon)}</span>${esc(a.name)}</a>`).join(''))
 
 render()
 

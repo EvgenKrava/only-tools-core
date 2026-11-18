@@ -10,6 +10,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { siteNav, withSiteNav } from './site-nav.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const CONTENT = join(ROOT, 'apps/landing/content')
@@ -35,6 +36,7 @@ const UI = {
   ru: { apps: 'Приложения', blog: 'Блог', legal: 'Документы', terms: 'Условия использования', privacy: 'Политика конфиденциальности', refunds: 'Возврат средств', contacts: 'Контакты', home: 'Only Tools', language: 'Язык' },
 }
 const LANG_LABEL = { en: 'EN', uk: 'UA', ru: 'RU' }
+const APP_PAGES = ['carlog', 'foodlog', 'gighunter']
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
 
@@ -143,21 +145,31 @@ function page({ lang, path, meta, body, alternates }) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap">
   <link rel="stylesheet" href="/only-tools.css">
+  <link rel="stylesheet" href="/landing.css">
   <link rel="stylesheet" href="/pages.css">
 </head>
 <body class="ot-root page page--${esc(meta.kind || 'page')}">
-  <header class="page-top">
-    <a class="ot-brand" href="${home}"><span class="ot-logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Only Tools</a>
-    <nav class="ot-segment page-lang" aria-label="${esc(ui.language)}">${switcher}</nav>
-  </header>
-  <main class="page-body">
-${render(fill(body, lang), lang)}  </main>
-  <footer class="page-foot">
-    <nav aria-label="${esc(ui.apps)}"><b>${esc(ui.apps)}</b>${link('carlog', 'CarLog')}${link('foodlog', 'FoodLog')}${link('gighunter', 'GigHunter')}</nav>
-    <nav aria-label="${esc(ui.blog)}"><b>${esc(ui.blog)}</b>${link('blog/car-service-history', 'CarLog')}${link('blog/calorie-counting-ukrainian-products', 'FoodLog')}${link('blog/freelance-job-alerts-telegram', 'GigHunter')}</nav>
-    <nav aria-label="${esc(ui.legal)}"><b>${esc(ui.legal)}</b>${link('terms', ui.terms)}${link('privacy', ui.privacy)}${link('refunds', ui.refunds)}${link('contacts', ui.contacts)}</nav>
-    <p class="ot-caption">© ${new Date().getFullYear()} Only Tools · onlytools.click</p>
-  </footer>
+<div class="ot-shell">
+  <div class="ot-layout">
+    ${siteNav(lang, APP_PAGES.includes(path) ? path : null)}
+    <main class="ot-main">
+      <header class="ot-header">
+        <a class="ot-brand" href="${home}"><span class="ot-logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Only Tools</a>
+        <div class="top-actions"><nav class="ot-segment page-lang" aria-label="${esc(ui.language)}">${switcher}</nav></div>
+      </header>
+      <div class="ot-content">
+        <article class="page-body">
+${render(fill(body, lang), lang)}        </article>
+        <footer class="page-foot">
+          <nav aria-label="${esc(ui.apps)}"><b>${esc(ui.apps)}</b>${link('carlog', 'CarLog')}${link('foodlog', 'FoodLog')}${link('gighunter', 'GigHunter')}</nav>
+          <nav aria-label="${esc(ui.blog)}"><b>${esc(ui.blog)}</b>${link('blog/car-service-history', 'CarLog')}${link('blog/calorie-counting-ukrainian-products', 'FoodLog')}${link('blog/freelance-job-alerts-telegram', 'GigHunter')}</nav>
+          <nav aria-label="${esc(ui.legal)}"><b>${esc(ui.legal)}</b>${link('terms', ui.terms)}${link('privacy', ui.privacy)}${link('refunds', ui.refunds)}${link('contacts', ui.contacts)}</nav>
+          <p class="ot-caption">© ${new Date().getFullYear()} Only Tools · onlytools.click</p>
+        </footer>
+      </div>
+    </main>
+  </div>
+</div>
   <script>
     // Remember the language picked here for every Only Tools app (same cookie the apps read).
     document.querySelectorAll('[data-lang]').forEach(function (a) {
@@ -180,6 +192,12 @@ for (const lang of LANGS) {
     if (!pages.has(path)) pages.set(path, {})
     pages.get(path)[lang] = parse(file)
   }
+}
+
+// The hand-written home page and /plus/ get the same shared nav as the generated pages.
+for (const [file, active] of [['index.html', 'home'], [join('plus', 'index.html'), 'plus']]) {
+  const f = join(OUT, file)
+  if (existsSync(f)) writeFileSync(f, withSiteNav(readFileSync(f, 'utf8'), active))
 }
 
 const sitemap = [`  <url><loc>${SITE}/</loc><lastmod>${LASTMOD}</lastmod></url>`]

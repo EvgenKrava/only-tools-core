@@ -15,3 +15,5 @@ body { overflow: hidden; }
 .ot-tile__stat { display: flex; align-items: center; gap: var(--ot-s-2); flex-wrap: wrap; }
 .top-actions { display: flex; align-items: center; gap: var(--ot-s-2); margin-left: auto; }
 .top-actions .ot-segment button { padding: 7px 10px; }
+/* shared site nav (scripts/site-nav.mjs): Home, the app list, Plus, Support, Account — same order on every page */
+.ot-nav__apps { order: 0; }

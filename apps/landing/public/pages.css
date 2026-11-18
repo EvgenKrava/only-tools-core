@@ -1,26 +1,20 @@
-/* Public content pages (app pages, blog, legal) built by scripts/build-pages.mjs. */
-html, body { margin: 0; }
-.page { min-height: 100vh; display: flex; flex-direction: column; }
-.page-top {
-  display: flex; align-items: center; justify-content: space-between; gap: var(--ot-s-3);
-  max-width: 880px; width: 100%; box-sizing: border-box; margin: 0 auto;
-  padding: calc(env(safe-area-inset-top, 0px) + 14px) 16px 14px;
-}
-.page-lang a { display: inline-block; text-decoration: none; color: var(--ot-mut); font: 800 var(--ot-t-sm)/1 var(--ot-font); padding: 8px 11px; border-radius: var(--ot-r-pill); }
+/* Public content pages (app pages, blog, legal) built by scripts/build-pages.mjs. They use the
+   same shell as the home page (only-tools.css + landing.css); this file styles the article. */
+.page-lang a { display: inline-block; text-decoration: none; color: var(--ot-mut); font: 800 var(--ot-t-sm)/1 var(--ot-font); padding: 7px 10px; border-radius: var(--ot-r-pill); }
 .page-lang a[aria-current] { background: var(--ot-surface); color: var(--ot-ink); box-shadow: var(--ot-shadow-sm); }
 .page-body {
-  flex: 1; max-width: 760px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 8px 16px 48px;
+  max-width: 760px; width: 100%; box-sizing: border-box;
   display: flex; flex-direction: column; gap: var(--ot-s-3); color: var(--ot-ink-2); font-weight: 600; line-height: 1.6;
 }
 .page-body p { margin: 0; }
 .page-body a:not(.ot-btn) { color: var(--ot-accent-ink); }
-.page-body .ot-h1 { color: var(--ot-ink); margin-top: var(--ot-s-3); }
+.page-body .ot-h1 { color: var(--ot-ink); margin-top: var(--ot-s-2); }
 .page-body .ot-h2 { color: var(--ot-ink); margin-top: var(--ot-s-4); }
 .page-body .ot-h3 { color: var(--ot-ink); margin-top: var(--ot-s-2); }
 .page-body .list, .page-body .steps { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 6px; }
 
 /* app pages: the first heading and its paragraph are the hero */
-.page--app .ot-h1 { font-size: clamp(2rem, 6vw, 3rem); margin-top: var(--ot-s-4); }
+.page--app .ot-h1 { font-size: clamp(2rem, 6vw, 3rem); }
 .page--app .ot-h1 + p { font-size: 1.15rem; color: var(--ot-ink-2); }
 .cta { display: flex; flex-wrap: wrap; gap: var(--ot-s-2); margin: var(--ot-s-2) 0 !important; }
 .cta .ot-btn { text-decoration: none; }
@@ -36,8 +30,8 @@ html, body { margin: 0; }
 .page--post .steps, .page--legal .steps { list-style: decimal; padding-left: 1.4em !important; }
 
 .page-foot {
-  max-width: 880px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 24px 16px calc(env(safe-area-inset-bottom, 0px) + 24px);
-  display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); border-top: 1px solid var(--ot-line);
+  max-width: 760px; padding-top: var(--ot-s-4); margin-top: var(--ot-s-4);
+  display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); border-top: 1px solid var(--ot-line);
 }
 .page-foot nav { display: flex; flex-direction: column; gap: 6px; font-size: var(--ot-t-sm); }
 .page-foot nav b { color: var(--ot-ink); }

@@ -31,7 +31,7 @@ Write to {{email}} from the email of your Only Tools account. Include the date a
 
 ## How the money comes back
 
-Refunds go to the same bank card through monobank, in Ukrainian hryvnia. We start the refund within 3 working days of approving it; your bank may take up to 30 days to show it on your account.
+Refunds go to the same bank card through monobank, in the currency of the payment (UAH or USD). We start the refund within 3 working days of approving it; your bank may take up to 30 days to show it on your account.
 
 ## Contacts
 

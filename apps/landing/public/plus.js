@@ -6,7 +6,7 @@ import { LANGS, getLang, setLang } from '/i18n.js'
 const T = {
   en: {
     'meta.desc': 'Only Tools Plus: higher limits in every Only Tools app. Monthly, yearly or once for life. Or support the author with any amount.',
-    'nav.apps': 'Apps', 'nav.support': 'Support', 'nav.account': 'Account', loading: 'Loading…', signIn: 'Sign in',
+    'nav.home': 'Home', 'nav.apps': 'Apps', 'nav.support': 'Support', 'nav.account': 'Account', loading: 'Loading…', signIn: 'Sign in',
     'hero.title': 'Only Tools Plus',
     'hero.text': 'Every app stays free to use. Plus lifts the daily limits in all Only Tools apps at once and keeps the project going.',
     'plans.title': 'Plans',
@@ -40,7 +40,7 @@ const T = {
   },
   uk: {
     'meta.desc': 'Only Tools Plus: вищі ліміти в усіх застосунках Only Tools. Щомісяця, щороку або раз назавжди. Або підтримайте автора будь-якою сумою.',
-    'nav.apps': 'Застосунки', 'nav.support': 'Підтримати', 'nav.account': 'Акаунт', loading: 'Завантаження…', signIn: 'Увійти',
+    'nav.home': 'Головна', 'nav.apps': 'Застосунки', 'nav.support': 'Підтримати', 'nav.account': 'Акаунт', loading: 'Завантаження…', signIn: 'Увійти',
     'hero.title': 'Only Tools Plus',
     'hero.text': 'Усі застосунки лишаються безкоштовними. Plus знімає денні ліміти одразу в усіх застосунках Only Tools і допомагає проєкту жити.',
     'plans.title': 'Тарифи',
@@ -74,7 +74,7 @@ const T = {
   },
   ru: {
     'meta.desc': 'Only Tools Plus: больше лимитов во всех приложениях Only Tools. Ежемесячно, ежегодно или один раз навсегда. Или поддержите автора любой суммой.',
-    'nav.apps': 'Приложения', 'nav.support': 'Поддержать', 'nav.account': 'Аккаунт', loading: 'Загрузка…', signIn: 'Войти',
+    'nav.home': 'Главная', 'nav.apps': 'Приложения', 'nav.support': 'Поддержать', 'nav.account': 'Аккаунт', loading: 'Загрузка…', signIn: 'Войти',
     'hero.title': 'Only Tools Plus',
     'hero.text': 'Все приложения остаются бесплатными. Plus снимает дневные лимиты сразу во всех приложениях Only Tools и помогает проекту жить.',
     'plans.title': 'Тарифы',
@@ -155,6 +155,8 @@ function render() {
   document.documentElement.lang = lang
   document.querySelector('meta[name="description"]').content = t('meta.desc')
   document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t(el.dataset.t) })
+  // App links in the shared nav go to the app pages in the chosen language.
+  document.querySelectorAll('.ot-nav__app').forEach((a) => { a.href = `${lang === 'en' ? '' : `/${lang}`}/${a.dataset.id}` })
   $('lang').innerHTML = LANGS.map((l) =>
     `<button lang="${l.code}" title="${l.name}" aria-pressed="${l.code === lang}" data-lang="${l.code}">${l.label}</button>`).join('')
   $('who').innerHTML = user
