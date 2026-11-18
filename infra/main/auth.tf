@@ -149,7 +149,9 @@ resource "aws_route53_record" "auth" {
 # ---- app clients: core (landing + admin) and one per app that has moved to the shared sign-in ----
 locals {
   app_clients = {
-    gighunter = { url = "https://gighunter.${var.domain_name}", callback_path = "/login" }
+    gighunter = { urls = ["https://gighunter.${var.domain_name}"], callback_path = "/login" }
+    # carlog-next is the Terraform rebuild running beside the old CDK stack until the switch.
+    carlog = { urls = ["https://carlog.${var.domain_name}", "https://carlog-next.${var.domain_name}"], callback_path = "/callback" }
   }
 }
 
@@ -162,8 +164,8 @@ resource "aws_cognito_user_pool_client" "app" {
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code"]
   allowed_oauth_scopes                 = ["openid", "email", "profile"]
-  callback_urls                        = concat(["${each.value.url}${each.value.callback_path}"], [for o in var.dev_origins : "${o}${each.value.callback_path}"])
-  logout_urls                          = concat(["${each.value.url}/", "https://${var.domain_name}/"], [for o in var.dev_origins : "${o}/"])
+  callback_urls                        = [for o in concat(each.value.urls, var.dev_origins) : "${o}${each.value.callback_path}"]
+  logout_urls                          = concat([for o in each.value.urls : "${o}/"], ["https://${var.domain_name}/"], [for o in var.dev_origins : "${o}/"])
   explicit_auth_flows                  = ["ALLOW_REFRESH_TOKEN_AUTH"]
   prevent_user_existence_errors        = "ENABLED"
   enable_token_revocation              = true
