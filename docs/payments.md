@@ -14,8 +14,19 @@ Code: `apps/billing` (Lambda), `apps/landing/public/plus/` (pricing, my subscrip
 | CarLog receipt scans | 5 a month | 100 a month |
 
 The numbers live in `apps/billing/limits.json` and are published to SSM `/onlytools/plans/limits`
-(String, JSON) on `terraform apply`. Prices are in `apps/billing/src/plans.ts` (kopecks):
-Plus 99 UAH a month, 790 UAH a year, founding lifetime 1990 UAH for the first 100 buyers.
+(String, JSON) on `terraform apply`. Prices are in `apps/billing/src/plans.ts` (minor units):
+
+| | Ukraine (UAH) | Everyone else (USD) |
+|---|---|---|
+| Monthly | 99 UAH | $2.99 |
+| Yearly | 790 UAH | $24 |
+| Founding lifetime (first 100 buyers) | 1990 UAH | $49 |
+| Donation range | 20 to 50 000 UAH | $1 to $1000 |
+
+The page picks hryvnia when the browser's time zone is Kyiv or the site language is Ukrainian, dollars
+otherwise; the visitor can switch, and the choice is remembered in the browser. A subscription renews
+in the currency it was bought in. USD invoices use `ccy: 840`; the test token accepts them, production
+needs monobank to enable USD for the terminal (and decide where the dollars settle).
 
 ## How it works
 

@@ -53,7 +53,10 @@
         <section id="mine" class="block" hidden></section>
 
         <section class="block" aria-labelledby="plans-title">
-          <h2 class="ot-h3" id="plans-title" data-t="plans.title">Plans</h2>
+          <div class="inline" style="justify-content:space-between">
+            <h2 class="ot-h3" id="plans-title" data-t="plans.title">Plans</h2>
+            <div class="ot-segment" id="currency" role="group" aria-label="Currency"></div>
+          </div>
           <div class="plans" id="plans"><p class="ot-text" data-t="loading">Loading…</p></div>
           <p class="ot-caption" id="plans-note"></p>
         </section>
@@ -69,7 +72,7 @@
           <form id="donate" class="stack" novalidate>
             <div class="ot-segment amounts" id="amounts" role="group"></div>
             <label class="ot-field"><span class="ot-label" data-t="support.amount">Amount, UAH</span>
-              <input class="ot-input" id="d-amount" type="number" inputmode="numeric" min="20" max="50000" step="1" value="100" required></label>
+              <input class="ot-input" id="d-amount" type="number" inputmode="numeric" min="1" max="50000" step="1" value="100" required></label>
             <label class="ot-field"><span class="ot-label" data-t="support.name">Your name (optional)</span>
               <input class="ot-input" id="d-name" maxlength="60" autocomplete="nickname"></label>
             <label class="ot-field"><span class="ot-label" data-t="support.note">A few words (optional)</span>

@@ -12,10 +12,10 @@ const T = {
     'plans.title': 'Plans',
     'plan.monthly': 'Monthly', 'plan.yearly': 'Yearly', 'plan.lifetime': 'Founding, for life',
     'per.monthly': '/ month', 'per.yearly': '/ year', 'per.lifetime': 'once',
-    'plan.yearlyHint': '{m} a month, two months free', 'plan.monthlyHint': 'Cancel any time',
+    'plan.yearlyHint': '{m} a month, about two months free', 'plan.monthlyHint': 'Cancel any time',
     'plan.lifetimeHint': 'Pay once, Plus forever. {n} of 100 left.', 'plan.soldOut': 'Sold out',
     'plan.cta': 'Get Plus', 'plan.ctaSignIn': 'Sign in to get Plus', 'plan.current': 'Your plan', 'plan.best': 'Best value',
-    'plans.note': 'Monthly and yearly plans renew automatically from the same card until you cancel. Prices in UAH.',
+    'plans.note': 'Monthly and yearly plans renew automatically from the same card until you cancel. You can pay in hryvnia or dollars.',
     'cmp.title': 'Free and Plus', 'cmp.free': 'Free', 'cmp.plus': 'Plus', 'unlimited': 'Unlimited',
     'lim.foodlog.labelScansPerDay': 'AI label scans a day', 'lim.foodlog.historyDays': 'Diary history',
     'lim.carlog.cars': 'Cars', 'lim.carlog.ocrScansPerMonth': 'Receipt scans a month',
@@ -33,8 +33,8 @@ const T = {
     'thanks': 'Thank you for the support! It really helps.',
     'support.title': 'Support the author',
     'support.text': 'Only Tools is made by one person in Ukraine. If an app helps you, you can say thanks with any amount, no subscription.',
-    'support.amount': 'Amount, UAH', 'support.name': 'Your name (optional)', 'support.note': 'A few words (optional)',
-    'support.cta': 'Support', 'support.range': 'Enter an amount from {min} to {max} UAH.',
+    'support.amount': 'Amount, {cur}', 'support.name': 'Your name (optional)', 'support.note': 'A few words (optional)',
+    'support.cta': 'Support', 'support.range': 'Enter an amount from {min} to {max} {cur}.',
     'legal': 'Payments are processed by monobank (plata by mono); we never see your card number. By paying you accept the <a href="{terms}">terms</a> and <a href="{refunds}">refund policy</a>.',
     'err': 'Something went wrong. Please try again.',
   },
@@ -46,10 +46,10 @@ const T = {
     'plans.title': 'Тарифи',
     'plan.monthly': 'Щомісяця', 'plan.yearly': 'Щороку', 'plan.lifetime': 'Засновницький, назавжди',
     'per.monthly': '/ міс', 'per.yearly': '/ рік', 'per.lifetime': 'один раз',
-    'plan.yearlyHint': '{m} на місяць, два місяці безкоштовно', 'plan.monthlyHint': 'Скасувати можна будь-коли',
+    'plan.yearlyHint': '{m} на місяць, близько двох місяців безкоштовно', 'plan.monthlyHint': 'Скасувати можна будь-коли',
     'plan.lifetimeHint': 'Платите раз, Plus назавжди. Лишилось {n} зі 100.', 'plan.soldOut': 'Розпродано',
     'plan.cta': 'Отримати Plus', 'plan.ctaSignIn': 'Увійдіть, щоб отримати Plus', 'plan.current': 'Ваш тариф', 'plan.best': 'Найвигідніше',
-    'plans.note': 'Місячний і річний тарифи продовжуються автоматично з тієї ж картки, доки ви не скасуєте. Ціни в гривнях.',
+    'plans.note': 'Місячний і річний тарифи продовжуються автоматично з тієї ж картки, доки ви не скасуєте. Платити можна в гривнях або доларах.',
     'cmp.title': 'Безкоштовно і Plus', 'cmp.free': 'Безкоштовно', 'cmp.plus': 'Plus', 'unlimited': 'Без обмежень',
     'lim.foodlog.labelScansPerDay': 'AI-сканувань етикеток на день', 'lim.foodlog.historyDays': 'Історія щоденника',
     'lim.carlog.cars': 'Автомобілів', 'lim.carlog.ocrScansPerMonth': 'Сканувань чеків на місяць',
@@ -67,8 +67,8 @@ const T = {
     'thanks': 'Дякую за підтримку! Це справді допомагає.',
     'support.title': 'Підтримати автора',
     'support.text': 'Only Tools робить одна людина в Україні. Якщо застосунок вам допомагає, можна подякувати будь-якою сумою, без підписки.',
-    'support.amount': 'Сума, грн', 'support.name': 'Ваше ім’я (необов’язково)', 'support.note': 'Кілька слів (необов’язково)',
-    'support.cta': 'Підтримати', 'support.range': 'Введіть суму від {min} до {max} грн.',
+    'support.amount': 'Сума, {cur}', 'support.name': 'Ваше ім’я (необов’язково)', 'support.note': 'Кілька слів (необов’язково)',
+    'support.cta': 'Підтримати', 'support.range': 'Введіть суму від {min} до {max} {cur}.',
     'legal': 'Платежі обробляє monobank (plata by mono); ми не бачимо номера вашої картки. Оплачуючи, ви погоджуєтеся з <a href="{terms}">умовами</a> і <a href="{refunds}">правилами повернення</a>.',
     'err': 'Щось пішло не так. Спробуйте ще раз.',
   },
@@ -80,10 +80,10 @@ const T = {
     'plans.title': 'Тарифы',
     'plan.monthly': 'Ежемесячно', 'plan.yearly': 'Ежегодно', 'plan.lifetime': 'Основательский, навсегда',
     'per.monthly': '/ мес', 'per.yearly': '/ год', 'per.lifetime': 'один раз',
-    'plan.yearlyHint': '{m} в месяц, два месяца бесплатно', 'plan.monthlyHint': 'Отменить можно в любой момент',
+    'plan.yearlyHint': '{m} в месяц, около двух месяцев бесплатно', 'plan.monthlyHint': 'Отменить можно в любой момент',
     'plan.lifetimeHint': 'Платите один раз, Plus навсегда. Осталось {n} из 100.', 'plan.soldOut': 'Распродано',
     'plan.cta': 'Получить Plus', 'plan.ctaSignIn': 'Войдите, чтобы получить Plus', 'plan.current': 'Ваш тариф', 'plan.best': 'Выгоднее всего',
-    'plans.note': 'Месячный и годовой тарифы продлеваются автоматически с той же карты, пока вы не отмените. Цены в гривнах.',
+    'plans.note': 'Месячный и годовой тарифы продлеваются автоматически с той же карты, пока вы не отмените. Платить можно в гривнах или долларах.',
     'cmp.title': 'Бесплатно и Plus', 'cmp.free': 'Бесплатно', 'cmp.plus': 'Plus', 'unlimited': 'Без ограничений',
     'lim.foodlog.labelScansPerDay': 'AI-сканирований этикеток в день', 'lim.foodlog.historyDays': 'История дневника',
     'lim.carlog.cars': 'Автомобилей', 'lim.carlog.ocrScansPerMonth': 'Сканирований чеков в месяц',
@@ -101,21 +101,30 @@ const T = {
     'thanks': 'Спасибо за поддержку! Это правда помогает.',
     'support.title': 'Поддержать автора',
     'support.text': 'Only Tools делает один человек в Украине. Если приложение вам помогает, можно поблагодарить любой суммой, без подписки.',
-    'support.amount': 'Сумма, грн', 'support.name': 'Ваше имя (необязательно)', 'support.note': 'Пару слов (необязательно)',
-    'support.cta': 'Поддержать', 'support.range': 'Введите сумму от {min} до {max} грн.',
+    'support.amount': 'Сумма, {cur}', 'support.name': 'Ваше имя (необязательно)', 'support.note': 'Пару слов (необязательно)',
+    'support.cta': 'Поддержать', 'support.range': 'Введите сумму от {min} до {max} {cur}.',
     'legal': 'Платежи обрабатывает monobank (plata by mono); мы не видим номер вашей карты. Оплачивая, вы соглашаетесь с <a href="{terms}">условиями</a> и <a href="{refunds}">правилами возврата</a>.',
     'err': 'Что-то пошло не так. Попробуйте ещё раз.',
   },
 }
 const LOCALE = { en: 'en-GB', uk: 'uk-UA', ru: 'ru-UA' }
 const PREFIX = { en: '', uk: '/uk', ru: '/ru' }
-const PRESETS = [50, 100, 250, 500]
+const PRESETS = { UAH: [50, 100, 250, 500], USD: [3, 5, 10, 25] }
+const CUR_LABEL = { UAH: '₴ UAH', USD: '$ USD' }
+const CUR_UNIT = { en: { UAH: 'UAH', USD: 'USD' }, uk: { UAH: 'грн', USD: 'дол.' }, ru: { UAH: 'грн', USD: 'долл.' } }
 
 const $ = (id) => document.getElementById(id)
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
 let lang = getLang()
 const t = (k, vars = {}) => Object.entries(vars).reduce((s, [a, b]) => s.replaceAll(`{${a}}`, b), T[lang][k] ?? T.en[k] ?? k)
-const uah = (kop) => `${(kop / 100).toLocaleString(LOCALE[lang], { maximumFractionDigits: kop % 100 ? 2 : 0 })} ₴`
+// Hryvnia for Ukraine, dollars for everyone else; the visitor can switch, and the choice is remembered here.
+const saved = { get: (k) => { try { return localStorage.getItem(k) } catch { return null } }, set: (k, v) => { try { localStorage.setItem(k, v) } catch {} } }
+const KYIV_TZ = ['Europe/Kyiv', 'Europe/Kiev', 'Europe/Uzhgorod', 'Europe/Zaporozhye', 'Europe/Simferopol']
+const inUkraine = () => KYIV_TZ.includes(Intl.DateTimeFormat().resolvedOptions().timeZone) || getLang() === 'uk'
+let cur = ['UAH', 'USD'].includes(saved.get('ot.currency')) ? saved.get('ot.currency') : inUkraine() ? 'UAH' : 'USD'
+const money = (minor, c = cur) => c === 'USD'
+  ? `$${(minor / 100).toLocaleString('en-US', { minimumFractionDigits: minor % 100 ? 2 : 0, maximumFractionDigits: 2 })}`
+  : `${(minor / 100).toLocaleString(LOCALE[lang], { maximumFractionDigits: minor % 100 ? 2 : 0 })} ₴`
 const day = (iso) => new Date(iso).toLocaleDateString(LOCALE[lang], { day: 'numeric', month: 'long', year: 'numeric' })
 
 async function api(path, init = {}, auth = true) {
@@ -138,6 +147,8 @@ const [info, user] = await Promise.all([
   currentUser().catch(() => null),
 ])
 let mine = user ? await api('/me').catch(() => null) : null
+// A subscriber sees prices in the currency they pay in.
+if (mine?.plus && mine.subscription?.currency) cur = mine.subscription.currency
 let notice = null // { kind: 'good' | 'bad' | 'neutral', key }
 
 function render() {
@@ -168,7 +179,7 @@ function renderMine() {
   if (!mine.plus) text = t('mine.expired')
   else if (s.plan === 'lifetime') text = t('mine.lifetime')
   else if (s.status === 'past_due') text = t('mine.pastDue', { date: day(s.periodEnd), grace: day(new Date(Date.parse(s.periodEnd) + 7 * 86_400_000).toISOString()) })
-  else if (s.autoRenew) text = t('mine.renews', { date: day(s.periodEnd), amount: uah(info?.plans.find((p) => p.id === s.plan)?.amount ?? 0), card: esc(s.maskedPan ?? '…') })
+  else if (s.autoRenew) text = t('mine.renews', { date: day(s.periodEnd), amount: money(s.amount, s.currency), card: esc(s.maskedPan ?? '…') })
   else text = t('mine.ends', { date: day(s.periodEnd) })
   if (mine.plus && s.plan !== 'lifetime') {
     if (s.autoRenew) actions += `<button class="ot-btn ot-btn--sm ot-btn--outline" data-act="cancel">${t('mine.cancel')}</button>`
@@ -188,7 +199,8 @@ function renderPlans() {
   const blocked = current === 'lifetime' || (current && mine.subscription.autoRenew)
   $('plans').innerHTML = info.plans.map((p) => {
     const soldOut = p.id === 'lifetime' && info.lifetimeLeft <= 0
-    const hint = p.id === 'yearly' ? t('plan.yearlyHint', { m: uah(Math.round(p.amount / 12)) })
+    const amount = p.amount[cur]
+    const hint = p.id === 'yearly' ? t('plan.yearlyHint', { m: money(Math.round(amount / 12)) })
       : p.id === 'lifetime' ? (soldOut ? t('plan.soldOut') : t('plan.lifetimeHint', { n: info.lifetimeLeft }))
       : t('plan.monthlyHint')
     const isMine = current === p.id
@@ -197,12 +209,13 @@ function renderPlans() {
     return `<div class="ot-card plan${p.id === 'yearly' ? ' plan--best' : ''}" data-app="${p.id === 'lifetime' ? 'gig' : 'hub'}">
       <div class="inline" style="justify-content:space-between"><span class="ot-label">${t('plan.' + p.id)}</span>
         ${p.id === 'yearly' ? `<span class="ot-chip ot-chip--good">${t('plan.best')}</span>` : ''}</div>
-      <div class="ot-stat"><span class="ot-stat__value">${uah(p.amount)}</span><span class="ot-stat__unit">${t('per.' + p.id)}</span></div>
+      <div class="ot-stat"><span class="ot-stat__value">${money(amount)}</span><span class="ot-stat__unit">${t('per.' + p.id)}</span></div>
       <p class="ot-caption">${hint}</p>
       <button class="ot-btn ot-btn--block${p.id === 'yearly' ? '' : ' ot-btn--outline'}" data-plan="${p.id}"${disabled ? ' disabled' : ''}>${label}</button>
     </div>`
   }).join('')
   $('plans-note').textContent = t('plans.note')
+  $('currency').innerHTML = ['UAH', 'USD'].map((c) => `<button type="button" aria-pressed="${c === cur}" data-cur="${c}">${CUR_LABEL[c]}</button>`).join('')
 }
 
 function renderCompare() {
@@ -217,8 +230,11 @@ function renderCompare() {
 }
 
 function renderDonate() {
-  const cur = Number($('d-amount').value)
-  $('amounts').innerHTML = PRESETS.map((v) => `<button type="button" aria-pressed="${v === cur}" data-amount="${v}">${v} ₴</button>`).join('')
+  const v = Number($('d-amount').value)
+  const { min, max } = info?.donation?.[cur] ?? { min: 100, max: 100_000 }
+  Object.assign($('d-amount'), { min: min / 100, max: max / 100 })
+  document.querySelector('[data-t="support.amount"]').textContent = t('support.amount', { cur: CUR_UNIT[lang][cur] })
+  $('amounts').innerHTML = PRESETS[cur].map((a) => `<button type="button" aria-pressed="${a === v}" data-amount="${a}">${money(a * 100)}</button>`).join('')
 }
 
 $('lang').addEventListener('click', (e) => {
@@ -232,7 +248,7 @@ $('plans').addEventListener('click', async (e) => {
   if (!b) return
   if (!user) return signIn('/plus/')
   b.disabled = true
-  try { location.assign((await api('/checkout', { method: 'POST', body: JSON.stringify({ plan: b.dataset.plan }) })).pageUrl) }
+  try { location.assign((await api('/checkout', { method: 'POST', body: JSON.stringify({ plan: b.dataset.plan, currency: cur }) })).pageUrl) }
   catch (err) { b.disabled = false; if (err.message !== 'sign-in') alert(err.message) }
 })
 
@@ -245,6 +261,14 @@ $('mine').addEventListener('click', async (e) => {
   catch (err) { alert(err.message) }
 })
 
+$('currency').addEventListener('click', (e) => {
+  const c = e.target.closest('button')?.dataset.cur
+  if (!c || c === cur) return
+  cur = c; saved.set('ot.currency', c)
+  $('d-amount').value = PRESETS[c][1]
+  render()
+})
+
 $('amounts').addEventListener('click', (e) => {
   const v = e.target.closest('button')?.dataset.amount
   if (!v) return
@@ -255,13 +279,14 @@ $('d-amount').addEventListener('input', renderDonate)
 $('donate').addEventListener('submit', async (e) => {
   e.preventDefault()
   const amount = Number($('d-amount').value)
-  const min = (info?.donation.min ?? 2000) / 100, max = (info?.donation.max ?? 5_000_000) / 100
+  const lim = info?.donation?.[cur] ?? { min: 100, max: 100_000 }
+  const min = lim.min / 100, max = lim.max / 100
   const err = $('d-err')
-  if (!(amount >= min && amount <= max)) { err.hidden = false; err.textContent = t('support.range', { min, max }); return }
+  if (!(amount >= min && amount <= max)) { err.hidden = false; err.textContent = t('support.range', { min, max, cur: CUR_UNIT[lang][cur] }); return }
   err.hidden = true
   $('d-go').disabled = true
   try {
-    const r = await api('/donate', { method: 'POST', body: JSON.stringify({ amount, donor: $('d-name').value, note: $('d-note').value }) }, false)
+    const r = await api('/donate', { method: 'POST', body: JSON.stringify({ amount, currency: cur, donor: $('d-name').value, note: $('d-note').value }) }, false)
     location.assign(r.pageUrl)
   } catch (e2) { $('d-go').disabled = false; err.hidden = false; err.textContent = e2.message }
 })
@@ -285,6 +310,7 @@ async function watchOrder(id, isDonation) {
   render()
 }
 
+if (cur === 'USD') $('d-amount').value = PRESETS.USD[1]
 render()
 const orderId = params.get('order') || params.get('thanks')
 if (orderId && /^[\w-]{1,80}$/.test(orderId)) watchOrder(orderId, params.has('thanks'))

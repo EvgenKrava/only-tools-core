@@ -6,7 +6,7 @@
 import { DynamoDBClient, ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand, ScanCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb'
 import type { InvoiceStatus } from './mono'
-import type { PlanId } from './plans'
+import type { Currency, PlanId } from './plans'
 
 export type SubStatus = 'active' | 'past_due' | 'canceled' | 'expired'
 
@@ -15,6 +15,8 @@ export interface Subscription {
   username: string
   email?: string
   plan: PlanId
+  /** Currency renewals are charged in; UAH when missing (records before USD existed). */
+  currency?: Currency
   status: SubStatus
   /** Plus lasts until this time; null for lifetime. */
   periodEnd: string | null
@@ -34,6 +36,7 @@ export interface Order {
   id: string
   kind: OrderKind
   amount: number
+  currency?: Currency
   sub?: string
   username?: string
   email?: string
@@ -53,6 +56,7 @@ export interface Payment {
   orderId: string
   kind: OrderKind
   amount: number
+  currency?: Currency
   fee?: number
   plan?: PlanId
   sub?: string

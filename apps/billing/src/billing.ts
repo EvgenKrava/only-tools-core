@@ -4,8 +4,11 @@ import { randomUUID } from 'node:crypto'
 import type { InvoiceEvent, Mono } from './mono'
 import type { Order, Payment, Store, Subscription } from './store'
 import {
-  DONATION_MAX, DONATION_MIN, GRACE_DAYS, LIFETIME_CAP, LIMITS, PLANS, RETRY_AFTER_DAYS, addDays, addMonths, monthlyValue, type PlanId,
+  CCY, CURRENCIES, DONATION_LIMITS, GRACE_DAYS, LIFETIME_CAP, LIMITS, PLANS, PRICES, RETRY_AFTER_DAYS, addDays, addMonths,
+  monthlyValue, type Currency, type PlanId,
 } from './plans'
+
+const curOf = (x: { currency?: Currency } | undefined): Currency => x?.currency ?? 'UAH'
 
 export interface Groups {
   add(username: string): Promise<void>
@@ -55,10 +58,10 @@ export class Billing {
   async plans() {
     const sold = await this.d.store.lifetimeSold()
     return {
-      currency: 'UAH',
-      plans: Object.values(PLANS).map((p) => ({ id: p.id, amount: p.amount, months: p.months })),
+      currencies: CURRENCIES,
+      plans: Object.values(PLANS).map((p) => ({ id: p.id, months: p.months, amount: { UAH: PRICES.UAH[p.id], USD: PRICES.USD[p.id] } })),
       lifetimeLeft: Math.max(0, LIFETIME_CAP - sold),
-      donation: { min: DONATION_MIN, max: DONATION_MAX },
+      donation: DONATION_LIMITS,
       limits: LIMITS,
     }
   }
@@ -69,14 +72,14 @@ export class Billing {
     return {
       plus: hasPlus(s, now),
       subscription: s ? {
-        plan: s.plan, status: s.status, periodEnd: s.periodEnd, autoRenew: s.autoRenew,
+        plan: s.plan, currency: curOf(s), amount: PRICES[curOf(s)][s.plan], status: s.status, periodEnd: s.periodEnd, autoRenew: s.autoRenew,
         nextChargeAt: s.autoRenew ? s.nextChargeAt ?? null : null, maskedPan: s.maskedPan ?? null,
       } : null,
     }
   }
 
   /** Starts a payment page. Monthly and yearly save the card so the daily job can renew. */
-  async checkout(actor: Actor, plan: PlanId) {
+  async checkout(actor: Actor, plan: PlanId, currency: Currency = 'UAH') {
     const now = this.now()
     const current = await this.d.store.getSub(actor.sub)
     if (current?.plan === 'lifetime' && current.status !== 'expired') throw new BillingError(409, 'You already have Plus for life.')
@@ -85,14 +88,14 @@ export class Billing {
     if (plan === 'lifetime' && (await this.d.store.lifetimeSold()) >= LIFETIME_CAP)
       throw new BillingError(410, 'The founding lifetime offer is sold out.')
 
-    const p = PLANS[plan]
+    const amount = PRICES[currency][plan]
     const order: Order = {
-      id: `plus_${randomUUID()}`, kind: 'plus', amount: p.amount, sub: actor.sub, username: actor.username, email: actor.email,
+      id: `plus_${randomUUID()}`, kind: 'plus', amount, currency, sub: actor.sub, username: actor.username, email: actor.email,
       plan, status: 'created', createdAt: now.toISOString(),
     }
     await this.d.store.putOrder(order)
     const inv = await this.d.mono.createInvoice({
-      amount: p.amount, reference: order.id, destination: DESTINATION[plan],
+      amount, ccy: CCY[currency], reference: order.id, destination: DESTINATION[plan],
       redirectUrl: `${this.d.siteUrl}/plus/?order=${order.id}`, webHookUrl: this.webhook,
       walletId: plan === 'lifetime' ? undefined : actor.sub,
     })
@@ -100,18 +103,20 @@ export class Billing {
     return { orderId: order.id, pageUrl: inv.pageUrl }
   }
 
-  async donate(input: { amount: unknown; donor?: unknown; note?: unknown }, actor?: Actor) {
+  async donate(input: { amount: unknown; currency?: unknown; donor?: unknown; note?: unknown }, actor?: Actor) {
+    const currency: Currency = input.currency === 'USD' ? 'USD' : 'UAH'
+    const { min, max } = DONATION_LIMITS[currency]
     const amount = Math.round(Number(input.amount) * 100)
-    if (!Number.isFinite(amount) || amount < DONATION_MIN || amount > DONATION_MAX)
-      throw new BillingError(400, `Amount must be between ${DONATION_MIN / 100} and ${DONATION_MAX / 100} UAH.`)
+    if (!Number.isFinite(amount) || amount < min || amount > max)
+      throw new BillingError(400, `Amount must be between ${min / 100} and ${max / 100} ${currency}.`)
     const clean = (v: unknown, n: number) => (typeof v === 'string' ? v.replace(/[\u0000-\u001f]/g, '').trim().slice(0, n) : '') || undefined
     const order: Order = {
-      id: `don_${randomUUID()}`, kind: 'donation', amount, sub: actor?.sub, email: actor?.email,
+      id: `don_${randomUUID()}`, kind: 'donation', amount, currency, sub: actor?.sub, email: actor?.email,
       donor: clean(input.donor, 60), note: clean(input.note, 280), status: 'created', createdAt: this.now().toISOString(),
     }
     await this.d.store.putOrder(order)
     const inv = await this.d.mono.createInvoice({
-      amount, reference: order.id, destination: 'Добровільна підтримка Only Tools',
+      amount, ccy: CCY[currency], reference: order.id, destination: 'Добровільна підтримка Only Tools',
       redirectUrl: `${this.d.siteUrl}/plus/?thanks=${order.id}#support`, webHookUrl: this.webhook,
     })
     await this.d.store.putOrder({ ...order, invoiceId: inv.invoiceId })
@@ -142,7 +147,9 @@ export class Billing {
     const newer = await this.d.store.setOrderStatus(id, ev.status, modified, ev.invoiceId)
 
     if (ev.status === 'success') {
-      if (ev.amount !== order.amount) { this.log('amount mismatch', { id, got: ev.amount, want: order.amount }); return }
+      if (ev.amount !== order.amount || (ev.ccy !== undefined && ev.ccy !== CCY[curOf(order)])) {
+        this.log('amount mismatch', { id, got: ev.amount, ccy: ev.ccy, want: order.amount, currency: curOf(order) }); return
+      }
       await this.applyPaid(order, ev)
     } else if (newer && ev.status === 'failure' && order.kind === 'renewal') {
       await this.renewalFailed(order, ev.failureReason)
@@ -162,7 +169,7 @@ export class Billing {
     if (!(await this.d.store.claimApply(order.id))) return
     const now = this.now()
     const payment: Payment = {
-      at: now.toISOString(), orderId: order.id, kind: order.kind, amount: ev.amount, fee: ev.paymentInfo?.fee,
+      at: now.toISOString(), orderId: order.id, kind: order.kind, amount: ev.amount, currency: curOf(order), fee: ev.paymentInfo?.fee,
       plan: order.plan, sub: order.sub, email: order.email, donor: order.donor, note: order.note,
     }
     await this.d.store.addPayment(payment)
@@ -187,7 +194,7 @@ export class Billing {
       const from = keepAnchor ? new Date(prev!.periodEnd!) : now
       const end = addMonths(from, PLANS[plan].months!)
       next = {
-        ...(prev ?? baseSub(order, now)), plan, status: 'active', periodEnd: end.toISOString(), autoRenew: true,
+        ...(prev ?? baseSub(order, now)), plan, currency: curOf(order), status: 'active', periodEnd: end.toISOString(), autoRenew: true,
         nextChargeAt: end.toISOString(), cardToken: card ?? null,
         maskedPan: ev.paymentInfo?.maskedPan ?? prev?.maskedPan ?? null, failedAttempts: 0, updatedAt: now.toISOString(),
       }
@@ -267,9 +274,10 @@ export class Billing {
 
   private async chargeRenewal(s: Subscription): Promise<boolean> {
     const now = this.now()
-    const plan = PLANS[s.plan]
+    const currency = curOf(s)
+    const amount = PRICES[currency][s.plan]
     const order: Order = {
-      id: `ren_${randomUUID()}`, kind: 'renewal', amount: plan.amount, sub: s.sub, username: s.username, email: s.email,
+      id: `ren_${randomUUID()}`, kind: 'renewal', amount, currency, sub: s.sub, username: s.username, email: s.email,
       plan: s.plan, status: 'created', createdAt: now.toISOString(),
     }
     await this.d.store.putOrder(order)
@@ -277,16 +285,16 @@ export class Billing {
     await this.d.store.putSub({ ...s, nextChargeAt: null, updatedAt: now.toISOString() })
     try {
       const r = await this.d.mono.chargeCard({
-        cardToken: s.cardToken!, amount: plan.amount, reference: order.id, destination: DESTINATION[s.plan],
+        cardToken: s.cardToken!, amount, ccy: CCY[currency], reference: order.id, destination: DESTINATION[s.plan],
         webHookUrl: this.webhook, redirectUrl: `${this.d.siteUrl}/plus/`,
       })
       if (r.invoiceId) await this.d.store.putOrder({ ...order, invoiceId: r.invoiceId })
       if (r.status === 'success') {
-        await this.onInvoice({ invoiceId: r.invoiceId, status: 'success', amount: plan.amount, reference: order.id, modifiedDate: now.toISOString() })
+        await this.onInvoice({ invoiceId: r.invoiceId, status: 'success', amount, reference: order.id, modifiedDate: now.toISOString() })
         return true
       }
       if (r.status === 'failure') {
-        await this.onInvoice({ invoiceId: r.invoiceId, status: 'failure', amount: plan.amount, reference: order.id, modifiedDate: now.toISOString(), failureReason: r.failureReason })
+        await this.onInvoice({ invoiceId: r.invoiceId, status: 'failure', amount, reference: order.id, modifiedDate: now.toISOString(), failureReason: r.failureReason })
         return false
       }
       return true // processing: the webhook finishes it
@@ -297,22 +305,17 @@ export class Billing {
     }
   }
 
-  /** Admin: subscribers and revenue (kopecks). */
+  /** Admin: subscribers and revenue, in minor units per currency. */
   async summary() {
     const now = this.now()
     const [subs, payments] = await Promise.all([this.d.store.listSubs(), this.d.store.listPayments()])
     const month = now.toISOString().slice(0, 7)
-    const sum = (ps: Payment[]) => ps.reduce((a, p) => a + p.amount, 0)
     const live = subs.filter((s) => hasPlus(s, now))
-    const byMonth = new Map<string, { plus: number; donations: number }>()
-    for (const p of payments) {
-      const m = p.at.slice(0, 7)
-      const row = byMonth.get(m) ?? { plus: 0, donations: 0 }
-      p.kind === 'donation' ? (row.donations += p.amount) : (row.plus += p.amount)
-      byMonth.set(m, row)
-    }
+    const perCur = <T>(f: (c: Currency) => T) => Object.fromEntries(CURRENCIES.map((c) => [c, f(c)])) as Record<Currency, T>
+    const sum = (ps: Payment[], c: Currency) => ps.filter((p) => curOf(p) === c).reduce((a, p) => a + p.amount, 0)
+    const months = [...new Set(payments.map((p) => p.at.slice(0, 7)))].sort().slice(-12)
     return {
-      currency: 'UAH',
+      currencies: CURRENCIES,
       counts: {
         plus: live.length,
         monthly: live.filter((s) => s.plan === 'monthly').length,
@@ -321,26 +324,29 @@ export class Billing {
         canceling: live.filter((s) => s.status === 'canceled').length,
         pastDue: live.filter((s) => s.status === 'past_due').length,
       },
-      mrr: live.filter((s) => s.autoRenew).reduce((a, s) => a + monthlyValue(s.plan), 0),
-      revenue: {
-        thisMonth: sum(payments.filter((p) => p.at.startsWith(month))),
-        total: sum(payments),
-        plusTotal: sum(payments.filter((p) => p.kind !== 'donation')),
-        donationsTotal: sum(payments.filter((p) => p.kind === 'donation')),
-        fees: payments.reduce((a, p) => a + (p.fee ?? 0), 0),
-      },
-      months: [...byMonth.entries()].sort(([a], [b]) => a.localeCompare(b)).slice(-12).map(([m, v]) => ({ month: m, ...v })),
+      mrr: perCur((c) => live.filter((s) => s.autoRenew && curOf(s) === c).reduce((a, s) => a + monthlyValue(s.plan, c), 0)),
+      revenue: perCur((c) => ({
+        thisMonth: sum(payments.filter((p) => p.at.startsWith(month)), c),
+        total: sum(payments, c),
+        plusTotal: sum(payments.filter((p) => p.kind !== 'donation'), c),
+        donationsTotal: sum(payments.filter((p) => p.kind === 'donation'), c),
+        fees: payments.filter((p) => curOf(p) === c).reduce((a, p) => a + (p.fee ?? 0), 0),
+      })),
+      months: months.map((m) => {
+        const ps = payments.filter((p) => p.at.startsWith(m))
+        return { month: m, total: perCur((c) => sum(ps, c)) }
+      }),
       subscribers: subs
         .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
-        .map((s) => ({ email: s.email ?? s.username, plan: s.plan, status: hasPlus(s, now) ? s.status : 'expired', periodEnd: s.periodEnd, autoRenew: s.autoRenew, since: s.createdAt })),
-      recent: payments.slice(0, 30).map((p) => ({ at: p.at, kind: p.kind, amount: p.amount, plan: p.plan, who: p.kind === 'donation' ? p.donor ?? p.email ?? null : p.email ?? null, note: p.note })),
+        .map((s) => ({ email: s.email ?? s.username, plan: s.plan, currency: curOf(s), status: hasPlus(s, now) ? s.status : 'expired', periodEnd: s.periodEnd, autoRenew: s.autoRenew, since: s.createdAt })),
+      recent: payments.slice(0, 30).map((p) => ({ at: p.at, kind: p.kind, amount: p.amount, currency: curOf(p), plan: p.plan, who: p.kind === 'donation' ? p.donor ?? p.email ?? null : p.email ?? null, note: p.note })),
     }
   }
 }
 
 function baseSub(order: Order, now: Date): Subscription {
   return {
-    sub: order.sub!, username: order.username!, email: order.email, plan: order.plan!, status: 'active', periodEnd: null,
+    sub: order.sub!, username: order.username!, email: order.email, plan: order.plan!, currency: curOf(order), status: 'active', periodEnd: null,
     autoRenew: false, failedAttempts: 0, createdAt: now.toISOString(), updatedAt: now.toISOString(),
   }
 }

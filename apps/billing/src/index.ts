@@ -1,7 +1,7 @@
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda'
 import { BillingError, type Actor } from './billing'
 import { emailOf, getBilling } from './deps'
-import { isPlan } from './plans'
+import { isCurrency, isPlan } from './plans'
 
 type Event = APIGatewayProxyEventV2 & { requestContext: { authorizer?: { jwt?: { claims: Record<string, unknown> } } } }
 
@@ -55,10 +55,11 @@ async function route(event: Event): Promise<APIGatewayProxyResultV2> {
 
   if (method === 'GET' && path === '/me') return json(200, await billing.me(actor))
   if (method === 'POST' && path === '/checkout') {
-    const { plan } = body()
+    const { plan, currency = 'UAH' } = body()
     if (!isPlan(plan)) throw new BillingError(400, 'Unknown plan')
+    if (!isCurrency(currency)) throw new BillingError(400, 'Unknown currency')
     actor.email = await emailOf(username).catch(() => undefined)
-    return json(200, await billing.checkout(actor, plan))
+    return json(200, await billing.checkout(actor, plan, currency))
   }
   if (method === 'POST' && path === '/cancel') return json(200, await billing.cancel(actor))
   if (method === 'POST' && path === '/resume') return json(200, await billing.resume(actor))

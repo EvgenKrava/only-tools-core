@@ -3,7 +3,7 @@ import { generateKeyPairSync, createSign } from 'node:crypto'
 import { Billing, BillingError, hasPlus } from './billing'
 import { makeVerifier, verifySignature, type ChargeCard, type CreateInvoice, type InvoiceEvent, type Mono } from './mono'
 import { MemoryStore } from './store'
-import { addMonths, PLANS } from './plans'
+import { addMonths, PRICES } from './plans'
 
 class FakeMono implements Mono {
   invoices: (CreateInvoice & { invoiceId: string })[] = []
@@ -266,9 +266,9 @@ describe('donations and admin summary', () => {
     await billing.onInvoice({ invoiceId: mono.invoices[2]!.invoiceId, reference: d.orderId, amount: 25000, status: 'success', modifiedDate: now.toISOString() })
     const s = await billing.summary()
     expect(s.counts).toMatchObject({ plus: 2, monthly: 1, yearly: 1 })
-    expect(s.mrr).toBe(9900 + Math.round(79000 / 12))
-    expect(s.revenue).toMatchObject({ thisMonth: 9900 + 79000 + 25000, donationsTotal: 25000, plusTotal: 88900 })
-    expect(s.months).toEqual([{ month: '2026-11', plus: 88900, donations: 25000 }])
+    expect(s.mrr).toEqual({ UAH: 9900 + Math.round(79000 / 12), USD: 0 })
+    expect(s.revenue.UAH).toMatchObject({ thisMonth: 9900 + 79000 + 25000, donationsTotal: 25000, plusTotal: 88900 })
+    expect(s.months).toEqual([{ month: '2026-11', total: { UAH: 113900, USD: 0 } }])
     expect(s.subscribers).toHaveLength(2)
   })
 })
@@ -278,9 +278,9 @@ describe('plans', () => {
     expect(addMonths(new Date('2026-01-31T12:00:00Z'), 1).toISOString()).toBe('2026-02-28T12:00:00.000Z')
     expect(addMonths(new Date('2026-11-30T00:00:00Z'), 12).toISOString()).toBe('2027-11-30T00:00:00.000Z')
   })
-  it('prices are in kopecks', () => {
-    expect(PLANS.monthly.amount).toBe(9900)
-    expect(PLANS.yearly.amount).toBe(79000)
+  it('prices are in minor units', () => {
+    expect(PRICES.UAH).toEqual({ monthly: 9900, yearly: 79000, lifetime: 199000 })
+    expect(PRICES.USD).toEqual({ monthly: 299, yearly: 2400, lifetime: 4900 })
   })
 })
 
@@ -306,5 +306,42 @@ describe('webhook signature', () => {
     expect(calls).toBe(2)
     expect(await verify(body, sign(body))).toBe(true)
     expect(calls).toBe(2)
+  })
+})
+
+describe('USD', () => {
+  const usd = { sub: 'sub-us', username: 'u-us', email: 'us@example.com' }
+
+  it('charges in dollars (ccy 840) and renews in dollars', async () => {
+    await billing.checkout(usd, 'monthly', 'USD')
+    const inv = mono.invoices[0]!
+    expect(inv).toMatchObject({ amount: 299, ccy: 840 })
+    await billing.onInvoice(paid(inv, { ccy: 840 }))
+    expect((await store.getSub('sub-us'))!.currency).toBe('USD')
+    expect((await billing.me(usd)).subscription).toMatchObject({ currency: 'USD', amount: 299 })
+    now = new Date('2026-12-18T11:00:00Z')
+    await billing.daily()
+    expect(mono.charges[0]).toMatchObject({ amount: 299, ccy: 840 })
+    expect(store.payments.map((p) => p.currency)).toEqual(['USD', 'USD'])
+    const sum = await billing.summary()
+    expect(sum.mrr).toEqual({ UAH: 0, USD: 299 })
+    expect(sum.revenue.USD.total).toBe(598)
+  })
+
+  it('rejects a webhook in another currency', async () => {
+    await billing.checkout(usd, 'monthly', 'USD')
+    await billing.onInvoice(paid(mono.invoices[0]!, { ccy: 980 }))
+    expect(await store.getSub('sub-us')).toBeUndefined()
+  })
+
+  it('donations in dollars have their own limits', async () => {
+    await expect(billing.donate({ amount: 0.5, currency: 'USD' })).rejects.toThrow(/between 1 and 1000 USD/)
+    await billing.donate({ amount: 5, currency: 'USD' })
+    expect(mono.invoices[0]).toMatchObject({ amount: 500, ccy: 840 })
+  })
+
+  it('old records without a currency count as hryvnia', async () => {
+    await billing.checkout(actor, 'monthly')
+    expect(mono.invoices[0]).toMatchObject({ amount: 9900, ccy: 980 })
   })
 })

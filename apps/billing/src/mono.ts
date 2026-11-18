@@ -20,6 +20,8 @@ export interface InvoiceEvent {
 
 export interface CreateInvoice {
   amount: number
+  /** ISO 4217 numeric; 980 (UAH) when omitted. */
+  ccy?: number
   reference: string
   destination: string
   redirectUrl: string
@@ -31,6 +33,7 @@ export interface CreateInvoice {
 export interface ChargeCard {
   cardToken: string
   amount: number
+  ccy?: number
   reference: string
   destination: string
   webHookUrl: string
@@ -73,7 +76,7 @@ export class HttpMono implements Mono {
 
   createInvoice(r: CreateInvoice) {
     return this.call<{ invoiceId: string; pageUrl: string }>('POST', '/api/merchant/invoice/create', {
-      amount: r.amount, ccy: 980,
+      amount: r.amount, ccy: r.ccy ?? 980,
       merchantPaymInfo: { reference: r.reference, destination: r.destination },
       redirectUrl: r.redirectUrl, webHookUrl: r.webHookUrl, validity: 3600, paymentType: 'debit',
       ...(r.walletId ? { saveCardData: { saveCard: true, walletId: r.walletId } } : {}),
@@ -86,7 +89,7 @@ export class HttpMono implements Mono {
 
   async chargeCard(r: ChargeCard): Promise<ChargeResult> {
     const res = await this.call<Partial<ChargeResult>>('POST', '/api/merchant/wallet/payment', {
-      cardToken: r.cardToken, amount: r.amount, ccy: 980, initiationKind: 'merchant', paymentType: 'debit',
+      cardToken: r.cardToken, amount: r.amount, ccy: r.ccy ?? 980, initiationKind: 'merchant', paymentType: 'debit',
       merchantPaymInfo: { reference: r.reference, destination: r.destination },
       webHookUrl: r.webHookUrl, redirectUrl: r.redirectUrl,
     })

@@ -4,14 +4,16 @@ import { LangSwitch, LOCALE, useT } from './i18n'
 
 type Plan = 'monthly' | 'yearly' | 'lifetime'
 type Status = 'active' | 'canceled' | 'past_due' | 'expired'
+type Currency = 'UAH' | 'USD'
+type PerCur<T> = Record<Currency, T>
 interface Summary {
-  currency: string
+  currencies: Currency[]
   counts: { plus: number; monthly: number; yearly: number; lifetime: number; canceling: number; pastDue: number }
-  mrr: number
-  revenue: { thisMonth: number; total: number; plusTotal: number; donationsTotal: number; fees: number }
-  months: { month: string; plus: number; donations: number }[]
-  subscribers: { email: string; plan: Plan; status: Status; periodEnd: string | null; autoRenew: boolean; since: string }[]
-  recent: { at: string; kind: 'plus' | 'renewal' | 'donation'; amount: number; plan?: Plan; who: string | null; note?: string }[]
+  mrr: PerCur<number>
+  revenue: PerCur<{ thisMonth: number; total: number; plusTotal: number; donationsTotal: number; fees: number }>
+  months: { month: string; total: PerCur<number> }[]
+  subscribers: { email: string; plan: Plan; currency: Currency; status: Status; periodEnd: string | null; autoRenew: boolean; since: string }[]
+  recent: { at: string; kind: 'plus' | 'renewal' | 'donation'; amount: number; currency: Currency; plan?: Plan; who: string | null; note?: string }[]
 }
 
 const CHIP: Record<Status, string> = { active: 'ot-chip--good', canceled: 'ot-chip--warn', past_due: 'ot-chip--bad', expired: 'ot-chip--neutral' }
@@ -22,7 +24,12 @@ export function Billing() {
   const [error, setError] = useState('')
   const { t, lang } = useT()
   const loc = LOCALE[lang]
-  const uah = (kop: number) => `${(kop / 100).toLocaleString(loc, { maximumFractionDigits: 0 })} ₴`
+  const money = (minor: number, c: Currency) => c === 'USD'
+    ? `$${(minor / 100).toLocaleString('en-US', { minimumFractionDigits: minor % 100 ? 2 : 0, maximumFractionDigits: 2 })}`
+    : `${(minor / 100).toLocaleString(loc, { maximumFractionDigits: 0 })} ₴`
+  /** "1 040 ₴ + $5.98"; only currencies with money in them, "0 ₴" when there is none. */
+  const both = (v: PerCur<number>) => (['UAH', 'USD'] as Currency[]).filter((c) => v[c]).map((c) => money(v[c], c)).join(' + ') || money(0, 'UAH')
+  const pick = <K extends keyof Summary['revenue']['UAH']>(k: K) => ({ UAH: data!.revenue.UAH[k], USD: data!.revenue.USD[k] })
   const date = (iso: string) => new Date(iso).toLocaleDateString(loc, { day: 'numeric', month: 'short', year: 'numeric' })
 
   useEffect(() => { api<Summary>('/billing/admin/summary').then(setData).catch((e) => setError(e.message)) }, [])
@@ -36,8 +43,8 @@ export function Billing() {
   if (error) return <>{header}<div className="ot-content"><p className="err">{error}</p></div></>
   if (!data) return <>{header}<div className="ot-content"><p className="ot-text">{t('loading')}</p></div></>
 
-  const { counts, revenue } = data
-  const max = Math.max(1, ...data.months.map((m) => m.plus + m.donations))
+  const { counts } = data
+  const fees = pick('fees')
   const planName = (p: Plan) => t(`plan${cap(p)}` as 'planMonthly')
 
   return (
@@ -56,30 +63,31 @@ export function Billing() {
           </div>
           <div className="ot-card" data-app="hub">
             <span className="ot-label">{t('mrr')}</span>
-            <div className="ot-stat"><span className="ot-stat__value">{uah(data.mrr)}</span><span className="ot-stat__unit">{t('mrrUnit')}</span></div>
+            <div className="ot-stat"><span className="ot-stat__value">{both(data.mrr)}</span><span className="ot-stat__unit">{t('mrrUnit')}</span></div>
           </div>
           <div className="ot-card" data-app="hub">
             <span className="ot-label">{t('revenueMonth')}</span>
-            <div className="ot-stat"><span className="ot-stat__value">{uah(revenue.thisMonth)}</span></div>
+            <div className="ot-stat"><span className="ot-stat__value">{both(pick('thisMonth'))}</span></div>
             <div className="inline">
-              <span className="ot-chip ot-chip--neutral">{t('revenueTotal', { v: uah(revenue.total) })}</span>
-              <span className="ot-chip ot-chip--neutral">{t('donationsTotal', { v: uah(revenue.donationsTotal) })}</span>
-              {revenue.fees > 0 && <span className="ot-chip ot-chip--neutral">{t('feesTotal', { v: uah(revenue.fees) })}</span>}
+              <span className="ot-chip ot-chip--neutral">{t('revenueTotal', { v: both(pick('total')) })}</span>
+              <span className="ot-chip ot-chip--neutral">{t('donationsTotal', { v: both(pick('donationsTotal')) })}</span>
+              {(fees.UAH > 0 || fees.USD > 0) && <span className="ot-chip ot-chip--neutral">{t('feesTotal', { v: both(fees) })}</span>}
             </div>
           </div>
         </div>
 
         {data.months.length > 1 && (
-          <div className="ot-card">
-            <span className="ot-label">{t('byMonth')}</span>
-            <div className="ot-bars" style={{ height: 96, gap: 6 }} role="img" aria-label={t('byMonth')}>
-              {data.months.map((m) => (
-                <i key={m.month} title={`${m.month}: ${uah(m.plus)} + ${uah(m.donations)}`}
-                  style={{ ['--h' as string]: `${Math.max(4, ((m.plus + m.donations) / max) * 100)}%` }} />
+          <>
+            <h2 className="ot-h3">{t('byMonth')}</h2>
+            <div className="ot-list">
+              {[...data.months].reverse().map((m) => (
+                <div key={m.month} className="ot-row">
+                  <div className="ot-row__body"><span className="ot-row__title">{m.month}</span></div>
+                  <span className="ot-row__value">{both(m.total)}</span>
+                </div>
               ))}
             </div>
-            <span className="ot-caption">{data.months[0]!.month} → {data.months.at(-1)!.month}</span>
-          </div>
+          </>
         )}
 
         <h2 className="ot-h3">{t('subscribers')}</h2>
@@ -89,7 +97,7 @@ export function Billing() {
             <div key={s.email + s.since} className="ot-row">
               <div className="ot-row__body">
                 <span className="ot-row__title">{s.email}</span>
-                <span className="ot-row__sub">{planName(s.plan)} · {s.periodEnd ? t('until', { date: date(s.periodEnd) }) : t('forLife')}</span>
+                <span className="ot-row__sub">{planName(s.plan)} · {s.currency} · {s.periodEnd ? t('until', { date: date(s.periodEnd) }) : t('forLife')}</span>
               </div>
               <span className={`ot-chip ${CHIP[s.status]}`}>{t(`st${cap(s.status)}` as 'stActive')}</span>
             </div>
@@ -107,7 +115,7 @@ export function Billing() {
                   {t(`kind${cap(p.kind)}` as 'kindPlus')}{p.plan ? ` · ${planName(p.plan)}` : ''} · {date(p.at)}{p.note ? ` · “${p.note}”` : ''}
                 </span>
               </div>
-              <span className="ot-row__value">{uah(p.amount)}</span>
+              <span className="ot-row__value">{money(p.amount, p.currency)}</span>
             </div>
           ))}
         </div>

@@ -41,7 +41,7 @@ createServer(async (req, res) => {
       const p = url.pathname.replace('/api/billing', '')
       if (p === '/plans') return send(200, await billing.plans())
       if (p === '/me') return send(200, await billing.me(actor))
-      if (p === '/checkout') return send(200, await billing.checkout(actor, b.plan))
+      if (p === '/checkout') return send(200, await billing.checkout(actor, b.plan, b.currency ?? 'UAH'))
       if (p === '/donate') return send(200, await billing.donate(b))
       if (p === '/cancel') return send(200, await billing.cancel(actor))
       if (p === '/resume') return send(200, await billing.resume(actor))
