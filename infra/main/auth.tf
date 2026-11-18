@@ -272,7 +272,7 @@ resource "aws_lambda_function" "trigger" {
   function_name    = "${var.project}-${each.key}"
   role             = aws_iam_role.trigger.arn
   handler          = "${each.key}.handler"
-  runtime          = "nodejs22.x"
+  runtime          = "nodejs24.x"
   architectures    = ["arm64"]
   filename         = data.archive_file.trigger[each.key].output_path
   source_code_hash = data.archive_file.trigger[each.key].output_base64sha256

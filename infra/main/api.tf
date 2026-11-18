@@ -56,7 +56,7 @@ resource "aws_lambda_function" "api" {
   function_name    = "${var.project}-api"
   role             = aws_iam_role.api.arn
   handler          = "index.handler"
-  runtime          = "nodejs22.x"
+  runtime          = "nodejs24.x"
   architectures    = ["arm64"]
   filename         = data.archive_file.api.output_path
   source_code_hash = data.archive_file.api.output_base64sha256
