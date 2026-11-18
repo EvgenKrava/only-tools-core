@@ -3,12 +3,18 @@ title: GigHunter: AI-уведомления о фриланс-заказах в 
 description: GigHunter следит за фриланс-биржами, оценивает каждый заказ под ваш профиль и присылает совпадения в ваш Telegram. Помогает написать отклик. По приглашениям.
 app: gig
 kind: app
+image: /shots/gighunter/og.jpg
 ---
 # Первыми видите заказы, которые действительно вам подходят.
 
 GigHunter проверяет фриланс-биржи до раза в 15 минут, отсеивает лишнее и присылает вам в Telegram только то, что совпадает с вашими навыками.
 
 **[Попросить приглашение](mailto:oldfromkb@gmail.com?subject=GigHunter%20invite)** **[Как это работает](#how)**
+
+![Заказ с оценкой приходит в Telegram](/shots/gighunter/telegram-mobile.webp)
+![Найденные заказы с оценкой под ваш профиль](/shots/gighunter/jobs-mobile.webp)
+![AI-чат пишет черновик отклика](/shots/gighunter/chat-mobile.webp)
+![Ваш порог и модели](/shots/gighunter/settings-mobile.webp)
 
 ## Что вы получаете
 
@@ -29,6 +35,9 @@ GigHunter проверяет фриланс-биржи до раза в 15 ми�
 ## Где ищет
 
 Сейчас Freelancer.com и Freelancehunt. Upwork в планах.
+
+
+![На ноутбуке: заказ и чат рядом](/shots/gighunter/chat-desktop.webp)
 
 ## Доступ открываем постепенно.
 

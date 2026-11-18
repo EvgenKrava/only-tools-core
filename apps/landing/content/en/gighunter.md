@@ -3,12 +3,18 @@ title: GigHunter: AI freelance job alerts in Telegram | Only Tools
 description: GigHunter watches freelance platforms, scores every job against your profile with AI and sends matches to your Telegram. Helps you draft proposals. Invite only.
 app: gig
 kind: app
+image: /shots/gighunter/og.jpg
 ---
 # Be first on the jobs that actually fit you.
 
 GigHunter checks freelance platforms as often as every 15 minutes, filters out the noise and sends only matching jobs to your Telegram.
 
 **[Request an invite](mailto:oldfromkb@gmail.com?subject=GigHunter%20invite)** **[How it works](#how)**
+
+![A matching gig arrives in Telegram with its score](/shots/gighunter/telegram-mobile.webp)
+![Found gigs, scored against your profile](/shots/gighunter/jobs-mobile.webp)
+![AI chat drafts a proposal for the gig](/shots/gighunter/chat-mobile.webp)
+![Your threshold and models](/shots/gighunter/settings-mobile.webp)
 
 ## What you get
 
@@ -29,6 +35,9 @@ GigHunter checks freelance platforms as often as every 15 minutes, filters out t
 ## Where it looks
 
 Freelancer.com and Freelancehunt today. Upwork is planned.
+
+
+![On a laptop: the gig and its chat side by side](/shots/gighunter/chat-desktop.webp)
 
 ## We're opening access gradually.
 

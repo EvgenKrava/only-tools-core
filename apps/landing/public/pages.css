@@ -42,3 +42,13 @@
 .page--legal .features li { background: none; box-shadow: none; padding: 0; border: 0; }
 .page--legal .features li b { display: inline; }
 .page-body code { font: 700 0.9em ui-monospace, monospace; background: var(--ot-surface-2); padding: 1px 6px; border-radius: 6px; }
+
+/* Screenshot galleries on app pages: phone shots in a row (scrolls sideways on narrow screens), desktop shots full width. */
+.shots { display: flex; gap: var(--ot-s-3); overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px var(--ot-s-2); margin: var(--ot-s-2) 0; -webkit-overflow-scrolling: touch; }
+.shot { flex: 0 0 auto; width: min(68vw, 240px); margin: 0; scroll-snap-align: start; display: flex; flex-direction: column; gap: 8px; }
+.shot img { width: 100%; height: auto; display: block; border-radius: 22px; background: var(--ot-surface); box-shadow: var(--ot-shadow); border: 1px solid var(--ot-line); }
+.shot figcaption { font-size: 14px; color: var(--ot-ink-2); line-height: 1.35; }
+.shots--one { overflow: visible; }
+.shot--wide { width: 100%; }
+.shot--wide img { border-radius: 14px; }
+.shots--one .shot:not(.shot--wide) { width: min(80vw, 300px); }

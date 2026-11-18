@@ -3,8 +3,9 @@
 // apps/landing/content/<lang>/<path>.md into <out>/<path>/index.html (English at the root,
 // Ukrainian under /uk/, Russian under /ru/), and writes <out>/sitemap.xml with hreflang links.
 //
-// Markdown subset: frontmatter (title, description, app, kind), # / ## / ### headings, paragraphs,
-// "- " and "1. " lists, **bold**, [links](/path). A paragraph made only of **[label](url)** items
+// Markdown subset: frontmatter (title, description, app, kind, image), # / ## / ### headings, paragraphs,
+// "- " and "1. " lists, **bold**, [links](/path). A paragraph made only of ![caption](/shots/x.webp)
+// lines becomes a screenshot gallery (one image = a single wide shot). Frontmatter `image` is og:image. A paragraph made only of **[label](url)** items
 // becomes a row of buttons. A list whose items all start with **bold** becomes feature cards.
 // Internal links ("/carlog") point to the same language version of that page.
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
@@ -101,6 +102,15 @@ function render(md, lang) {
       html += `<ol class="steps">${lines.map((l) => `<li>${inline(l.replace(/^\d+\. /, ''), lang)}</li>`).join('')}</ol>\n`
       continue
     }
+    if (lines.every((l) => /^!\[[^\]]*\]\([^)]+\)$/.test(l.trim()))) {
+      const shots = lines.map((l) => l.trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/))
+      const figs = shots.map(([, alt, src]) => {
+        const wide = /-desktop\.\w+$/.test(src)
+        return `<figure class="shot${wide ? ' shot--wide' : ''}"><img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" decoding="async">${alt ? `<figcaption>${inline(alt, lang)}</figcaption>` : ''}</figure>`
+      })
+      html += `<div class="shots${shots.length === 1 ? ' shots--one' : ''}">${figs.join('')}</div>\n`
+      continue
+    }
     const ctas = b.trim().match(/^(\*\*\[[^\]]+\]\([^)]+\)\*\*\s*)+$/)
     if (ctas) {
       const btns = [...b.matchAll(/\*\*\[([^\]]+)\]\(([^)]+)\)\*\*/g)].map(([, label, href], i) =>
@@ -136,7 +146,7 @@ function page({ lang, path, meta, body, alternates }) {
   <meta property="og:type" content="${meta.kind === 'post' ? 'article' : 'website'}">
   <meta property="og:title" content="${esc(meta.title)}">
   <meta property="og:description" content="${esc(meta.description)}">
-  <meta property="og:url" content="${url}">
+  <meta property="og:url" content="${url}">${meta.image ? `\n  <meta property="og:image" content="${SITE}${esc(meta.image)}">\n  <meta name="twitter:card" content="summary_large_image">` : ''}
   <meta property="og:site_name" content="Only Tools">
   <meta name="theme-color" content="#fff8f1">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
