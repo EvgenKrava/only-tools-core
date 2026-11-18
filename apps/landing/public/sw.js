@@ -1,5 +1,5 @@
 // Minimal offline support: network first, cached copy when offline.
-const CACHE = 'onlytools-v3'
+const CACHE = 'onlytools-v4'
 const SHELL = ['/', '/only-tools.css', '/landing.css', '/landing.js', '/auth.js', '/i18n.js', '/apps.json', '/icon.svg']
 self.addEventListener('install', (e) => e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())))
 self.addEventListener('activate', (e) => e.waitUntil(
