@@ -34,8 +34,12 @@ data "aws_iam_policy_document" "api" {
     resources = ["arn:aws:cognito-idp:${var.region}:${data.aws_caller_identity.current.account_id}:userpool/*"]
   }
   statement {
-    actions   = ["ce:GetCostAndUsage", "budgets:ViewBudget", "cloudwatch:GetMetricData"]
+    actions   = ["ce:GetCostAndUsage", "budgets:ViewBudget", "cloudwatch:GetMetricData", "cloudwatch:DescribeAlarms", "logs:DescribeLogGroups", "logs:GetQueryResults"]
     resources = ["*"]
+  }
+  statement {
+    actions   = ["logs:StartQuery"]
+    resources = ["arn:aws:logs:${var.region}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/*"]
   }
   statement {
     actions   = ["dynamodb:GetItem", "dynamodb:PutItem"]

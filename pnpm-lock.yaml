@@ -208,6 +208,9 @@ importers:
       '@aws-sdk/client-cloudwatch':
         specifier: ^3.1171.0
         version: 3.1171.0
+      '@aws-sdk/client-cloudwatch-logs':
+        specifier: ^3.1171.0
+        version: 3.1171.0
       '@aws-sdk/client-cognito-identity-provider':
         specifier: ^3.1137.0
         version: 3.1171.0
@@ -241,6 +244,10 @@ packages:
 
   '@aws-sdk/client-budgets@3.1171.0':
     resolution: {integrity: sha512-kjckLvPbaEUSa4dCArKXgZ9csOmHIAtEHFRB1Y5mXINzaNmexCn6XeWqfLO611zJ7XCKvIel/ASSBmHns3+FpA==}
+    engines: {node: '>=20.0.0'}
+
+  '@aws-sdk/client-cloudwatch-logs@3.1171.0':
+    resolution: {integrity: sha512-rc1TLvc7n/cUIoEj92NNDkomRqidjP5hmFP4oxgm9E08CkHZ5fsmxSUyulhlNe+/ExWPpEiSEHkqZSN8K9hNJQ==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/client-cloudwatch@3.1171.0':
@@ -1297,6 +1304,17 @@ packages:
 snapshots:
 
   '@aws-sdk/client-budgets@3.1171.0':
+    dependencies:
+      '@aws-sdk/core': 3.981.0
+      '@aws-sdk/credential-provider-node': 3.972.97
+      '@aws-sdk/types': 3.975.1
+      '@smithy/core': 3.41.0
+      '@smithy/fetch-http-handler': 5.8.1
+      '@smithy/node-http-handler': 4.14.2
+      '@smithy/types': 4.20.0
+      tslib: 2.9.1
+
+  '@aws-sdk/client-cloudwatch-logs@3.1171.0':
     dependencies:
       '@aws-sdk/core': 3.981.0
       '@aws-sdk/credential-provider-node': 3.972.97

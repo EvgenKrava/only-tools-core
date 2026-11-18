@@ -1,6 +1,7 @@
 import type { APIGatewayProxyEventV2WithJWTAuthorizer, APIGatewayProxyResultV2 } from 'aws-lambda'
 import * as cognito from './cognito'
 import { buildSnapshot, loadSnapshot, saveSnapshot } from './stats'
+import { alarms, recentErrors } from './errors'
 import { APPS, PLATFORM_ADMIN, ROLES, HttpError, assertCanChange, isRole, parseGroups } from './roles'
 
 type Event = APIGatewayProxyEventV2WithJWTAuthorizer
@@ -44,6 +45,11 @@ async function route(event: Event): Promise<APIGatewayProxyResultV2> {
     const fresh = await buildSnapshot()
     await saveSnapshot(fresh)
     return json(200, fresh)
+  }
+  if (method === 'GET' && path === '/errors') {
+    const hours = Math.min(168, Math.max(1, Number(event.queryStringParameters?.hours ?? 24) || 24))
+    const [a, e] = await Promise.all([alarms(), recentErrors(hours)])
+    return json(200, { hours, alarms: a, entries: e })
   }
   if (method === 'GET' && path === '/users') return json(200, { users: await cognito.listUsers(event.queryStringParameters?.search) })
   if (method === 'POST' && path === '/users') {

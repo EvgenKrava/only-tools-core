@@ -3,8 +3,9 @@ import { auth, type SessionUser } from './auth'
 import { Icon } from './icons'
 import { Users } from './Users'
 import { Overview } from './Overview'
+import { Errors } from './Errors'
 
-type Tab = 'overview' | 'users' | 'settings'
+type Tab = 'overview' | 'users' | 'errors' | 'settings'
 
 export function App() {
   const [me, setMe] = useState<SessionUser | null | undefined>(undefined)
@@ -42,6 +43,7 @@ export function App() {
           <a className="ot-brand ot-nav__brand" href="/"><b className="ot-logo" aria-hidden="true"><i /><i /><i /><i /></b><span>Admin</span></a>
           {item('overview', 'Overview', 'chart')}
           {item('users', 'Users', 'users')}
+          {item('errors', 'Errors', 'alert')}
           {item('settings', 'Settings', 'gear', true)}
           <span className="ot-nav__spacer" />
           <a className="ot-nav__item" href="/"><span className="ot-nav__pill"><Icon name="home" /></span>Only Tools</a>
@@ -49,6 +51,7 @@ export function App() {
         <main className="ot-main">
           {tab === 'overview' && <Overview />}
           {tab === 'users' && <Users me={me} />}
+          {tab === 'errors' && <Errors />}
         </main>
       </div>
     </div>
