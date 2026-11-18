@@ -1,0 +1,14 @@
+{
+  "name": "only-tools-core",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.21.0",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "pnpm -r --if-present build",
+    "test": "pnpm -r --if-present test",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "dev:admin": "pnpm --filter @onlytools/admin dev",
+    "deploy:web": "scripts/deploy-web.sh"
+  }
+}

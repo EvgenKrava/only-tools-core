@@ -1,0 +1,12 @@
+html, body, #root { height: 100%; margin: 0; }
+body { overflow: hidden; }
+.center { min-height: 100%; display: grid; place-items: center; text-align: center; padding: 24px; }
+.stack { display: flex; flex-direction: column; gap: var(--ot-s-3); }
+.inline { display: flex; align-items: center; gap: var(--ot-s-2); flex-wrap: wrap; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+.role-grid { display: grid; grid-template-columns: 1fr auto auto; gap: 10px 16px; align-items: center; }
+.role-grid .head { font-size: var(--ot-t-xs); font-weight: 800; color: var(--ot-mut); text-transform: uppercase; letter-spacing: .04em; }
+.ot-row { cursor: pointer; }
+button.ot-row { appearance: none; border: 0; width: 100%; text-align: left; font: inherit; }
+.err { color: var(--ot-bad); font-weight: 700; }
+.ot-nav__item { cursor: pointer; background: none; border: 0; }

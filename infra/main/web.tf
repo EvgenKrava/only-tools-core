@@ -95,6 +95,28 @@ resource "aws_cloudfront_distribution" "web" {
     origin_access_control_id = aws_cloudfront_origin_access_control.web.id
   }
 
+  origin {
+    domain_name = replace(aws_apigatewayv2_api.main.api_endpoint, "https://", "")
+    origin_id   = "api"
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
+  ordered_cache_behavior {
+    path_pattern             = "/api/*"
+    target_origin_id         = "api"
+    allowed_methods          = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods           = ["GET", "HEAD"]
+    viewer_protocol_policy   = "https-only"
+    compress                 = true
+    cache_policy_id          = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad" # AWS managed: CachingDisabled
+    origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac" # AWS managed: AllViewerExceptHostHeader
+  }
+
   default_cache_behavior {
     allowed_methods        = ["GET", "HEAD", "OPTIONS"]
     cached_methods         = ["GET", "HEAD"]
@@ -108,8 +130,10 @@ resource "aws_cloudfront_distribution" "web" {
     }
   }
 
+  # Missing S3 keys return 404 (CloudFront may list the bucket). Note: this also applies to /api/*,
+  # so the API never answers 404 (it uses 400 instead) and keeps its JSON 401/403 responses.
   custom_error_response {
-    error_code            = 403
+    error_code            = 404
     response_code         = 404
     response_page_path    = "/404.html"
     error_caching_min_ttl = 60
@@ -127,6 +151,19 @@ resource "aws_cloudfront_distribution" "web" {
 }
 
 data "aws_iam_policy_document" "web_bucket" {
+  statement {
+    actions   = ["s3:ListBucket"]
+    resources = [aws_s3_bucket.web.arn]
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+      values   = [aws_cloudfront_distribution.web.arn]
+    }
+  }
   statement {
     actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.web.arn}/*"]

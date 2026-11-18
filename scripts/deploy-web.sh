@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds the static landing into apps/landing/dist and syncs it to S3, then invalidates CloudFront.
+# Builds the static landing and the admin SPA into apps/landing/dist and syncs it to S3, then invalidates CloudFront.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT=apps/landing/dist
@@ -14,6 +14,9 @@ printf '{"domain":"%s","clientId":"%s"}\n' "$(terraform -chdir=infra/main output
 BUCKET=$(terraform -chdir=infra/main output -raw web_bucket)
 DIST=$(terraform -chdir=infra/main output -raw cloudfront_distribution_id)
 aws s3 sync "$OUT" "s3://$BUCKET" --exclude "admin/*" --cache-control "public,max-age=300" --delete --profile yevhenii
+pnpm --filter @onlytools/admin build >/dev/null
+aws s3 sync apps/admin/dist/assets "s3://$BUCKET/admin/assets" --cache-control "public,max-age=31536000,immutable" --profile yevhenii
+aws s3 cp apps/admin/dist/index.html "s3://$BUCKET/admin/index.html" --cache-control "no-cache" --profile yevhenii
 for f in sw.js config.json; do
   aws s3 cp "$OUT/$f" "s3://$BUCKET/$f" --cache-control "no-cache" --profile yevhenii
 done
