@@ -114,6 +114,8 @@ Matches the existing apps: pnpm + turbo, TypeScript strict, React + Vite + MUI, 
 ```
 apps/web         landing + /admin SPA
 apps/api         admin API Lambda
+packages/ui      @onlytools/ui: shared look (CSS) + React components (see 6.1)
+packages/auth    @onlytools/auth: OIDC config, role guard, app switcher (see 6.1)
 packages/contracts, packages/domain
 infra/bootstrap  state bucket
 infra/main       pool, domain, clients, groups, triggers, landing hosting, API, SSM outputs
@@ -122,7 +124,53 @@ infra/main       pool, domain, clients, groups, triggers, landing hosting, API, 
 Published SSM outputs: `/onlytools/auth/user-pool-id`, `/onlytools/auth/issuer`,
 `/onlytools/auth/domain`, `/onlytools/auth/clients/<app>`.
 
-## 7. Migration order
+### 6.1 Shared UI and auth packages
+
+The apps do not share one UI stack: CarLog is React 18 + MUI, GigHunter is React 19 + Tailwind 4,
+FoodLog plans Tailwind + shadcn/ui. So the shared layer is split by how portable it is:
+
+- **`@onlytools/ui`**
+  - `only-tools.css`: design tokens as CSS variables (per-app colour, radii, spacing, type) and
+    the base classes from the chosen look (variant B "Конструктор"). Framework-agnostic, so MUI
+    apps map the variables into their theme and Tailwind apps reference them in `@theme`.
+  - Thin React components with `react >=18` as a peer dependency and no MUI/Tailwind dependency:
+    app shell (bottom tab bar on phones, side rail on desktop), app switcher (the OnlyTools
+    "launcher" listing apps the user has access to), "no access" screen, account menu.
+- **`@onlytools/auth`**: the OIDC settings for the shared pool, a `RequireRole` guard
+  (`<app>-user`, `<app>-admin`), and helpers to read groups from tokens; plus a tiny server-side
+  helper for Lambdas to check `cognito:groups`.
+
+Distribution: published to **GitHub Packages** (npm registry, `@onlytools` scope mapped to
+`EvgenKrava`) from a tag-triggered GitHub Action; apps pin versions and upgrade on their own
+schedule. Free at this size. Business components stay in each app; only things every app needs go
+here.
+
+## 7. Data retention and running cost
+
+Standing rule: keep the bill near zero. Everything is serverless and pay-per-use, and data that
+nobody pays for does not live forever.
+
+- **Every DynamoDB table has TTL on `ttl`**, and every item that is history (logs, runs, matches,
+  chats, notifications, imports) is written with an expiry. Uploaded files use S3 lifecycle rules.
+- **Defaults per app** (free users):
+
+| App | Data | Kept for |
+|---|---|---|
+| GigHunter | matches (incl. notified posts), chats | 30 days (was 60) |
+| GigHunter | poller runs | 30 days |
+| CarLog | chat sessions, imports, scans | as today (7 days / 1 day) |
+| FoodLog | diary entries, weight log | 12 months |
+| All | user profile/settings | while the account is active |
+
+- **Inactive free accounts**: a daily core job finds users with no sign-in for 12 months and no
+  paid role, emails a warning, and 30 days later deletes the user and calls each app's
+  `DELETE /internal/users/{sub}` (or the app's own TTL takes care of it). Paid roles (later) lift
+  the history limits: the app writes a longer or no `ttl` for subscribers.
+- Retention periods are app settings in SSM (`/onlytools/<app>/retention/*`), editable in the admin
+  panel; changing them affects new writes only.
+- No PITR, no provisioned capacity, log groups kept 14 days, AWS Budgets alert at $20/month.
+
+## 8. Migration order
 
 1. **Core infra + landing** — pool, `auth.onlytools.click`, landing at apex. Nothing existing changes.
 2. **Admin panel** — users and roles first, then settings and metrics.
@@ -136,13 +184,13 @@ Published SSM outputs: `/onlytools/auth/user-pool-id`, `/onlytools/auth/issuer`,
    remap data by email (≈5 users; they sign in with Google once more), remove CarLog's admin pages
    once core has parity. Delete the old pool after verification.
 
-## 8. Cost
+## 9. Cost
 
 Cognito Essentials within the 10,000 MAU free tier: $0. ACM: $0. S3 + CloudFront for the landing
 and admin: cents per month. Lambda/HTTP API: within free tier at this traffic. SSM standard
 parameters: $0. Route53 zone already exists. Expected total: under $1/month.
 
-## 9. Open points
+## 10. Open points
 
 - GitHub remotes for `core` and `FoodLog` (owner creates them).
 - Reuse the existing Google OAuth client (add `https://auth.onlytools.click/oauth2/idpresponse` as a
