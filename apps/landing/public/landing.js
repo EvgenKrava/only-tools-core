@@ -3,6 +3,7 @@ import { LANGS, getLang, setLang, pickText } from '/i18n.js'
 
 const T = {
   en: {
+    'foot.blog': 'Blog', 'foot.terms': 'Terms of service', 'foot.privacy': 'Privacy policy', 'foot.refunds': 'Refund policy', 'foot.contacts': 'Contacts', more: 'About {app}',
     'meta.title': 'Only Tools',
     'meta.desc': 'Small, simple tools for everyday life: CarLog, GigHunter, FoodLog. One account for all of them.',
     'nav.apps': 'Apps', 'nav.account': 'Account',
@@ -18,6 +19,7 @@ const T = {
     'guest.cta': 'Sign in or create account',
   },
   uk: {
+    'foot.blog': 'Блог', 'foot.terms': 'Умови використання', 'foot.privacy': 'Політика конфіденційності', 'foot.refunds': 'Повернення коштів', 'foot.contacts': 'Контакти', more: 'Про {app}',
     'meta.title': 'Only Tools',
     'meta.desc': 'Маленькі прості інструменти для щоденного життя: CarLog, GigHunter, FoodLog. Один акаунт для всіх.',
     'nav.apps': 'Застосунки', 'nav.account': 'Акаунт',
@@ -33,6 +35,7 @@ const T = {
     'guest.cta': 'Увійти або створити акаунт',
   },
   ru: {
+    'foot.blog': 'Блог', 'foot.terms': 'Условия использования', 'foot.privacy': 'Политика конфиденциальности', 'foot.refunds': 'Возврат средств', 'foot.contacts': 'Контакты', more: 'О {app}',
     'meta.title': 'Only Tools',
     'meta.desc': 'Маленькие простые инструменты для повседневной жизни: CarLog, GigHunter, FoodLog. Один аккаунт для всех.',
     'nav.apps': 'Приложения', 'nav.account': 'Аккаунт',
@@ -89,6 +92,14 @@ function render() {
       <span class="ot-tile__stat">${chip}${go}</span>
     </${tag}>`
   }).join('')
+
+  const pre = { en: '', uk: '/uk', ru: '/ru' }[lang]
+  $('foot-links').innerHTML = [
+    ...apps.map((a) => [`${pre}/${a.id}`, t('more').replace('{app}', a.name)]),
+    [`${pre}/blog/car-service-history`, t('foot.blog')],
+    [`${pre}/terms`, t('foot.terms')], [`${pre}/privacy`, t('foot.privacy')],
+    [`${pre}/refunds`, t('foot.refunds')], [`${pre}/contacts`, t('foot.contacts')],
+  ].map(([href, label]) => `<a href="${href}">${esc(label)}</a>`).join('')
 
   if (user) {
     const initial = esc((user.name || user.email)[0].toUpperCase())

@@ -6,6 +6,7 @@ OUT=apps/landing/dist
 rm -rf apps/landing/dist && mkdir -p "$OUT"
 cp -R apps/landing/public/. "$OUT/"
 cp packages/ui/only-tools.css "$OUT/only-tools.css"
+node scripts/build-pages.mjs "$OUT"
 if [ "${1:-}" = "--build-only" ]; then
   echo '{"domain":"auth.onlytools.click","clientId":"local"}' > "$OUT/config.json"; echo "built $OUT"; exit 0
 fi

@@ -6,7 +6,10 @@ body { overflow: hidden; }
 .ot-tile { transition: transform .15s ease; }
 .ot-tile__go { display: inline-flex; align-items: center; gap: 6px; font-size: var(--ot-t-sm); font-weight: 900; }
 .ot-tile__go .ot-icon { width: 16px; height: 16px; }
-.foot { padding-top: var(--ot-s-4); }
+.foot { padding-top: var(--ot-s-4); display: flex; flex-direction: column; gap: var(--ot-s-2); }
+.foot__links { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: var(--ot-t-sm); font-weight: 700; }
+.foot__links a { color: var(--ot-mut); text-decoration: none; }
+.foot__links a:hover { color: var(--ot-ink); }
 /* phone: the brand lives in the header; tablet/desktop: in the nav */
 @container ot-shell (min-width: 640px) { .ot-header .ot-brand { visibility: hidden; } }
 .ot-tile__stat { display: flex; align-items: center; gap: var(--ot-s-2); flex-wrap: wrap; }
