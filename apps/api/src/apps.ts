@@ -10,11 +10,13 @@ export interface AppInfo {
   userGroup?: string
   /** The app's own pool until it moves to the shared one. */
   legacyPoolId?: string
+  /** CloudFormation stack the app ran in before Terraform; its past cost still counts for the app. */
+  legacyStack?: string
 }
 
 export const APP_INFO: AppInfo[] = [
   { id: 'core', name: 'Only Tools core', costTag: { key: 'Project', value: 'onlytools' }, lambdaPrefix: 'onlytools-' },
-  { id: 'carlog', name: 'CarLog', costTag: { key: 'aws:cloudformation:stack-name', value: 'CarLogStack' }, lambdaPrefix: 'CarLogStack-', userGroup: 'carlog-user', legacyPoolId: 'us-east-1_9rAPEPc5f' },
+  { id: 'carlog', name: 'CarLog', costTag: { key: 'Project', value: 'carlog' }, lambdaPrefix: 'carlog-', userGroup: 'carlog-user', legacyStack: 'CarLogStack' },
   { id: 'gighunter', name: 'GigHunter', costTag: { key: 'Project', value: 'gighunter' }, lambdaPrefix: 'gighunter-', userGroup: 'gighunter-user' },
   { id: 'foodlog', name: 'FoodLog', costTag: { key: 'Project', value: 'foodlog' }, lambdaPrefix: 'foodlog-', userGroup: 'foodlog-user' },
 ]
@@ -25,6 +27,7 @@ export function appForCostKeys(projectKey: string, stackKey: string): string {
   const stack = stackKey.split('$')[1] ?? ''
   const hit = APP_INFO.find((a) =>
     (a.costTag.key === 'Project' && a.costTag.value === project) ||
-    (a.costTag.key === 'aws:cloudformation:stack-name' && a.costTag.value === stack))
+    (a.costTag.key === 'aws:cloudformation:stack-name' && a.costTag.value === stack) ||
+    (a.legacyStack !== undefined && a.legacyStack === stack))
   return hit?.id ?? 'other'
 }

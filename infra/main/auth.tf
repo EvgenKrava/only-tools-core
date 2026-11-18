@@ -150,8 +150,8 @@ resource "aws_route53_record" "auth" {
 locals {
   app_clients = {
     gighunter = { urls = ["https://gighunter.${var.domain_name}"], callback_path = "/login" }
-    # carlog-next is the Terraform rebuild running beside the old CDK stack until the switch.
-    carlog = { urls = ["https://carlog.${var.domain_name}", "https://carlog-next.${var.domain_name}"], callback_path = "/callback" }
+    carlog    = { urls = ["https://carlog.${var.domain_name}"], callback_path = "/callback" }
+    foodlog   = { urls = ["https://foodlog.${var.domain_name}"], callback_path = "/callback" }
   }
 }
 
