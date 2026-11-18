@@ -34,25 +34,25 @@
   <div class="ot-layout">
     <nav class="ot-nav" aria-label="Main">
       <a class="ot-brand ot-nav__brand" href="/"><b class="ot-logo" aria-hidden="true"><i></i><i></i><i></i><i></i></b><span>Only Tools</span></a>
-      <a class="ot-nav__item is-active" href="/" aria-current="page"><span class="ot-nav__pill"><svg class="ot-icon"><use href="#i-grid"/></svg></span>Apps</a>
-      <div class="ot-nav__apps" id="nav-apps"><span class="ot-nav__label">Apps</span></div>
+      <a class="ot-nav__item is-active" href="/" aria-current="page"><span class="ot-nav__pill"><svg class="ot-icon"><use href="#i-grid"/></svg></span><span data-t="nav.apps">Apps</span></a>
+      <div class="ot-nav__apps" id="nav-apps"><span class="ot-nav__label" data-t="nav.apps">Apps</span></div>
       <span class="ot-nav__spacer"></span>
-      <a class="ot-nav__item" href="#account" id="nav-account"><span class="ot-nav__pill"><svg class="ot-icon"><use href="#i-user"/></svg></span>Account</a>
+      <a class="ot-nav__item" href="#account" id="nav-account"><span class="ot-nav__pill"><svg class="ot-icon"><use href="#i-user"/></svg></span><span data-t="nav.account">Account</span></a>
     </nav>
 
     <main class="ot-main">
       <header class="ot-header">
         <a class="ot-brand" href="/"><span class="ot-logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Only Tools</a>
-        <div id="who"></div>
+        <div class="top-actions"><div class="ot-segment" id="lang" role="group" aria-label="Language"></div><div id="who"></div></div>
       </header>
       <div class="ot-content">
         <section class="hero">
-          <h1 class="ot-h1">Small tools that do one thing well</h1>
-          <p class="ot-text">Simple apps for everyday life. Add them to your phone's home screen and they open like native apps.</p>
+          <h1 class="ot-h1" data-t="hero.title">Small tools that do one thing well</h1>
+          <p class="ot-text" data-t="hero.text">Simple apps for everyday life. Add them to your phone's home screen and they open like native apps.</p>
         </section>
 
         <section aria-labelledby="apps-title" class="block">
-          <h2 class="ot-h3" id="apps-title">Apps</h2>
+          <h2 class="ot-h3" id="apps-title" data-t="nav.apps">Apps</h2>
           <div class="ot-tiles" id="tiles"></div>
         </section>
 

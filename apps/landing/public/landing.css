@@ -10,3 +10,5 @@ body { overflow: hidden; }
 /* phone: the brand lives in the header; tablet/desktop: in the nav */
 @container ot-shell (min-width: 640px) { .ot-header .ot-brand { visibility: hidden; } }
 .ot-tile__stat { display: flex; align-items: center; gap: var(--ot-s-2); flex-wrap: wrap; }
+.top-actions { display: flex; align-items: center; gap: var(--ot-s-2); margin-left: auto; }
+.top-actions .ot-segment button { padding: 7px 10px; }

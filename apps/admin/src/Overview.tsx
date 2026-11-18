@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from './auth'
+import { LangSwitch, LOCALE, useT } from './i18n'
 
 interface Snapshot {
   generatedAt: string
@@ -17,7 +18,6 @@ interface Snapshot {
 
 const ACCENT: Record<string, string> = { core: 'hub', carlog: 'car', gighunter: 'gig', foodlog: 'food' }
 const usd = (n: number) => `$${n.toFixed(2)}`
-const num = (n: number) => n.toLocaleString('en')
 
 function Bars({ values, highlightLast = false, label }: { values: number[]; highlightLast?: boolean; label: string }) {
   const max = Math.max(...values, 0)
@@ -40,6 +40,8 @@ export function Overview() {
   const [error, setError] = useState('')
   const [note, setNote] = useState('')
   const [busy, setBusy] = useState(false)
+  const { t, lang } = useT()
+  const num = (n: number) => n.toLocaleString(LOCALE[lang])
 
   useEffect(() => { api<Snapshot>('/stats').then(setSnap).catch((e) => setError(e.message)) }, [])
 
@@ -49,7 +51,7 @@ export function Overview() {
   }
 
   if (error) return <div className="ot-content" style={{ paddingTop: 24 }}><p className="err">{error}</p></div>
-  if (!snap) return <div className="ot-content" style={{ paddingTop: 24 }}><p className="ot-text">Loading…</p></div>
+  if (!snap) return <div className="ot-content" style={{ paddingTop: 24 }}><p className="ot-text">{t('loading')}</p></div>
 
   const { cost, budget } = snap
   const used = budget ? Math.min(100, (cost.monthToDate / budget) * 100) : 0
@@ -59,40 +61,41 @@ export function Overview() {
   return (
     <>
       <header className="ot-header">
-        <h1 className="ot-h2">Overview</h1>
-        <button className="ot-btn ot-btn--sm ot-btn--outline" onClick={refresh} disabled={busy}>{busy ? 'Refreshing…' : 'Refresh'}</button>
+        <h1 className="ot-h2">{t('overview')}</h1>
+        <div className="inline"><span className="header-lang"><LangSwitch /></span>
+        <button className="ot-btn ot-btn--sm ot-btn--outline" onClick={refresh} disabled={busy}>{busy ? t('refreshing') : t('refresh')}</button></div>
       </header>
       <div className="ot-content">
-        <p className="ot-caption">Updated {new Date(snap.generatedAt).toLocaleString()} · refreshes daily{note ? ` · ${note}` : ''}</p>
+        <p className="ot-caption">{t('updated', { when: new Date(snap.generatedAt).toLocaleString(LOCALE[lang]) })}{note ? ` · ${note}` : ''}</p>
 
         <div className="ot-grid">
           <div className="ot-card" data-app="hub">
-            <span className="ot-label">AWS this month</span>
+            <span className="ot-label">{t('awsMonth')}</span>
             <div className="ot-stat">
               <span className="ot-stat__value">{usd(cost.monthToDate)}</span>
-              <span className="ot-stat__unit">of {usd(budget)} budget</span>
+              <span className="ot-stat__unit">{t('ofBudget', { budget: usd(budget) })}</span>
             </div>
             <div className="ot-progress"><i style={{ ['--p' as string]: `${used}%` }} /></div>
             <div className="inline">
-              {cost.forecast !== null && <span className={`ot-chip ${forecastOver ? 'ot-chip--bad' : 'ot-chip--good'}`}>Forecast {usd(cost.forecast)}</span>}
-              <span className="ot-chip ot-chip--neutral">Last month {usd(cost.lastMonth)}</span>
+              {cost.forecast !== null && <span className={`ot-chip ${forecastOver ? 'ot-chip--bad' : 'ot-chip--good'}`}>{t('forecast', { v: usd(cost.forecast) })}</span>}
+              <span className="ot-chip ot-chip--neutral">{t('lastMonth', { v: usd(cost.lastMonth) })}</span>
             </div>
           </div>
 
           <div className="ot-card" data-app="hub">
-            <span className="ot-label">Daily cost, this month</span>
-            <Bars values={cost.daily.map((d) => d.amount)} highlightLast label="Daily AWS cost this month" />
-            <span className="ot-caption">AWS cost data lags by up to a day.</span>
+            <span className="ot-label">{t('dailyCost')}</span>
+            <Bars values={cost.daily.map((d) => d.amount)} highlightLast label={t('dailyCostAria')} />
+            <span className="ot-caption">{t('costLag')}</span>
           </div>
 
           <div className="ot-card" data-app="hub">
-            <span className="ot-label">Only Tools accounts</span>
-            <div className="ot-stat"><span className="ot-stat__value">{num(totalUsers)}</span><span className="ot-stat__unit">app accesses in the shared account</span></div>
-            <span className="ot-caption">Until an app moves to the shared sign-in, its own user count is shown on its card.</span>
+            <span className="ot-label">{t('accounts')}</span>
+            <div className="ot-stat"><span className="ot-stat__value">{num(totalUsers)}</span><span className="ot-stat__unit">{t('accountsUnit')}</span></div>
+            <span className="ot-caption">{t('accountsHint')}</span>
           </div>
         </div>
 
-        <h2 className="ot-h3" style={{ marginTop: 8 }}>Apps</h2>
+        <h2 className="ot-h3" style={{ marginTop: 8 }}>{t('apps')}</h2>
         <div className="ot-grid">
           {snap.apps.map((a) => {
             const c = cost.byApp[a.id]
@@ -100,23 +103,23 @@ export function Overview() {
               <div key={a.id} className="ot-card" data-app={ACCENT[a.id]}>
                 <div className="inline" style={{ justifyContent: 'space-between' }}>
                   <h3 className="ot-h3">{a.name}</h3>
-                  {a.errors7d > 0 ? <span className="ot-chip ot-chip--bad">{num(a.errors7d)} errors / 7d</span> : <span className="ot-chip ot-chip--good">No errors</span>}
+                  {a.errors7d > 0 ? <span className="ot-chip ot-chip--bad">{t('errors7d', { n: num(a.errors7d) })}</span> : <span className="ot-chip ot-chip--good">{t('noErrors')}</span>}
                 </div>
                 <div className="stats">
-                  {a.users !== null && <Stat value={num(a.users)} unit="users" />}
-                  {a.legacyUsers !== null && <Stat value={num(a.legacyUsers)} unit="in its own sign-in" />}
-                  <Stat value={num(a.invocations7d)} unit="requests / 7d" />
-                  <Stat value={c ? usd(c.monthToDate) : '—'} unit="this month" />
+                  {a.users !== null && <Stat value={num(a.users)} unit={t('usersUnit')} />}
+                  {a.legacyUsers !== null && <Stat value={num(a.legacyUsers)} unit={t('ownSignIn')} />}
+                  <Stat value={num(a.invocations7d)} unit={t('requests7d')} />
+                  <Stat value={c ? usd(c.monthToDate) : '—'} unit={t('thisMonth')} />
                 </div>
-                <Bars values={a.daily} label={`${a.name} requests per day, last 30 days`} />
-                <span className="ot-caption">Requests per day, last 30 days</span>
+                <Bars values={a.daily} label={t('requestsAria', { app: a.name })} />
+                <span className="ot-caption">{t('requestsDaily')}</span>
               </div>
             )
           })}
           {cost.byApp.other && (
             <div className="ot-card ot-card--flat">
-              <h3 className="ot-h3">Shared and untagged</h3>
-              <Stat value={usd(cost.byApp.other.monthToDate)} unit="this month (DNS, tax, untagged resources)" />
+              <h3 className="ot-h3">{t('shared')}</h3>
+              <Stat value={usd(cost.byApp.other.monthToDate)} unit={t('sharedUnit')} />
             </div>
           )}
         </div>

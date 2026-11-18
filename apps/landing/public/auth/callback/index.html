@@ -9,6 +9,12 @@
 <p class="ot-text" id="msg">Signing you in…</p><a class="ot-btn" href="/" id="back" hidden>Back to Only Tools</a></div>
 <script type="module">
 import { handleCallback } from '/auth.js'
+import { getLang } from '/i18n.js'
+const L = getLang()
+const T = { en: ['Signing you in…', 'Back to Only Tools'], uk: ['Входимо…', 'Назад до Only Tools'], ru: ['Входим…', 'Назад в Only Tools'] }[L]
+document.documentElement.lang = L
+document.getElementById('msg').textContent = T[0]
+document.getElementById('back').textContent = T[1]
 handleCallback().then((to) => location.replace(to)).catch((e) => {
   document.getElementById('msg').textContent = e.message
   document.getElementById('back').hidden = false
