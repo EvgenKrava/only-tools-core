@@ -117,6 +117,8 @@
 [data-app="hub"], :root:not([data-app]) { --ot-on-accent: var(--ot-bg); }
 
 /* ---------- 5. Base ---------- */
+/* iOS must not inflate text on rotation. "manipulation" stops double-tap zoom on taps; pinch-zoom stays on. */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; touch-action: manipulation; }
 .ot-root, [data-theme] {
   background: var(--ot-bg);
   color: var(--ot-ink);
@@ -177,6 +179,8 @@
   font: 600 var(--ot-t-md)/1.3 var(--ot-font);
   transition: border-color .12s ease, box-shadow .12s ease;
 }
+/* iOS Safari zooms the page on focus when a field is under 16px. */
+@media (max-width: 899px), (pointer: coarse) { .ot-input, .ot-select, .ot-textarea { font-size: max(16px, 1em); } .ot-switch { font-size: 16px; } }
 .ot-input::placeholder, .ot-textarea::placeholder { color: var(--ot-mut); font-weight: 600; }
 .ot-input:focus, .ot-select:focus, .ot-textarea:focus { outline: none; border-color: var(--ot-accent); box-shadow: 0 0 0 4px var(--ot-accent-soft); }
 .ot-field--error .ot-input { border-color: var(--ot-bad); }

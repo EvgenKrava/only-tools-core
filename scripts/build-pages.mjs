@@ -153,7 +153,13 @@ function page({ lang, path, meta, body, alternates }) {
   <meta property="og:description" content="${esc(meta.description)}">
   <meta property="og:url" content="${url}">${meta.image ? `\n  <meta property="og:image" content="${SITE}${esc(meta.image)}">\n  <meta name="twitter:card" content="summary_large_image">` : ''}
   <meta property="og:site_name" content="Only Tools">
-  <meta name="theme-color" content="#fff8f1">
+  <meta name="theme-color" content="#fff8f1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#17141f" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Only Tools">
+  <link rel="manifest" href="/manifest.webmanifest">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icon-180.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">

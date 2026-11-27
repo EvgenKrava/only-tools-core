@@ -10,7 +10,12 @@ body { overflow: hidden; }
 button.ot-row { appearance: none; border: 0; width: 100%; text-align: left; font: inherit; }
 .err { color: var(--ot-bad); font-weight: 700; }
 .ot-nav__item { cursor: pointer; background: none; border: 0; }
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 12px; }
+/* 140px fits a 7-digit count at 26px; min-width 0 lets an even longer value wrap instead of widening the page */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: 12px; }
+.stats > * { min-width: 0; overflow-wrap: anywhere; }
+/* a long title (e.g. an e-mail on the user page) is cut with "…", it must not push the header wider than the phone */
+.header-title { min-width: 0; flex-wrap: nowrap; }
+.header-title > h1 { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .logline { margin: 4px 0 0; white-space: pre-wrap; word-break: break-word; font: 600 12px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ot-ink-2); }
 .lang-switch button { padding: 7px 10px; }
 /* language switch: in the page header on phones, at the bottom of the nav rail/sidebar from tablet up */
@@ -23,3 +28,5 @@ button.ot-row { appearance: none; border: 0; width: 100%; text-align: left; font
 @container ot-shell (min-width: 1024px) {
   .nav-lang .lang-switch { flex-direction: row; border-radius: var(--ot-r-pill); }
 }
+/* phone tab bar: a long label ("Plus & donations") breaks into two lines instead of running into its neighbours */
+@container ot-shell (max-width: 639px) { .ot-nav__item { white-space: normal; text-align: center; overflow-wrap: anywhere; } }

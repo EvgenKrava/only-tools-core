@@ -18,6 +18,8 @@ aws s3 sync "$OUT" "s3://$BUCKET" --exclude "admin/*" --cache-control "public,ma
 pnpm --filter @onlytools/admin build >/dev/null
 aws s3 sync apps/admin/dist/assets "s3://$BUCKET/admin/assets" --cache-control "public,max-age=31536000,immutable" --profile yevhenii
 aws s3 cp apps/admin/dist/index.html "s3://$BUCKET/admin/index.html" --cache-control "no-cache" --profile yevhenii
+aws s3 cp apps/admin/dist/manifest.webmanifest "s3://$BUCKET/admin/manifest.webmanifest" \
+  --content-type "application/manifest+json" --cache-control "public,max-age=300" --profile yevhenii
 for f in sw.js config.json; do
   aws s3 cp "$OUT/$f" "s3://$BUCKET/$f" --cache-control "no-cache" --profile yevhenii
 done

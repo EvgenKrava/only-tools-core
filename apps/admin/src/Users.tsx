@@ -87,9 +87,9 @@ function UserDetail({ user, me, onBack, onChange }: { user: User; me: SessionUse
   return (
     <>
       <header className="ot-header">
-        <div className="inline">
+        <div className="inline header-title">
           <button className="ot-btn ot-btn--icon ot-btn--ghost" onClick={onBack} aria-label={t('back')}><Icon name="back" /></button>
-          <h1 className="ot-h3" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{user.email}</h1>
+          <h1 className="ot-h3">{user.email}</h1>
         </div>
       </header>
       <div className="ot-content">
