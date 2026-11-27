@@ -40,11 +40,21 @@ resource "aws_dynamodb_table" "billing" {
   deletion_protection_enabled = true
 }
 
-# Free vs Plus limits, read by FoodLog and CarLog at runtime.
+# Free vs Plus limits, read by FoodLog and CarLog at runtime. While payments are paused nobody can
+# upgrade, so free users get the Plus limits.
+locals {
+  plan_limits_src = jsondecode(file("${path.module}/../../apps/billing/limits.json"))
+  plan_limits = merge(local.plan_limits_src, {
+    apps = { for app, lims in local.plan_limits_src.apps : app => {
+      for key, v in lims : key => { free = var.payments_enabled ? v.free : v.plus, plus = v.plus }
+    } }
+  })
+}
+
 resource "aws_ssm_parameter" "plan_limits" {
   name  = "/${var.project}/plans/limits"
   type  = "String"
-  value = jsonencode(jsondecode(file("${path.module}/../../apps/billing/limits.json")))
+  value = jsonencode(local.plan_limits)
 }
 
 data "archive_file" "billing" {
