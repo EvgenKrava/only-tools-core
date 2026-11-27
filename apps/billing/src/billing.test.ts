@@ -345,3 +345,16 @@ describe('USD', () => {
     expect(mono.invoices[0]).toMatchObject({ amount: 9900, ccy: 980 })
   })
 })
+
+describe('paused payments', () => {
+  it('daily without charging still expires lapsed Plus but never charges a card', async () => {
+    await billing.checkout(actor, 'monthly')
+    await billing.onInvoice(paid(mono.invoices[0]!))
+    now = new Date('2026-12-18T09:00:00Z')
+    expect(await billing.daily({ charge: false })).toEqual({ charged: 0, failed: 0, expired: 0 })
+    now = new Date('2026-12-18T11:00:00Z')
+    expect((await billing.daily({ charge: false })).expired).toBe(1)
+    expect(mono.charges).toHaveLength(0)
+    expect(groups.members.size).toBe(0)
+  })
+})

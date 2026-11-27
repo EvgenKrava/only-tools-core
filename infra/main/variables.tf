@@ -40,6 +40,11 @@ variable "dev_origins" {
   type        = list(string)
   default     = ["http://localhost:5173"]
 }
+variable "payments_enabled" {
+  description = "Take new Plus payments and donations. Paused by the owner on 2026-11-27 until monobank production works."
+  type        = bool
+  default     = false
+}
 variable "budget_name" {
   description = "Existing AWS Budgets budget the dashboard shows (amount, actual, forecast)."
   type        = string

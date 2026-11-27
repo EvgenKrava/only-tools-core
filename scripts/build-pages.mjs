@@ -11,7 +11,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { siteNav, withSiteNav } from './site-nav.mjs'
+import { PAYMENTS, siteNav, withSiteNav } from './site-nav.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const CONTENT = join(ROOT, 'apps/landing/content')
@@ -212,7 +212,7 @@ for (const [file, active] of [['index.html', 'home'], [join('plus', 'index.html'
 
 const sitemap = [`  <url><loc>${SITE}/</loc><lastmod>${LASTMOD}</lastmod></url>`]
 // Hand-written pages that ship from apps/landing/public (e.g. /plus/) go in the sitemap when present.
-for (const extra of ['plus']) {
+for (const extra of PAYMENTS ? ['plus'] : []) {
   if (existsSync(join(OUT, extra, 'index.html'))) sitemap.push(`  <url><loc>${SITE}/${extra}/</loc><lastmod>${LASTMOD}</lastmod></url>`)
 }
 for (const [path, byLang] of [...pages].sort()) {

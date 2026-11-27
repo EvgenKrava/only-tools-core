@@ -1,6 +1,9 @@
 import { currentUser, signIn, signOut } from '/auth.js'
 import { LANGS, getLang, setLang, pickText } from '/i18n.js'
 
+// Only Tools Plus and donations are paused (owner, 2026-11-27). Keep in step with scripts/site-nav.mjs.
+const PAYMENTS = false
+
 const T = {
   en: {
     'foot.blog': 'Blog', 'foot.terms': 'Terms of service', 'foot.privacy': 'Privacy policy', 'foot.refunds': 'Refund policy', 'foot.contacts': 'Contacts', more: 'About {app}',
@@ -110,7 +113,7 @@ function render() {
       <h2 class="ot-h3">${t('acc.title')}</h2>
       <p class="ot-text">${t('acc.signedIn').replace('{email}', esc(user.email))}</p>
       <div class="ot-row" style="box-shadow:none;padding:0;background:none;gap:8px;flex-wrap:wrap">
-        <a class="ot-btn ot-btn--sm${user.groups.includes('plus') ? ' ot-btn--soft' : ''}" href="/plus/">${t('plus')}</a>
+        ${PAYMENTS ? `<a class="ot-btn ot-btn--sm${user.groups.includes('plus') ? ' ot-btn--soft' : ''}" href="/plus/">${t('plus')}</a>` : ''}
         ${isAdmin ? `<a class="ot-btn ot-btn--sm" href="/admin">${t('admin')}</a>` : ''}
         <button class="ot-btn ot-btn--sm ot-btn--outline" id="sign-out">${t('signOut')}</button>
       </div>`
@@ -122,7 +125,7 @@ function render() {
       <p class="ot-text">${t('guest.text')}</p>
       <div class="ot-row" style="box-shadow:none;padding:0;background:none;gap:8px;flex-wrap:wrap">
         <button class="ot-btn" id="sign-in">${t('guest.cta')}</button>
-        <a class="ot-btn ot-btn--outline" href="/plus/#support">${t('support')}</a>
+        ${PAYMENTS ? `<a class="ot-btn ot-btn--outline" href="/plus/#support">${t('support')}</a>` : ''}
       </div>`
     $('sign-in').onclick = $('sign-in-top').onclick = () => signIn('/')
   }

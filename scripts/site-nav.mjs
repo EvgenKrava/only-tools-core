@@ -21,6 +21,9 @@ const LABEL = {
   ru: { home: 'Главная', apps: 'Приложения', plus: 'Plus', support: 'Поддержать', account: 'Аккаунт' },
 }
 const PREFIX = { en: '', uk: '/uk', ru: '/ru' }
+/** Only Tools Plus and donations. Paused by the owner (2026-11-27) until monobank production payments work.
+ *  Also switch PAYMENTS in apps/landing/public/landing.js and payments_enabled in infra/main. */
+export const PAYMENTS = false
 const APPS = [
   { id: 'carlog', name: 'CarLog', accent: 'car', icon: 'car' },
   { id: 'foodlog', name: 'FoodLog', accent: 'food', icon: 'food' },
@@ -42,8 +45,8 @@ export function siteNav(lang = 'en', active = null) {
       <a class="ot-brand ot-nav__brand" href="/"><b class="ot-logo" aria-hidden="true"><i></i><i></i><i></i><i></i></b><span>Only Tools</span></a>
       ${item('home', '/', 'grid', 'home')}
       <div class="ot-nav__apps"><span class="ot-nav__label" data-t="nav.apps">${L.apps}</span>${apps}</div>
-      ${item('plus', '/plus/', 'star', 'plus')}
-      ${item('support', '/plus/#support', 'heart', 'support')}
+      ${PAYMENTS ? item('plus', '/plus/', 'star', 'plus') : ''}
+      ${PAYMENTS ? item('support', '/plus/#support', 'heart', 'support') : ''}
       <span class="ot-nav__spacer"></span>
       ${item('account', '/#account', 'user', 'account')}
     </nav>`

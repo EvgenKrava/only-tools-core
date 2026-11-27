@@ -37,6 +37,7 @@ const T = {
     'support.cta': 'Support', 'support.range': 'Enter an amount from {min} to {max} {cur}.',
     'legal': 'Payments are processed by monobank (plata by mono); we never see your card number. By paying you accept the <a href="{terms}">terms</a> and <a href="{refunds}">refund policy</a>.',
     'err': 'Something went wrong. Please try again.',
+    'paused': 'Only Tools Plus and donations are not available yet. Every app stays free to use.',
   },
   uk: {
     'meta.desc': 'Only Tools Plus: вищі ліміти в усіх застосунках Only Tools. Щомісяця, щороку або раз назавжди. Або підтримайте автора будь-якою сумою.',
@@ -71,6 +72,7 @@ const T = {
     'support.cta': 'Підтримати', 'support.range': 'Введіть суму від {min} до {max} {cur}.',
     'legal': 'Платежі обробляє monobank (plata by mono); ми не бачимо номера вашої картки. Оплачуючи, ви погоджуєтеся з <a href="{terms}">умовами</a> і <a href="{refunds}">правилами повернення</a>.',
     'err': 'Щось пішло не так. Спробуйте ще раз.',
+    'paused': 'Only Tools Plus і донати поки недоступні. Усі застосунки лишаються безкоштовними.',
   },
   ru: {
     'meta.desc': 'Only Tools Plus: больше лимитов во всех приложениях Only Tools. Ежемесячно, ежегодно или один раз навсегда. Или поддержите автора любой суммой.',
@@ -105,6 +107,7 @@ const T = {
     'support.cta': 'Поддержать', 'support.range': 'Введите сумму от {min} до {max} {cur}.',
     'legal': 'Платежи обрабатывает monobank (plata by mono); мы не видим номер вашей карты. Оплачивая, вы соглашаетесь с <a href="{terms}">условиями</a> и <a href="{refunds}">правилами возврата</a>.',
     'err': 'Что-то пошло не так. Попробуйте ещё раз.',
+    'paused': 'Only Tools Plus и донаты пока недоступны. Все приложения остаются бесплатными.',
   },
 }
 const LOCALE = { en: 'en-GB', uk: 'uk-UA', ru: 'ru-UA' }
@@ -166,6 +169,14 @@ function render() {
 
   $('notice').innerHTML = notice ? `<div class="ot-card ot-card--flat notice notice--${notice.kind}"><p class="ot-text">${t(notice.key)}</p></div>` : ''
   renderMine()
+  // Payments paused: only a note (and the subscriber's own Plus, if any) stays on the page.
+  const paused = info?.enabled === false
+  for (const id of ['plans', 'cmp', 'support']) ($(id).closest('section') ?? $(id)).hidden = paused
+  $('legal').hidden = paused
+  if (paused) {
+    if (!notice) $('notice').innerHTML = `<div class="ot-card ot-card--flat notice notice--neutral"><p class="ot-text">${t('paused')}</p></div>`
+    return
+  }
   renderPlans()
   renderCompare()
   renderDonate()

@@ -11,6 +11,7 @@ locals {
     USER_POOL_ID     = aws_cognito_user_pool.main.id
     TABLE_NAME       = aws_dynamodb_table.billing.name
     MONO_TOKEN_PARAM = local.mono_token_param
+    PAYMENTS_ENABLED = tostring(var.payments_enabled)
     SITE_URL         = "https://${var.domain_name}"
   }
 }

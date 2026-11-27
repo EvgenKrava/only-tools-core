@@ -251,12 +251,12 @@ export class Billing {
   }
 
   /** Daily job: charge due renewals, retry failed ones, and take Plus away when it ran out. */
-  async daily() {
+  async daily({ charge = true }: { charge?: boolean } = {}) {
     const now = this.now()
     const out = { charged: 0, failed: 0, expired: 0 }
     for (const s of await this.d.store.listSubs()) {
       if (s.status === 'expired' || s.plan === 'lifetime') continue
-      if (s.autoRenew && s.cardToken && s.nextChargeAt && Date.parse(s.nextChargeAt) <= now.getTime()) {
+      if (charge && s.autoRenew && s.cardToken && s.nextChargeAt && Date.parse(s.nextChargeAt) <= now.getTime()) {
         const ok = await this.chargeRenewal(s)
         ok ? out.charged++ : out.failed++
         continue

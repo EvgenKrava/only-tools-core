@@ -41,8 +41,11 @@ async function route(event: Event): Promise<APIGatewayProxyResultV2> {
     await billing.onInvoice(ev)
     return json(200, { ok: true })
   }
-  if (method === 'GET' && path === '/plans') return json(200, await billing.plans())
-  if (method === 'POST' && path === '/donate') return json(200, await billing.donate(body()))
+  // PAYMENTS_ENABLED=false pauses new payments; existing subscriptions can still be managed.
+  const enabled = process.env.PAYMENTS_ENABLED === 'true'
+  const paused = () => { if (!enabled) throw new BillingError(503, 'Payments are paused for now. All apps stay free.') }
+  if (method === 'GET' && path === '/plans') return json(200, { enabled, ...(await billing.plans()) })
+  if (method === 'POST' && path === '/donate') { paused(); return json(200, await billing.donate(body())) }
   const order = path.match(/^\/order\/([\w-]{1,80})$/)
   if (method === 'GET' && order) return json(200, await billing.orderStatus(order[1]!))
 
@@ -56,13 +59,14 @@ async function route(event: Event): Promise<APIGatewayProxyResultV2> {
   if (method === 'GET' && path === '/me') return json(200, await billing.me(actor))
   if (method === 'POST' && path === '/checkout') {
     const { plan, currency = 'UAH' } = body()
+    paused()
     if (!isPlan(plan)) throw new BillingError(400, 'Unknown plan')
     if (!isCurrency(currency)) throw new BillingError(400, 'Unknown currency')
     actor.email = await emailOf(username).catch(() => undefined)
     return json(200, await billing.checkout(actor, plan, currency))
   }
   if (method === 'POST' && path === '/cancel') return json(200, await billing.cancel(actor))
-  if (method === 'POST' && path === '/resume') return json(200, await billing.resume(actor))
+  if (method === 'POST' && path === '/resume') { paused(); return json(200, await billing.resume(actor)) }
   if (method === 'POST' && path === '/card/forget') return json(200, await billing.forgetCard(actor))
   if (method === 'GET' && path === '/admin/summary') {
     if (!groups.includes('platform-admin')) throw new BillingError(403, 'Admins only')
