@@ -23,6 +23,8 @@ These terms are a public offer by {{fop_name}}, individual entrepreneur, tax ID 
 
 ## 3. Plans, price and payment
 
+**Only Tools Plus and support payments are not available yet.** All apps are free to use, and no payments are taken. The terms below will apply only once paid plans open; this page will be updated before that.
+
 1. The core features of the Services are free. Only Tools Plus is an optional paid plan that raises the limits of the free plan; what it includes and its current prices are published on the [Only Tools Plus page](https://onlytools.click/plus/) before any payment.
 2. Plus is sold as a monthly subscription, a yearly subscription, or a one-time lifetime plan. The User pays only after choosing a plan explicitly.
 3. Payments are made by bank card in Ukrainian hryvnia (UAH) for customers in Ukraine and in US dollars (USD) for everyone else, as shown on /plus/, through the monobank payment service (JSC "Universal Bank"). The Provider does not receive or store card details.

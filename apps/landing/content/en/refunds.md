@@ -7,6 +7,8 @@ kind: legal
 
 Effective date: 18 November 2026.
 
+**Only Tools Plus and support payments are not available yet.** All apps are free to use, and no payments are taken. The terms below will apply only once paid plans open; this page will be updated before that.
+
 This policy covers Only Tools Plus (monthly, yearly and lifetime plans) and voluntary support payments. Prices are shown on the [Only Tools Plus page](https://onlytools.click/plus/).
 
 ## Cancelling a subscription
