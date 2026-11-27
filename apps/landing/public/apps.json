@@ -5,19 +5,23 @@
       "uk": "Цифрова сервісна книжка для ваших авто: пробіг, ремонти, нагадування.",
       "ru": "Цифровая сервисная книжка для ваших авто: пробег, ремонты, напоминания."
     },
+    "shots": ["/shots/carlog/timeline-mobile.webp", "/shots/carlog/reminders-mobile.webp"],
     "url": "https://carlog.onlytools.click", "status": "live" },
-  { "id": "gighunter", "accent": "gig", "icon": "gig", "name": "GigHunter",
-    "desc": {
-      "en": "A freelance gig radar with Telegram alerts.",
-      "uk": "Радар фриланс-замовлень зі сповіщеннями в Telegram.",
-      "ru": "Радар фриланс-заказов с уведомлениями в Telegram."
-    },
-    "url": "https://gighunter.onlytools.click", "status": "invite" },
   { "id": "foodlog", "accent": "food", "icon": "food", "name": "FoodLog",
     "desc": {
       "en": "A calorie and macro tracker that stays out of your way.",
       "uk": "Простий трекер калорій і БЖВ, який не заважає жити.",
       "ru": "Простой трекер калорий и БЖУ, который не мешает жить."
     },
-    "url": "https://foodlog.onlytools.click", "status": "live" }
+    "shots": ["/shots/foodlog/diary-mobile.webp", "/shots/foodlog/barcode-found-mobile.webp"],
+    "url": "https://foodlog.onlytools.click", "status": "live" },
+  { "id": "gighunter", "accent": "gig", "icon": "gig", "name": "GigHunter",
+    "desc": {
+      "en": "A freelance gig radar with Telegram alerts.",
+      "uk": "Радар фриланс-замовлень зі сповіщеннями в Telegram.",
+      "ru": "Радар фриланс-заказов с уведомлениями в Telegram."
+    },
+    "shots": ["/shots/gighunter/telegram-mobile.webp", "/shots/gighunter/jobs-mobile.webp"],
+    "invite": "mailto:oldfromkb@gmail.com?subject=GigHunter%20invite",
+    "url": "https://gighunter.onlytools.click", "status": "invite" }
 ]
