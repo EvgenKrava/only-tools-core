@@ -171,8 +171,11 @@ function render() {
   renderMine()
   // Payments paused: only a note (and the subscriber's own Plus, if any) stays on the page.
   const paused = info?.enabled === false
-  for (const id of ['plans', 'cmp', 'support']) ($(id).closest('section') ?? $(id)).hidden = paused
-  $('legal').hidden = paused
+  // .block sets display, which beats the hidden attribute, so hide with an inline style.
+  const hide = (el) => { el.style.display = paused ? 'none' : '' }
+  for (const id of ['plans', 'cmp', 'support']) hide($(id).closest('section') ?? $(id))
+  hide($('legal'))
+  hide(document.querySelector('[data-t="hero.text"]'))
   if (paused) {
     if (!notice) $('notice').innerHTML = `<div class="ot-card ot-card--flat notice notice--neutral"><p class="ot-text">${t('paused')}</p></div>`
     return
