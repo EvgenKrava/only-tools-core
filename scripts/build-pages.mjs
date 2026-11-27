@@ -80,6 +80,7 @@ function render(md, lang) {
   const blocks = md.trim().split(/\n{2,}/)
   let html = ''
   let firstH1 = true
+  let firstGallery = true
   for (const b of blocks) {
     const lines = b.split('\n')
     const h = b.match(/^(#{1,3}) (.+)$/)
@@ -104,11 +105,15 @@ function render(md, lang) {
     }
     if (lines.every((l) => /^!\[[^\]]*\]\([^)]+\)$/.test(l.trim()))) {
       const shots = lines.map((l) => l.trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/))
-      const figs = shots.map(([, alt, src]) => {
+      const figs = shots.map(([, alt, src], n) => {
         const wide = /-desktop\.\w+$/.test(src)
-        return `<figure class="shot${wide ? ' shot--wide' : ''}"><img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" decoding="async">${alt ? `<figcaption>${inline(alt, lang)}</figcaption>` : ''}</figure>`
+        // The first gallery on a page is near the top: load it right away; the rest wait for the scroll.
+        const load = firstGallery && n < 3 ? 'eager' : 'lazy'
+        const size = wide ? 'width="1600" height="1000"' : 'width="780" height="1328"'
+        return `<figure class="shot${wide ? ' shot--wide' : ''}"><img src="${esc(src)}" alt="${esc(alt)}" ${size} loading="${load}" decoding="async">${alt ? `<figcaption>${inline(alt, lang)}</figcaption>` : ''}</figure>`
       })
       html += `<div class="shots${shots.length === 1 ? ' shots--one' : ''}">${figs.join('')}</div>\n`
+      firstGallery = false
       continue
     }
     const ctas = b.trim().match(/^(\*\*\[[^\]]+\]\([^)]+\)\*\*\s*)+$/)

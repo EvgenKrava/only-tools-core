@@ -52,3 +52,7 @@
 .shot--wide { width: 100%; }
 .shot--wide img { border-radius: 14px; }
 .shots--one .shot:not(.shot--wide) { width: min(80vw, 300px); }
+
+/* the phone strip scrolls sideways: fade its right edge so it is clear there is more */
+.shots:not(.shots--one) { mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent); -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent); padding-right: 48px; }
+.page--app .features li { border-top: 0; box-shadow: var(--ot-shadow-sm), inset 0 4px 0 var(--ot-accent); }

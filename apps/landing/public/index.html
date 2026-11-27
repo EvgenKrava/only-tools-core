@@ -3,14 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Only Tools</title>
-  <meta name="description" content="Small, simple tools for everyday life: CarLog, GigHunter, FoodLog. One account for all of them.">
+  <title>Only Tools: small apps for your car, food and freelance</title>
+  <meta name="description" content="Small apps for everyday life: CarLog (car service book), FoodLog (calorie tracker), GigHunter (freelance job alerts). Free to start, one account for all.">
   <meta name="theme-color" content="#fff8f1" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#17141f" media="(prefers-color-scheme: dark)">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Only Tools">
   <link rel="canonical" href="https://onlytools.click/" />
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Only Tools">
+  <meta property="og:title" content="Only Tools: small apps for your car, food and freelance">
+  <meta property="og:description" content="CarLog, FoodLog and GigHunter. Free to start, one account for all.">
+  <meta property="og:url" content="https://onlytools.click/">
     <link rel="manifest" href="/manifest.webmanifest">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icon-180.png">
@@ -28,6 +33,7 @@
   <symbol id="i-gig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
   <symbol id="i-food" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-5 0-8-4-8-9 0-3 2-5 4-5 1.5 0 2.5.7 4 .7S14.5 7 16 7c2 0 4 2 4 5 0 5-3 9-8 9z"/><path d="M12 7c0-2 1-4 3-4"/></symbol>
   <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
 </svg>
 
@@ -40,23 +46,60 @@
         <a class="ot-brand" href="/"><span class="ot-logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Only Tools</a>
         <div class="top-actions"><div class="ot-segment" id="lang" role="group" aria-label="Language"></div><div id="who"></div></div>
       </header>
-      <div class="ot-content">
+      <div class="ot-content home">
         <section class="hero">
-          <h1 class="ot-h1" data-t="hero.title">Small tools that do one thing well</h1>
-          <p class="ot-text" data-t="hero.text">Simple apps for everyday life. Add them to your phone's home screen and they open like native apps.</p>
+          <div class="hero__copy">
+            <p class="hero__eyebrow"><span class="ot-logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span data-t="hero.eyebrow">3 apps · 1 account · free to start</span></p>
+            <h1 class="hero__title" data-t="hero.title">Your car, your food, your gigs. Sorted.</h1>
+            <p class="hero__text" data-t="hero.text">Small apps that each do one job properly. Snap a garage invoice, scan a barcode, catch a freelance gig before anyone else.</p>
+            <div class="hero__cta">
+              <a class="ot-btn hero__btn" href="#apps"><span data-t="hero.cta">Pick an app</span><svg class="ot-icon"><use href="#i-arrow"/></svg></a>
+              <a class="ot-btn ot-btn--outline hero__btn" href="#how" data-t="hero.how">How it works</a>
+            </div>
+            <ul class="hero__trust">
+              <li data-t="trust.made">Made in Ukraine by one person</li>
+              <li data-t="trust.store">No app store needed</li>
+              <li data-t="trust.langs">English, Ukrainian, Russian</li>
+            </ul>
+          </div>
+          <div class="hero__art" aria-hidden="true">
+            <span class="blob blob--car"></span><span class="blob blob--gig"></span><span class="blob blob--food"></span>
+            <img class="phone phone--l" src="/shots/gighunter/telegram-mobile.webp" alt="" width="390" height="664" fetchpriority="low">
+            <img class="phone phone--r" src="/shots/foodlog/diary-mobile.webp" alt="" width="390" height="664" fetchpriority="low">
+            <img class="phone phone--c" src="/shots/carlog/timeline-mobile.webp" alt="" width="390" height="664" fetchpriority="high">
+          </div>
         </section>
 
-        <section aria-labelledby="apps-title" class="block">
-          <h2 class="ot-h3" id="apps-title" data-t="nav.apps">Apps</h2>
-          <div class="ot-tiles" id="tiles"></div>
+        <section class="showcase" id="apps" aria-labelledby="apps-title">
+          <h2 class="section-title" id="apps-title" data-t="apps.title">Three apps, one job each</h2>
+          <div id="showcase"></div>
         </section>
 
-        <section id="account" class="ot-card ot-card--flat block"></section>
+        <section class="how reveal" id="how" aria-labelledby="how-title">
+          <h2 class="section-title" id="how-title" data-t="how.title">One account for every app</h2>
+          <ol class="how__steps">
+            <li><span class="how__n">1</span><b data-t="how.1.t">Sign in once</b><span data-t="how.1.d">Email or Google. The same account works in every Only Tools app.</span></li>
+            <li><span class="how__n">2</span><b data-t="how.2.t">Add it to your home screen</b><span data-t="how.2.d">Open the app in your phone's browser and tap "Add to Home Screen". No app store.</span></li>
+            <li><span class="how__n">3</span><b data-t="how.3.t">Use it like a native app</b><span data-t="how.3.d">Full screen, light and dark theme, three languages.</span></li>
+          </ol>
+          <div class="how__cta" id="how-cta"></div>
+        </section>
 
-        <footer class="foot">
-          <nav class="foot__links" id="foot-links"></nav>
-          <p class="ot-caption">© <span id="year"></span> Only Tools · onlytools.click</p>
-        </footer>
+        <section class="plus-teaser reveal" aria-labelledby="plus-title" hidden>
+          <div class="plus-teaser__icon"><svg class="ot-icon"><use href="#i-star"/></svg></div>
+          <div class="plus-teaser__body">
+            <h2 class="ot-h2" id="plus-title" data-t="plusT.title">Free stays free</h2>
+            <p class="ot-text" data-t="plusT.text">Every app works without paying. Only Tools Plus lifts the daily limits in all of them at once and keeps the project going.</p>
+          </div>
+          <div class="plus-teaser__cta">
+            <a class="ot-btn" href="/plus/" data-t="plusT.cta">See Plus</a>
+            <a class="plus-teaser__coffee" href="/plus/#support" data-t="plusT.coffee">or just say thanks with a donation</a>
+          </div>
+        </section>
+
+        <section id="account" class="ot-card ot-card--flat account" hidden></section>
+
+        <footer class="foot" id="foot"></footer>
       </div>
     </main>
   </div>
