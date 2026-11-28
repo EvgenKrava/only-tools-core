@@ -37,7 +37,7 @@ const UI = {
   ru: { apps: 'Приложения', blog: 'Блог', legal: 'Документы', terms: 'Условия использования', privacy: 'Политика конфиденциальности', refunds: 'Возврат средств', contacts: 'Контакты', home: 'Only Tools', language: 'Язык' },
 }
 const LANG_LABEL = { en: 'EN', uk: 'UA', ru: 'RU' }
-const APP_PAGES = ['carlog', 'foodlog', 'gighunter']
+const APP_PAGES = ['carlog', 'foodlog', 'gighunter', 'moneylog']
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
 
@@ -182,7 +182,7 @@ function page({ lang, path, meta, body, alternates }) {
         <article class="page-body">
 ${render(fill(body, lang), lang)}        </article>
         <footer class="page-foot">
-          <nav aria-label="${esc(ui.apps)}"><b>${esc(ui.apps)}</b>${link('carlog', 'CarLog')}${link('foodlog', 'FoodLog')}${link('gighunter', 'GigHunter')}</nav>
+          <nav aria-label="${esc(ui.apps)}"><b>${esc(ui.apps)}</b>${link('carlog', 'CarLog')}${link('foodlog', 'FoodLog')}${link('gighunter', 'GigHunter')}${link('moneylog', 'MoneyLog')}</nav>
           <nav aria-label="${esc(ui.blog)}"><b>${esc(ui.blog)}</b>${link('blog/car-service-history', 'CarLog')}${link('blog/calorie-counting-ukrainian-products', 'FoodLog')}${link('blog/freelance-job-alerts-telegram', 'GigHunter')}</nav>
           <nav aria-label="${esc(ui.legal)}"><b>${esc(ui.legal)}</b>${link('terms', ui.terms)}${link('privacy', ui.privacy)}${link('refunds', ui.refunds)}${link('contacts', ui.contacts)}</nav>
           <p class="ot-caption">© ${new Date().getFullYear()} Only Tools · onlytools.click</p>

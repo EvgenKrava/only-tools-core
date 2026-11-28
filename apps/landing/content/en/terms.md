@@ -1,6 +1,6 @@
 ---
 title: Terms of service | Only Tools
-description: The public offer agreement for using Only Tools apps: CarLog, FoodLog and GigHunter.
+description: The public offer agreement for using Only Tools apps: CarLog, FoodLog, GigHunter and MoneyLog.
 kind: legal
 ---
 # Terms of service (public offer)
@@ -11,9 +11,9 @@ These terms are a public offer by {{fop_name}}, individual entrepreneur, tax ID 
 
 ## 1. The Services
 
-1. Only Tools is a set of web apps: CarLog (car service log), FoodLog (food and calorie diary) and GigHunter (freelance job alerts, by invitation).
+1. Only Tools is a set of web apps: CarLog (car service log), FoodLog (food and calorie diary), GigHunter (freelance job alerts, by invitation) and MoneyLog (personal finance tracker, by invitation).
 2. The Services work in a web browser and can be installed on a phone from the browser. One Only Tools account gives access to every app the User has access to.
-3. Each app is described on its page: [CarLog](/carlog), [FoodLog](/foodlog), [GigHunter](/gighunter).
+3. Each app is described on its page: [CarLog](/carlog), [FoodLog](/foodlog), [GigHunter](/gighunter), [MoneyLog](/moneylog).
 
 ## 2. Account
 

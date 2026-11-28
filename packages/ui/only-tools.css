@@ -32,6 +32,7 @@
   --ot-car: #ff7a45;  --ot-car-soft: #ffe6da;  --ot-car-ink: #8a3311;
   --ot-gig: #7b5cff;  --ot-gig-soft: #ebe5ff;  --ot-gig-ink: #3d2a99;
   --ot-food: #1fb57a; --ot-food-soft: #d9f5e8; --ot-food-ink: #0d6644;
+  --ot-money: #2f7cf6; --ot-money-soft: #e0ebff; --ot-money-ink: #143f8f;
   --ot-hub: #2a2140;  --ot-hub-soft: #efe9f7;  --ot-hub-ink: #2a2140;
 
   /* semantic */
@@ -61,6 +62,7 @@
     --ot-car: #ff8a5c;  --ot-car-soft: rgba(255, 138, 92, 0.16);  --ot-car-ink: #ffc2a8;
     --ot-gig: #9a82ff;  --ot-gig-soft: rgba(154, 130, 255, 0.18); --ot-gig-ink: #d3c8ff;
     --ot-food: #2fd08f; --ot-food-soft: rgba(47, 208, 143, 0.16); --ot-food-ink: #a5ecd0;
+    --ot-money: #6ea2ff; --ot-money-soft: rgba(110, 162, 255, 0.16); --ot-money-ink: #c9dbff;
     --ot-hub: #f3eefa;  --ot-hub-soft: rgba(243, 238, 250, 0.1);  --ot-hub-ink: #f3eefa;
     --ot-good: #2fd08f;  --ot-good-soft: rgba(47, 208, 143, 0.16);
     --ot-warn: #ffb547;  --ot-warn-soft: rgba(255, 181, 71, 0.16);
@@ -84,6 +86,7 @@
   --ot-car: #ff8a5c;  --ot-car-soft: rgba(255, 138, 92, 0.16);  --ot-car-ink: #ffc2a8;
   --ot-gig: #9a82ff;  --ot-gig-soft: rgba(154, 130, 255, 0.18); --ot-gig-ink: #d3c8ff;
   --ot-food: #2fd08f; --ot-food-soft: rgba(47, 208, 143, 0.16); --ot-food-ink: #a5ecd0;
+  --ot-money: #6ea2ff; --ot-money-soft: rgba(110, 162, 255, 0.16); --ot-money-ink: #c9dbff;
   --ot-hub: #f3eefa;  --ot-hub-soft: rgba(243, 238, 250, 0.1);  --ot-hub-ink: #f3eefa;
   --ot-good: #2fd08f;  --ot-good-soft: rgba(47, 208, 143, 0.16);
   --ot-warn: #ffb547;  --ot-warn-soft: rgba(255, 181, 71, 0.16);
@@ -112,6 +115,7 @@
 [data-app="car"]  { --ot-accent: var(--ot-car);  --ot-accent-soft: var(--ot-car-soft);  --ot-accent-ink: var(--ot-car-ink); }
 [data-app="gig"]  { --ot-accent: var(--ot-gig);  --ot-accent-soft: var(--ot-gig-soft);  --ot-accent-ink: var(--ot-gig-ink); }
 [data-app="food"] { --ot-accent: var(--ot-food); --ot-accent-soft: var(--ot-food-soft); --ot-accent-ink: var(--ot-food-ink); }
+[data-app="money"] { --ot-accent: var(--ot-money); --ot-accent-soft: var(--ot-money-soft); --ot-accent-ink: var(--ot-money-ink); }
 [data-app="hub"]  { --ot-accent: var(--ot-hub);  --ot-accent-soft: var(--ot-hub-soft);  --ot-accent-ink: var(--ot-hub-ink); }
 /* text on the hub accent flips with the theme */
 [data-app="hub"], :root:not([data-app]) { --ot-on-accent: var(--ot-bg); }

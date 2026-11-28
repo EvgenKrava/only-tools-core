@@ -23,5 +23,14 @@
     },
     "shots": ["/shots/gighunter/telegram-mobile.webp", "/shots/gighunter/jobs-mobile.webp"],
     "invite": "mailto:oldfromkb@gmail.com?subject=GigHunter%20invite",
-    "url": "https://gighunter.onlytools.click", "status": "invite" }
+    "url": "https://gighunter.onlytools.click", "status": "invite" },
+  { "id": "moneylog", "accent": "money", "icon": "money", "name": "MoneyLog",
+    "desc": {
+      "en": "A personal finance tracker that imports your monobank transactions.",
+      "uk": "Особистий трекер фінансів з імпортом операцій з monobank.",
+      "ru": "Личный трекер финансов с импортом операций из monobank."
+    },
+    "shots": [],
+    "invite": "mailto:oldfromkb@gmail.com?subject=MoneyLog%20invite",
+    "url": "https://money.onlytools.click", "status": "invite" }
 ]

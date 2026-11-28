@@ -11,6 +11,7 @@ const ICON = {
   user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
   car: '<path d="M5 17h14v-5l-2-5H7l-2 5v5z"/><path d="M5 12h14"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/>',
   gig: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+  money: '<path d="M3 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"/><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M16 13h2"/>',
   food: '<path d="M12 21c-5 0-8-4-8-9 0-3 2-5 4-5 1.5 0 2.5.7 4 .7S14.5 7 16 7c2 0 4 2 4 5 0 5-3 9-8 9z"/><path d="M12 7c0-2 1-4 3-4"/>',
 }
 const svg = (id) => `<svg class="ot-icon" viewBox="0 0 24 24" ${P} aria-hidden="true">${ICON[id]}</svg>`
@@ -28,6 +29,7 @@ const APPS = [
   { id: 'carlog', name: 'CarLog', accent: 'car', icon: 'car' },
   { id: 'foodlog', name: 'FoodLog', accent: 'food', icon: 'food' },
   { id: 'gighunter', name: 'GigHunter', accent: 'gig', icon: 'gig' },
+  { id: 'moneylog', name: 'MoneyLog', accent: 'money', icon: 'money' },
 ]
 
 /** active: 'home' | 'plus' | an app id | null (blog, legal). */
