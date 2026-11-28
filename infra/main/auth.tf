@@ -1,7 +1,7 @@
 # OnlyTools account: one Cognito user pool shared by every app, managed login on auth.onlytools.click.
 locals {
   auth_domain = "auth.${var.domain_name}"
-  apps        = ["carlog", "gighunter", "foodlog"]
+  apps        = ["carlog", "gighunter", "foodlog", "moneylog"]
   # Roles are Cognito groups; they show up in tokens as cognito:groups.
   groups = merge(
     { "platform-admin" = "Opens the Only Tools admin panel; manages every user, role and app setting." },
@@ -9,8 +9,8 @@ locals {
     { for a in local.apps : "${a}-admin" => "Moderation inside ${a}." },
     { "plus" = "Only Tools Plus subscriber. Billing adds and removes it; apps lift free limits for it." },
   )
-  default_groups = ["carlog-user", "foodlog-user"] # GigHunter is invite-only
-  admin_groups   = ["platform-admin", "carlog-user", "gighunter-user", "foodlog-user", "carlog-admin", "gighunter-admin", "foodlog-admin"]
+  default_groups = ["carlog-user", "foodlog-user"] # GigHunter and MoneyLog are invite-only
+  admin_groups   = ["platform-admin", "carlog-user", "gighunter-user", "foodlog-user", "moneylog-user", "carlog-admin", "gighunter-admin", "foodlog-admin", "moneylog-admin"]
   trigger_names  = ["pre-sign-up", "post-confirmation"]
 }
 
@@ -153,6 +153,7 @@ locals {
     gighunter = { urls = ["https://gighunter.${var.domain_name}"], callback_path = "/login" }
     carlog    = { urls = ["https://carlog.${var.domain_name}"], callback_path = "/callback" }
     foodlog   = { urls = ["https://foodlog.${var.domain_name}"], callback_path = "/callback" }
+    moneylog  = { urls = ["https://money.${var.domain_name}"], callback_path = "/callback" }
   }
 }
 
